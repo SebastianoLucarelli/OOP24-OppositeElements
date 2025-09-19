@@ -37,4 +37,10 @@ public interface Position {
      */
     @Override
     boolean equals(Object position);
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    int hashCode();
 }
