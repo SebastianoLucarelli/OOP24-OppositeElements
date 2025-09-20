@@ -13,11 +13,6 @@ public interface GameObject {
     Position getPosition();
 
     /**
-     * @param posit set the new position of the game object
-     */
-    void setPosition(Position posit);
-
-    /**
      * @return the object's width
      */
     int getWidth();
