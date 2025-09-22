@@ -10,7 +10,7 @@ public final class OppositeElements {
 
     /**
      * Main method.
-     * 
+     *
      * @param args arguments of the main
      */
     public static void main(final String[] args) {
