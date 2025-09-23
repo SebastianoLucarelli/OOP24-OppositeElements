@@ -13,4 +13,10 @@ public interface Hazard extends GameObject {
         WATER,
         ACID
     }
+
+    /**
+     * @return the type of hazard
+     */
+    HazardType getType();
+
 }
