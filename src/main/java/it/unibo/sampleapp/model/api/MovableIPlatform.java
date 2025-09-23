@@ -1,23 +1,16 @@
 package it.unibo.sampleapp.model.api;
 
-import it.unibo.sampleapp.utils.api.Position;
-
 /**
  * Interface for the platforms that can move.
  */
 public interface MovableIPlatform extends GameObject {
 
     /**
-     * set the new position of the platform.
+     * move the platform in the specified direction.
      *
-     * @param position contains the new position
+     * @param direction contains the direction where the platform has to move 
      */
-    void setPosition(Position position);
-
-    /**
-     * move the platform.
-     */
-    void move();
+    void move(int direction);
 
     /**
      * @return the speed of the platform

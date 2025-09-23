@@ -13,8 +13,6 @@ public class MovablePlatformImpl implements MovableIPlatform {
     private final int width;
     private final int height;
     private final int distance;
-    private final int maxX;
-    private final int minX;
 
     /**
      * Constructor of the MovablePlatformImpl.
@@ -23,17 +21,12 @@ public class MovablePlatformImpl implements MovableIPlatform {
      * @param width is the width of the platform
      * @param height is the height of the platform
      * @param distance is de distance that the platform move each time
-     * @param minX is the minimum X value that the platform can reach
-     * @param maxX is the maximum X value that the platform can reach
      */
-    public MovablePlatformImpl(final Position position, final int width, final int height, final int distance, 
-    final int minX, final int maxX) {
+    public MovablePlatformImpl(final Position position, final int width, final int height, final int distance) {
         this.position = new PositionImpl(position.getX(), position.getY());
         this.width = width;
         this.height = height;
-        this.distance = distance; 
-        this.minX = minX;
-        this.maxX = maxX;
+        this.distance = distance;
     }
 
     /**
@@ -64,19 +57,9 @@ public class MovablePlatformImpl implements MovableIPlatform {
      * {@inheritDoc}
      */
     @Override
-    public void setPosition(final Position position) {
-        this.position = new PositionImpl(position.getX(), position.getY());
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void move() {
-        final int newX = this.position.getX() + this.distance;
-        if (newX > this.minX && newX < this.maxX) {
-            position.setX(newX);
-        }
+    public void move(final int direction) {
+        final int newX = this.position.getX() + (direction * this.distance);
+        this.position = new PositionImpl(newX, this.position.getY()); 
     }
 
     /**
