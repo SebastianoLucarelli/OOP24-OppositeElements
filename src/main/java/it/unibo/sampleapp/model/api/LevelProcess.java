@@ -4,7 +4,10 @@ package it.unibo.sampleapp.model.api;
  * Interface that defines the state of game levels.
  */
 public interface LevelProcess {
-    
+
+    /**
+     * States of the level.
+     */
     enum LevelState {
         /**
          * State that allows you to play the level.
@@ -28,12 +31,12 @@ public interface LevelProcess {
      * @param ind the index of the level 
      * @return the state level
      */
-    LevelState getLevelState (int ind);
+    LevelState getLevelState(int ind);
 
     /**
      * Used to set the level success.
      *
      * @param ind the index of the level
      */
-    void finishedLevel (int ind);
+    void finishedLevel(int ind);
 }
