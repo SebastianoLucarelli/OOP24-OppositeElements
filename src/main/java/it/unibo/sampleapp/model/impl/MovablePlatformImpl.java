@@ -7,11 +7,8 @@ import it.unibo.sampleapp.utils.impl.PositionImpl;
 /**
  * Implementation of the MovableIPlatoform interface.
  */
-public class MovablePlatformImpl implements MovableIPlatform {
+public class MovablePlatformImpl extends AbstractGameObject implements MovableIPlatform {
 
-    private Position position;
-    private final int width;
-    private final int height;
     private final int distance;
 
     /**
@@ -23,9 +20,7 @@ public class MovablePlatformImpl implements MovableIPlatform {
      * @param distance is de distance that the platform move each time
      */
     public MovablePlatformImpl(final Position position, final int width, final int height, final int distance) {
-        this.position = new PositionImpl(position.getX(), position.getY());
-        this.width = width;
-        this.height = height;
+        super(position, width, height);
         this.distance = distance;
     }
 
@@ -33,33 +28,9 @@ public class MovablePlatformImpl implements MovableIPlatform {
      * {@inheritDoc}
      */
     @Override
-    public Position getPosition() {
-        return new PositionImpl(position.getX(), position.getY());
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int getWidth() {
-        return this.width;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int getHeight() {
-        return this.height;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public void move(final int direction) {
-        final int newX = this.position.getX() + (direction * this.distance);
-        this.position = new PositionImpl(newX, this.position.getY()); 
+        final int newX = super.getPosition().getX() + (direction * this.distance);
+        super.setPosition(new PositionImpl(newX, super.getPosition().getY()));
     }
 
     /**
