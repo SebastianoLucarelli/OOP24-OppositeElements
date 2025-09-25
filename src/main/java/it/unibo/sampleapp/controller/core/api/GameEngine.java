@@ -3,7 +3,6 @@ package it.unibo.sampleapp.controller.core.api;
 /**
  * The gameEngine interface.
  */
-@FunctionalInterface
 public interface GameEngine {
 
     /**
