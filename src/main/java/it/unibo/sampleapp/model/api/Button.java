@@ -1,0 +1,20 @@
+package it.unibo.sampleapp.model.api;
+
+/**
+ * Interface for the buttons.
+ */
+public interface Button extends GameObject {
+
+    /**
+     * @return the state of the button
+     */
+    boolean isPressed();
+
+    /**
+     * change the state of the button.
+     *
+     * @param pressed is the new state of the button
+     */
+    void setPressed(boolean pressed);
+ 
+}

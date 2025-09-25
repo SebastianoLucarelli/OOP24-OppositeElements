@@ -1,26 +1,33 @@
 package it.unibo.sampleapp.model.api;
 
-import it.unibo.sampleapp.utils.api.Position;
-
 /**
  * Interface for the platforms that can move.
  */
 public interface MovableIPlatform extends GameObject {
 
     /**
-     * set the new position of the platform.
-     *
-     * @param position contains the new position
+     * @return the speed of the platform
      */
-    void setPosition(Position position);
+    int getSpeed();
 
     /**
-     * move the platform.
+     * This method activate the platform, so it start moving.
+     */
+    void active();
+
+    /**
+     * This method deactivate the platform, so it start moving back to its initial position.
+     */
+    void deactive();
+
+    /**
+     * this method move the platform toward the target position if it is active.
      */
     void move();
 
     /**
-     * @return the speed of the platform
+     * @return true if the platform is active, false otherwise
      */
-    int getSpeed();
+    boolean isActive();
+
 }
