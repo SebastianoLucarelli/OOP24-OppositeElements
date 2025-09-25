@@ -6,14 +6,28 @@ package it.unibo.sampleapp.model.api;
 public interface MovableIPlatform extends GameObject {
 
     /**
-     * move the platform in the specified direction.
-     *
-     * @param direction contains the direction where the platform has to move 
-     */
-    void move(int direction);
-
-    /**
      * @return the speed of the platform
      */
     int getSpeed();
+
+    /**
+     * This method activate the platform, so it start moving.
+     */
+    void active();
+
+    /**
+     * This method deactivate the platform, so it start moving back to its initial position.
+     */
+    void deactive();
+
+    /**
+     * this method move the platform toward the target position if it is active.
+     */
+    void move();
+
+    /**
+     * @return true if the platform is active, false otherwise
+     */
+    boolean isActive();
+
 }
