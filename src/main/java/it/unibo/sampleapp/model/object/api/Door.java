@@ -1,4 +1,4 @@
-package it.unibo.sampleapp.model.gameObject.api;
+package it.unibo.sampleapp.model.object.api;
 
 /**
  * interface for the different types of doors in the game. In the FIRE door can pass only the FIRE character

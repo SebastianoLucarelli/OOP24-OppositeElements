@@ -1,4 +1,4 @@
-package it.unibo.sampleapp.model.gameObject.api;
+package it.unibo.sampleapp.model.object.api;
 
 /**
  * Interface for the different types of hazard, they going to kill the player when tousched.

@@ -1,4 +1,4 @@
-package it.unibo.sampleapp.model.gameObject.api;
+package it.unibo.sampleapp.model.object.api;
 
 /**
  * Interface for the platforms.
