@@ -1,6 +1,6 @@
-package it.unibo.sampleapp.model.impl;
+package it.unibo.sampleapp.model.gameObject.impl;
 
-import it.unibo.sampleapp.model.api.MovableIPlatform;
+import it.unibo.sampleapp.model.gameObject.api.MovableIPlatform;
 import it.unibo.sampleapp.utils.api.Position;
 import it.unibo.sampleapp.utils.impl.PositionImpl;
 

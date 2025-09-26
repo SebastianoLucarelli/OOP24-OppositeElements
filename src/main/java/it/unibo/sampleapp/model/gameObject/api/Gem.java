@@ -1,4 +1,4 @@
-package it.unibo.sampleapp.model.api;
+package it.unibo.sampleapp.model.gameObject.api;
 
 /**
  * represents the collectible gem in the game. 

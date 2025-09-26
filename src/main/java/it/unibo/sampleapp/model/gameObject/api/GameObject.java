@@ -1,4 +1,4 @@
-package it.unibo.sampleapp.model.api;
+package it.unibo.sampleapp.model.gameObject.api;
 
 import it.unibo.sampleapp.utils.api.Position;
 

@@ -1,4 +1,4 @@
-package it.unibo.sampleapp.model.api;
+package it.unibo.sampleapp.model.gameObject.api;
 
 /**
  * interface for the Fan. The Fans push the character up

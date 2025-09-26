@@ -1,6 +1,6 @@
-package it.unibo.sampleapp.model.impl;
+package it.unibo.sampleapp.model.gameObject.impl;
 
-import it.unibo.sampleapp.model.api.Hazard;
+import it.unibo.sampleapp.model.gameObject.api.Hazard;
 import it.unibo.sampleapp.utils.api.Position;
 
 /**

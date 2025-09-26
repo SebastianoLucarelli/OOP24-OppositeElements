@@ -1,0 +1,14 @@
+. -> empty
+F -> fire character
+W -> water character
+E -> fire exit
+Z -> water exit
+L -> lever
+B -> button
+V -> far
+M -> movable plattform
+G -> gem
+A -> hazard acid
+X -> hazard fire
+Y -> hazard water
+P -> platform
