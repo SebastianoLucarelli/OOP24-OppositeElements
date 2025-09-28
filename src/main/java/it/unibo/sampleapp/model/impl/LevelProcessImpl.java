@@ -40,4 +40,12 @@ public class LevelProcessImpl implements LevelProcess {
             levels[ind + 1] = LevelState.UNLOCKED;
         }
     }
+
+    /**
+     * Returns total levels.
+     */
+    @Override
+    public int getTotalLevels() {
+        return levels.length;
+    }
 }
