@@ -39,4 +39,9 @@ public interface LevelProcess {
      * @param ind the index of the level
      */
     void finishedLevel(int ind);
+
+    /**
+     * @return the total levels of the game
+     */
+    int getTotalLevels();
 }
