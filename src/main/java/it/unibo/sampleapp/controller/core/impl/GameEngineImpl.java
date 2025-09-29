@@ -1,6 +1,10 @@
 package it.unibo.sampleapp.controller.core.impl;
 
 import it.unibo.sampleapp.controller.core.api.GameEngine;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
 import it.unibo.sampleapp.controller.api.LevelProcessController;
 import it.unibo.sampleapp.controller.impl.LevelProcessControllerImpl;
 import it.unibo.sampleapp.model.api.LevelProcess;
@@ -13,8 +17,12 @@ import it.unibo.sampleapp.view.impl.LevelProcessView;
  */
 public class GameEngineImpl implements GameEngine {
 
+    private static final int WIDTH = 1024;
+    private static final int HEIGHT = 768;
+
     private GameState currentState;
     private final LevelProcess levelProcess;
+    private final JFrame mainFrame;
 
     /**
      * Builder for the GameEngine.
@@ -22,6 +30,12 @@ public class GameEngineImpl implements GameEngine {
     public GameEngineImpl() {
         this.currentState = GameState.HOME;
         this.levelProcess = new LevelProcessImpl(3);
+
+        this.mainFrame = new JFrame("Opposite Elements");
+        this.mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.mainFrame.setSize(WIDTH, HEIGHT);
+        this.mainFrame.setLocationRelativeTo(null);
+        this.mainFrame.setVisible(true);
     }
 
     /**
@@ -54,5 +68,19 @@ public class GameEngineImpl implements GameEngine {
 
         levelSelView.setSelectionLevel(levelSelController::levelSelected);
         levelSelView.setBackToMenu(levelSelController::backToMenu);
+
+        showPanel(levelSelView);
+    }
+
+    /**
+     * Displays the specified panel by clearing and updating the main frame's content.
+     *
+     * @param panel the JPanel to be shown in the main application window
+     */
+    private void showPanel(final JPanel panel) {
+        mainFrame.getContentPane().removeAll();
+        mainFrame.getContentPane().add(panel);
+        mainFrame.revalidate();
+        mainFrame.repaint();
     }
 }
