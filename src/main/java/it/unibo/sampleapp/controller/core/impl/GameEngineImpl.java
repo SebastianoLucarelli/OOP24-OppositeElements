@@ -5,11 +5,14 @@ import it.unibo.sampleapp.controller.core.api.GameEngine;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import it.unibo.sampleapp.controller.api.HomeController;
 import it.unibo.sampleapp.controller.api.LevelProcessController;
+import it.unibo.sampleapp.controller.impl.HomeControllerImpl;
 import it.unibo.sampleapp.controller.impl.LevelProcessControllerImpl;
 import it.unibo.sampleapp.model.api.LevelProcess;
 import it.unibo.sampleapp.model.game.GameState;
 import it.unibo.sampleapp.model.impl.LevelProcessImpl;
+import it.unibo.sampleapp.view.impl.HomePanel;
 import it.unibo.sampleapp.view.impl.LevelProcessView;
 
 /**
@@ -17,8 +20,8 @@ import it.unibo.sampleapp.view.impl.LevelProcessView;
  */
 public class GameEngineImpl implements GameEngine {
 
-    private static final int WIDTH = 1024;
-    private static final int HEIGHT = 768;
+    private static final int WIDTH = 800;
+    private static final int HEIGHT = 544;
 
     private GameState currentState;
     private final LevelProcess levelProcess;
@@ -44,6 +47,7 @@ public class GameEngineImpl implements GameEngine {
     @Override
     public void gameLoop() {
         switch (currentState) {
+            case HOME -> showHomePanel();
             case LEVEL_SELECTION -> showLevelSelection();
             default -> throw new IllegalArgumentException("Unexpected value: " + currentState);
         }
@@ -56,6 +60,20 @@ public class GameEngineImpl implements GameEngine {
     public void changeState(final GameState state) {
         this.currentState = state;
         gameLoop();
+    }
+
+    /**
+     * Initializes and displays the level selection screen.
+     */
+    private void showHomePanel() {
+        final HomePanel homePanel = new HomePanel();
+        final HomeController homeController = new HomeControllerImpl(this);
+
+        homePanel.setPlayButton(homeController::startGame);
+        homePanel.setInstructionsButton(homeController::showInstructions);
+        homePanel.setExitButton(homeController::exitGame);
+
+        showPanel(homePanel);
     }
 
     /**

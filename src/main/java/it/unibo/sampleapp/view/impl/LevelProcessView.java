@@ -4,6 +4,7 @@ import it.unibo.sampleapp.model.api.LevelProcess;
 import it.unibo.sampleapp.model.api.LevelProcess.LevelState;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -33,8 +34,12 @@ public class LevelProcessView extends JPanel {
 
     private static final int WIDTH_CENTERPANEL = 800;
     private static final int HEIGHT_CENTERPANEL = 350;
-    private static final int WIDHT_BUTTON = 120;
-    private static final int HEIGHT_BUTTON = 120;
+    private static final int WIDHT_BUTTON = 170;
+    private static final int HEIGHT_BUTTON = 130;
+    private static final int TOP_TITLE = 20;
+    private static final int TOP_CENTERPANEL = 50;
+    private static final int MENU_WIDTH_HEIGHT = 70;
+    private static final int BOTTOM = 30;
     private static final String LOCKED_PATH = "/img/LevelBlocked.png";
     private static final String UNLOCKED_PATH = "/img/LevelUnblocked.png";
     private static final String COMPLETE_PATH = "/img/LevelCompleted.png";
@@ -66,18 +71,24 @@ public class LevelProcessView extends JPanel {
      * Initializes the graphical components of the view.
      */
     private void initLevelProcessView() {
-        final JLabel title = new JLabel(new ImageIcon(loadImage("/img/titleLevel.png")));
+        final JLabel title = new JLabel(new ImageIcon(loadImage("/img/TitleLevel.png")));
         final JPanel top = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        top.setBorder(BorderFactory.createEmptyBorder(TOP_TITLE, 0, 0, 0));
         top.setOpaque(false);
         top.add(title);
         add(top, BorderLayout.NORTH);
 
-        final JPanel centerPanel = new JPanel(null);
+        final JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 40, 40));
         centerPanel.setOpaque(false);
         centerPanel.setPreferredSize(new Dimension(WIDTH_CENTERPANEL, HEIGHT_CENTERPANEL));
+        centerPanel.setBorder(BorderFactory.createEmptyBorder(TOP_CENTERPANEL, 0, 0, 0));
         add(centerPanel, BorderLayout.CENTER);
 
-        final JButton backMenuButton = new JButton(new ImageIcon(loadImage("/img/menuButton.png")));
+        final BufferedImage homeImg = loadImage("/img/Home.png");
+        final Image scaledHomeImg = homeImg.getScaledInstance(MENU_WIDTH_HEIGHT, MENU_WIDTH_HEIGHT, Image.SCALE_SMOOTH);
+
+        final JButton backMenuButton = new JButton(new ImageIcon(scaledHomeImg));
+        backMenuButton.setPreferredSize(new Dimension(MENU_WIDTH_HEIGHT, MENU_WIDTH_HEIGHT));
         backMenuButton.setBorderPainted(false);
         backMenuButton.setContentAreaFilled(false);
         backMenuButton.setFocusPainted(false);
@@ -90,6 +101,7 @@ public class LevelProcessView extends JPanel {
 
         final JPanel bottom = new JPanel(new BorderLayout());
         bottom.setOpaque(false);
+        bottom.setBorder(BorderFactory.createEmptyBorder(0, BOTTOM, BOTTOM, 0));
         bottom.add(backMenuButton, BorderLayout.WEST);
         add(bottom, BorderLayout.SOUTH);
 
@@ -97,6 +109,7 @@ public class LevelProcessView extends JPanel {
         for (int i = 0; i < totLev; i++) {
             final int index = i;
             final JButton button = new JButton();
+            button.setPreferredSize(new Dimension(WIDHT_BUTTON, HEIGHT_BUTTON));
             button.setFocusPainted(false);
             button.setContentAreaFilled(false);
             button.setBorderPainted(false);
@@ -108,7 +121,6 @@ public class LevelProcessView extends JPanel {
                 }
             });
 
-            button.setBounds(0, 0, WIDHT_BUTTON, HEIGHT_BUTTON);
             centerPanel.add(button);
             levelButtons[i] = button;
 
@@ -153,8 +165,8 @@ public class LevelProcessView extends JPanel {
      * @param state the current level state of the level
      */
     private void updateButtonGraphic(final JButton button, final LevelState state) {
-        final int width = Math.max(10, button.getWidth());
-        final int height = Math.max(10, button.getHeight());
+        final int width = (int) button.getPreferredSize().getWidth();
+        final int height = (int) button.getPreferredSize().getHeight();
 
         final String stateLevelPath = (state == LevelState.UNLOCKED)
         ? UNLOCKED_PATH
