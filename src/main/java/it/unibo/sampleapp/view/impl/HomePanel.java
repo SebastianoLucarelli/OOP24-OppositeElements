@@ -8,10 +8,14 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Class for the game's home screen.
  */
+@SuppressFBWarnings("SE_BAD_FIELD")
 public class HomePanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
@@ -48,6 +52,10 @@ public class HomePanel extends JPanel {
     private final JButton instructionsButton;
     private final JButton exitButton;
 
+    private Runnable onPlay;
+    private Runnable onInstructions;
+    private Runnable onExit;
+
     /**
      * Home Screen builder.
      */
@@ -61,12 +69,31 @@ public class HomePanel extends JPanel {
         instructionsButton = createImageButton("/img/InstructionsButton.png", INSTRUCTION_WIDTH, INSTRUCTION_HEIGHT);
         exitButton = createImageButton("/img/ExitButton.png", EXIT_WIDTH, EXIT_HEIGHT);
 
+        startButton.addActionListener(e -> {
+            if (onPlay != null) {
+                onPlay.run();
+            }
+        });
+
+        instructionsButton.addActionListener(e -> {
+            if (onInstructions != null) {
+                onInstructions.run();
+            }
+        });
+
+        exitButton.addActionListener(e -> {
+            if (onExit != null) {
+                onExit.run();
+            }
+        });
+
+       SwingUtilities.invokeLater(this::initPanel);
     }
 
     /**
      * Initializes the UI layout.
      */
-    public void initPanel() {
+    private void initPanel() {
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setLayout(new GridLayout(GRID_ROWS, GRID_COLS));
 
@@ -132,29 +159,29 @@ public class HomePanel extends JPanel {
     }
 
     /**
-     * Returns the Start button of the Home screen.
+     * Set the callback to be executed when "Start" is pressed.
      *
-     * @return the reference to the startButton
+     * @param r the Runnable to be executed when the Start button is clicked
      */
-    public JButton getPlayButton() {
-        return new JButton(startButton.getIcon());
+    public void setPlayButton(final Runnable r) {
+        this.onPlay = r;
     }
 
     /**
-     * Returns the Instruction button of the Home screen.
+     * Set the callback to be executed when "Instructions" is pressed.
      *
-     * @return the reference to the instructionsButton
+     * @param r the Runnable to be executed when the Instruction button is clicked
      */
-    public JButton getInstructionButton() {
-        return new JButton(instructionsButton.getIcon());
+    public void setInstructionsButton(final Runnable r) {
+        this.onInstructions = r;
     }
 
     /**
-     * Returns the Exit button of the Home screen.
+     * Set the callback to be executed when "Exit" is pressed.
      *
-     * @return the reference to the exitButton
+     * @param r the Runnable to be executed when the Exit button is clicked
      */
-    public JButton getExitButton() {
-        return new JButton(exitButton.getIcon());
+    public void setExitButton(final Runnable r) {
+        this.onExit = r;
     }
 }
