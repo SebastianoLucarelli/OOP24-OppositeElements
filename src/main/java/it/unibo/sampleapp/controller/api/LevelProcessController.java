@@ -10,7 +10,7 @@ public interface LevelProcessController {
      *
      * @param index the index of the level
      */
-    void levelSelected(final int index);
+    void levelSelected(int index);
 
     /**
      * Callback triggered when the user wants to return to the main Menu.

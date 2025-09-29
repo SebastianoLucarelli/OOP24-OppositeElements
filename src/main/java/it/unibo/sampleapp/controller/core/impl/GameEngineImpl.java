@@ -16,6 +16,9 @@ public class GameEngineImpl implements GameEngine {
     private GameState currentState;
     private final LevelProcess levelProcess;
 
+    /**
+     * Builder for the GameEngine.
+     */
     public GameEngineImpl() {
         this.currentState = GameState.HOME;
         this.levelProcess = new LevelProcessImpl(3);
@@ -26,7 +29,7 @@ public class GameEngineImpl implements GameEngine {
      */
     @Override
     public void gameLoop() {
-        switch (currentState) {     
+        switch (currentState) {
             case LEVEL_SELECTION -> showLevelSelection();
             default -> throw new IllegalArgumentException("Unexpected value: " + currentState);
         }
@@ -36,7 +39,7 @@ public class GameEngineImpl implements GameEngine {
      * It changes the current state of the level.
      */
     @Override
-    public void changeState(GameState state) {
+    public void changeState(final GameState state) {
         this.currentState = state;
         gameLoop();
     }

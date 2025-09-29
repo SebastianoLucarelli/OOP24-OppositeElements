@@ -20,7 +20,7 @@ public class LevelProcessControllerImpl implements LevelProcessController {
      * @param engine the game core
      * @param levelProcess the model interface that provides the level state information
      */
-    public LevelProcessControllerImpl(GameEngine engine, LevelProcess levelProcess) {
+    public LevelProcessControllerImpl(final GameEngine engine, final LevelProcess levelProcess) {
         this.engine = engine;
         this.levelProcess = levelProcess;
     }
@@ -31,7 +31,7 @@ public class LevelProcessControllerImpl implements LevelProcessController {
      * @param index the index of the selected level
      */
     @Override
-    public void levelSelected(int index) {
+    public void levelSelected(final int index) {
         final LevelState state = levelProcess.getLevelState(index);
         if (state == LevelState.UNLOCKED || state == LevelState.COMPLETED) {
             engine.changeState(GameState.PLAYING);
