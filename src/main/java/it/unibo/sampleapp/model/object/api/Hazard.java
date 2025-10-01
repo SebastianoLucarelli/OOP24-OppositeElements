@@ -9,7 +9,7 @@ public interface Hazard extends GameObject {
      * This enum contains all the possible types of hazard present in the game.
      */
     enum HazardType {
-        LAVA,
+        FIRE,
         WATER,
         ACID
     }

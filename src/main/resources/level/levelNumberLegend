@@ -6,8 +6,10 @@ Z -> water exit
 L -> lever
 B -> button
 V -> far
-M -> movable plattform
-G -> gem
+M -> movable plattform vertical
+O -> movable platform orizontal
+G -> fire gem
+D -> water gem
 A -> hazard acid
 X -> hazard fire
 Y -> hazard water
