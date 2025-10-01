@@ -67,9 +67,10 @@ public class GameEngineImpl implements GameEngine {
      */
     private void showHomePanel() {
         final HomePanel homePanel = new HomePanel();
+        homePanel.initHomePanel();
         final HomeController homeController = new HomeControllerImpl(this);
 
-        homePanel.setPlayButton(homeController::startGame);
+        homePanel.setStartButton(homeController::startGame);
         homePanel.setInstructionsButton(homeController::showInstructions);
         homePanel.setExitButton(homeController::exitGame);
 
