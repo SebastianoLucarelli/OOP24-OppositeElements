@@ -1,15 +1,13 @@
 package it.unibo.sampleapp.view.impl;
 
-import java.awt.Dimension;
+import java.awt.BorderLayout;
 import java.awt.Graphics;
-import java.awt.GridLayout;
 import java.awt.Image;
-
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
@@ -19,12 +17,16 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 public class HomePanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
+    private static final int BOTTOM = 40;
 
-    private static final int WIDTH = 800;
-    private static final int HEIGHT = 600;
+    private static final int TITLE_WIDTH = 600;
+    private static final int TITLE_HEIGHT = 150;
+    private static final int TITLE_Y = 20;
 
-    private static final int GRID_ROWS = 6;
-    private static final int GRID_COLS = 1;
+    private static final int CHARACTER_WIDTH = 150;
+    private static final int CHARACTER_HEIGHT = 150;
+    private static final int FIRE_X = 60;
+    private static final int WATER_X = 60;
 
     private static final int START_WIDTH = 200;
     private static final int START_HEIGHT = 80;
@@ -33,26 +35,14 @@ public class HomePanel extends JPanel {
     private static final int EXIT_WIDTH = 200;
     private static final int EXIT_HEIGHT = 80;
 
-    private static final int TITLE_WIDTH = 600;
-    private static final int TITLE_HEIGHT = 150;
-    private static final int CHARACTER_WIDTH = 150;
-    private static final int CHARACTER_HEIGHT = 150;
-
-    private static final int TITLE_Y = 20;
-    private static final int FIRE_X = 60;
-    private static final int WATER_X = 60;
-    private static final int BOTTOM = 40;
-
     private final ImageIcon backgroundImage;
     private final ImageIcon titleImage;
     private final ImageIcon waterGirl;
     private final ImageIcon fireBoy;
 
-    private final JButton startButton;
-    private final JButton instructionsButton;
-    private final JButton exitButton;
+    private JPanel bottomPanel;
 
-    private Runnable onPlay;
+    private Runnable onStart;
     private Runnable onInstructions;
     private Runnable onExit;
 
@@ -60,18 +50,25 @@ public class HomePanel extends JPanel {
      * Home Screen builder.
      */
     public HomePanel() {
+        super(new BorderLayout());
         backgroundImage = loadImage("/img/PlayBackground.png");
         titleImage = loadImage("/img/title.png");
         waterGirl = loadImage("/img/WaterGirl.png");
         fireBoy = loadImage("/img/FireBoy.png");
+    }
 
-        startButton = createImageButton("/img/StartButton.png", START_WIDTH, START_HEIGHT);
-        instructionsButton = createImageButton("/img/InstructionsButton.png", INSTRUCTION_WIDTH, INSTRUCTION_HEIGHT);
-        exitButton = createImageButton("/img/ExitButton.png", EXIT_WIDTH, EXIT_HEIGHT);
+    /**
+     * Initializes the panel layout and buttons.
+     */
+    public void initHomePanel() {
+        final JButton startButton = createImageButton("/img/StartButton.png", START_WIDTH, START_HEIGHT);
+        final JButton instructionsButton = createImageButton("/img/InstructionsButton.png", 
+                                            INSTRUCTION_WIDTH, INSTRUCTION_HEIGHT);
+        final JButton exitButton = createImageButton("/img/ExitButton.png", EXIT_WIDTH, EXIT_HEIGHT);
 
         startButton.addActionListener(e -> {
-            if (onPlay != null) {
-                onPlay.run();
+            if (onStart != null) {
+                onStart.run();
             }
         });
 
@@ -87,54 +84,23 @@ public class HomePanel extends JPanel {
             }
         });
 
-       SwingUtilities.invokeLater(this::initPanel);
-    }
+        bottomPanel = new JPanel();
+        bottomPanel.setOpaque(false);
+        bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
+        bottomPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, BOTTOM, 0));
 
-    /**
-     * Initializes the UI layout.
-     */
-    private void initPanel() {
-        setPreferredSize(new Dimension(WIDTH, HEIGHT));
-        setLayout(new GridLayout(GRID_ROWS, GRID_COLS));
+        startButton.setAlignmentX(CENTER_ALIGNMENT);
+        instructionsButton.setAlignmentX(CENTER_ALIGNMENT);
+        exitButton.setAlignmentX(CENTER_ALIGNMENT);
 
-        add(new JPanel());
-        add(new JPanel());
-        add(startButton);
-        add(instructionsButton);
-        add(exitButton);
-        add(new JPanel());
-    }
+        bottomPanel.add(startButton);
+        bottomPanel.add(instructionsButton);
+        bottomPanel.add(exitButton);
 
-    /**
-     *  Loads an image from the path.
-     *
-     * @param path image path
-     * @return loaded image
-     */
-    private ImageIcon loadImage(final String path) {
-        final var resource = HomePanel.class.getResource(path);
-        if (resource == null) {
-            throw new IllegalArgumentException("Resource not found");
-        }
-        return new ImageIcon(resource);
-    }
+        add(bottomPanel, BorderLayout.SOUTH);
 
-    /**
-     * Create a JButton that uses a resized image.
-     *
-     * @param path image path
-     * @param width button width
-     * @param height button height
-     * @return JButton with image
-     */
-    private JButton createImageButton(final String path, final int width, final int height) {
-        final ImageIcon image = new ImageIcon(HomePanel.class.getResource(path));
-        final Image resize = image.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
-        final JButton button = new JButton(new ImageIcon(resize));
-        button.setContentAreaFilled(false);
-        button.setBorderPainted(false);
-        button.setFocusPainted(false);
-        return button;
+        revalidate();
+        repaint();
     }
 
     /**
@@ -145,7 +111,6 @@ public class HomePanel extends JPanel {
     @Override
     protected void paintComponent(final Graphics g) {
         super.paintComponent(g);
-
         g.drawImage(backgroundImage.getImage(), 0, 0, getWidth(), getHeight(), this);
 
         final int titleX = (getWidth() - TITLE_WIDTH) / 2;
@@ -153,9 +118,41 @@ public class HomePanel extends JPanel {
 
         final int playerY = getHeight() - CHARACTER_HEIGHT - BOTTOM;
         g.drawImage(fireBoy.getImage(), FIRE_X, playerY, CHARACTER_WIDTH, CHARACTER_HEIGHT, this);
+        g.drawImage(waterGirl.getImage(), getWidth() - CHARACTER_WIDTH 
+                    - WATER_X, playerY, CHARACTER_WIDTH, CHARACTER_HEIGHT, this);
+    }
 
-        final int waterX = getWidth() - CHARACTER_WIDTH - WATER_X;
-        g.drawImage(waterGirl.getImage(), waterX, playerY, CHARACTER_WIDTH, CHARACTER_HEIGHT, this);
+    /**
+     * Loads an image from the path.
+     *
+     * @param path image path
+     * @return loaded image
+     */
+    private ImageIcon loadImage(final String path) {
+        final var resource = HomePanel.class.getResource(path);
+        if (resource == null) {
+            throw new IllegalArgumentException("Resource not found: " + path);
+        }
+        return new ImageIcon(resource);
+    }
+
+    /**
+     * Create a JButton that uses a resized image.
+     *
+     * @param path image path
+     * @param width button width
+     * @param height button height
+     * @return JBUtton with image
+     */
+    private JButton createImageButton(final String path, final int width, final int height) {
+        final ImageIcon image = new ImageIcon(HomePanel.class.getResource(path));
+        final Image resized = image.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        final JButton btn = new JButton(new ImageIcon(resized));
+        btn.setOpaque(false);
+        btn.setContentAreaFilled(false);
+        btn.setBorderPainted(false);
+        btn.setFocusPainted(false);
+        return btn;
     }
 
     /**
@@ -163,8 +160,8 @@ public class HomePanel extends JPanel {
      *
      * @param r the Runnable to be executed when the Start button is clicked
      */
-    public void setPlayButton(final Runnable r) {
-        this.onPlay = r;
+    public void setStartButton(final Runnable r) {
+        this.onStart = r;
     }
 
     /**
@@ -179,9 +176,21 @@ public class HomePanel extends JPanel {
     /**
      * Set the callback to be executed when "Exit" is pressed.
      *
-     * @param r the Runnable to be executed when the Exit button is clicked
+     * @param r the Runnable to be executed when the Exit button is cliked
      */
     public void setExitButton(final Runnable r) {
         this.onExit = r;
+    }
+
+    /**
+     * Refresh of the panel.
+     */
+    public void refresh() {
+        if (bottomPanel != null) {
+            bottomPanel.revalidate();
+            bottomPanel.repaint();
+        }
+        revalidate();
+        repaint();
     }
 }
