@@ -1,4 +1,5 @@
-package it.unibo.sampleapp.model.api;
+
+package it.unibo.sampleapp.model.object.api;
 
 /**
  * interface for the lever in the game. The lever can activate and deactivate the movable objects.

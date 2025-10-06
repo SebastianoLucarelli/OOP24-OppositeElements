@@ -1,6 +1,6 @@
-package it.unibo.sampleapp.model.impl;
+package it.unibo.sampleapp.model.object.impl;
 
-import it.unibo.sampleapp.model.api.Button;
+import it.unibo.sampleapp.model.object.api.Button;
 import it.unibo.sampleapp.utils.api.Position;
 
 /**
