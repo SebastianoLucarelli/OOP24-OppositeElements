@@ -96,7 +96,6 @@ public class LevelLoaderImpl implements LevelLoader {
                             objects.add(new HazardImpl(new PositionImpl(x, y), TILE_SIZE, TILE_SIZE, Hazard.HazardType.WATER));
                             break;
                         case '.':
-                            // spazio vuoto
                             break;
                         default:
                             break;
