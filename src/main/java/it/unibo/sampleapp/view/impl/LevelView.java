@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.List;
 import javax.swing.JPanel;
+
+import it.unibo.sampleapp.model.object.api.GameObject;
 import it.unibo.sampleapp.model.object.api.Player;
 
 /**
@@ -13,24 +15,30 @@ import it.unibo.sampleapp.model.object.api.Player;
  */
 public class LevelView extends JPanel {
 
+    private static final Color BACKGROUND_COLOR = Color.BLACK;
+    private static final Color PLAYER_COLOR = Color.RED;
+    private static final Color OBJECT_COLOR = Color.GRAY;
+
     private static final long serialVersionUID = 1L;
     private transient List<Player> players;
+    private transient List<GameObject> objects;
 
     /**
      * Default constructor.
      */
     public LevelView() {
-        this.players = List.of();
-        initView();
+        this(List.of(), List.of());
     }
 
     /**
      * Constructor.
      *
      * @param players contains the list of players
+     * @param objects contains the list of game objects
      */
-    public LevelView(final List<Player> players) {
+    public LevelView(final List<Player> players, final List<GameObject> objects) {
         this.players = List.copyOf(players);
+        this.objects = List.copyOf(objects);
         initView();
     }
 
@@ -38,7 +46,7 @@ public class LevelView extends JPanel {
      * Initializes the view.
      */
     private void initView() {
-        super.setBackground(Color.BLACK);
+        super.setBackground(BACKGROUND_COLOR);
     }
 
     /**
@@ -50,7 +58,8 @@ public class LevelView extends JPanel {
      */
     private void readObject(final ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
-        this.players = List.of(); // ripristino di sicurezza
+        this.players = List.of();
+        this.objects = List.of();
     }
 
     /**
@@ -59,8 +68,17 @@ public class LevelView extends JPanel {
     @Override
     protected void paintComponent(final Graphics g) {
         super.paintComponent(g);
+        g.setColor(OBJECT_COLOR);
+        for (final GameObject obj : objects) {
+            g.fillRect(
+                obj.getPosition().getX(),
+                obj.getPosition().getY(),
+                obj.getWidth(),
+                obj.getHeight()
+            );
+        }
+        g.setColor(PLAYER_COLOR);
         for (final Player p : players) {
-            g.setColor(Color.RED);
             g.fillRect(
                 p.getPosition().getX(),
                 p.getPosition().getY(),
