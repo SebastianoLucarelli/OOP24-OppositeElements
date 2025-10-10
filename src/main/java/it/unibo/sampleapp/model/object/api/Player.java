@@ -37,4 +37,9 @@ public interface Player {
      * @return player height
      */
     int getHeight();
+
+    /**
+     * @return the type of this player
+     */
+    PlayerType getType();
 }

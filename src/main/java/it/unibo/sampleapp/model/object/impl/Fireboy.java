@@ -1,6 +1,7 @@
 package it.unibo.sampleapp.model.object.impl;
 
 import it.unibo.sampleapp.model.object.api.Hazard.HazardType;
+import it.unibo.sampleapp.model.object.api.PlayerType;
 
 /**
  * Class representing the character Fireboy.
@@ -30,5 +31,10 @@ public class Fireboy extends AbstractPlayer {
             case WATER, ACID -> true;
             case FIRE -> false;
         };
+    }
+
+    @Override
+    public final PlayerType getType() {
+       return PlayerType.FIRE;
     }
 }

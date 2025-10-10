@@ -1,6 +1,7 @@
 package it.unibo.sampleapp.model.object.impl;
 
 import it.unibo.sampleapp.model.object.api.Hazard.HazardType;
+import it.unibo.sampleapp.model.object.api.PlayerType;
 
 /**
  * Class representing the character Watergirl.
@@ -31,5 +32,10 @@ public class Watergirl extends AbstractPlayer {
             case FIRE, ACID -> true;
             case WATER -> false;
         };
+    }
+
+    @Override
+    public final PlayerType getType() {
+       return PlayerType.WATER;
     }
 }
