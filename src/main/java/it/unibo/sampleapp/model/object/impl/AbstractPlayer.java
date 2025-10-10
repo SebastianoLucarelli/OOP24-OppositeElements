@@ -14,12 +14,10 @@ import it.unibo.sampleapp.utils.impl.PositionImpl;
  */
 public abstract class AbstractPlayer implements Player {
 
-    // --- Constants
     private static final double SPEED_MOVE = 200.0;
     private static final double SPEED_JUMP = -400.0;
     private static final double GRAVITY = 800.0;
 
-    // --- Fields
     private final Position position;
     private double speedX;
     private double speedY;
