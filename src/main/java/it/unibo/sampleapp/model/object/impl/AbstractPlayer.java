@@ -24,6 +24,7 @@ public abstract class AbstractPlayer implements Player {
     private final int width;
     private final int height;
     private boolean onFloor;
+    private boolean atDoor;
 
     /**
      * Constructor for AbstractPlayer.
@@ -102,6 +103,24 @@ public abstract class AbstractPlayer implements Player {
     }
 
     /**
+     * @return true if the player is currently at the door
+     */
+    @Override
+    public boolean isAtDoor() {
+        return atDoor;
+    }
+
+    /**
+     * Sets whether the player is currently at the door.
+     *
+     * @param atDoor true if the player is in contact with the door
+     */
+    @Override
+    public void setAtDoor(final boolean atDoor) {
+        this.atDoor = atDoor;
+    }
+
+    /**
      * @return the horizontal speed
      */
     public double getSpeedX() {
@@ -143,4 +162,5 @@ public abstract class AbstractPlayer implements Player {
         final int newY = (int) (position.getY() + speedY * deltaTime);
         position.setY(newY);
     }
+
 }
