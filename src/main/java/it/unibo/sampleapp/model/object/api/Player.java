@@ -37,4 +37,21 @@ public interface Player {
      * @return player height
      */
     int getHeight();
+
+    /**
+     * @return the type of this player
+     */
+    PlayerType getType();
+
+    /**
+     * @return true if the player is currently at the door
+     */
+    boolean isAtDoor();
+
+    /**
+     * Sets whether the player is currently at the door.
+     *
+     * @param atDoor true if the player is in contact with the door
+     */
+    void setAtDoor(boolean atDoor);
 }
