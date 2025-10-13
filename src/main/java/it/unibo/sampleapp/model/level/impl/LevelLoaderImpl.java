@@ -30,7 +30,7 @@ import it.unibo.sampleapp.utils.impl.PositionImpl;
  */
 public class LevelLoaderImpl implements LevelLoader {
 
-    private static final int TILE_SIZE = 64;
+    private static final int TILE_SIZE = 36;
     private static final int DIRECTION = 1;
 
     /**
