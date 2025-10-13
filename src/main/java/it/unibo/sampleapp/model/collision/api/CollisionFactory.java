@@ -2,10 +2,12 @@ package it.unibo.sampleapp.model.collision.api;
 
 import it.unibo.sampleapp.model.object.api.Button;
 import it.unibo.sampleapp.model.object.api.Door;
+import it.unibo.sampleapp.model.object.api.Fan;
 import it.unibo.sampleapp.model.object.api.Gem;
 import it.unibo.sampleapp.model.object.api.Hazard;
 import it.unibo.sampleapp.model.object.api.Lever;
 import it.unibo.sampleapp.model.object.api.MovableIPlatform;
+import it.unibo.sampleapp.model.object.api.Platform;
 import it.unibo.sampleapp.model.object.api.Player;
 
 /**
@@ -55,13 +57,31 @@ public interface CollisionFactory {
 
     /**
      * Handles the collision beetwen a player and a lever.
-     * Used to change the state of the lever.
+     * Used to change the state of the lever and activate the right movable platform.
      *
      * @param player the player character
      * @param lever the lever object
      * @return the result of collisions
      */
     Collisions leverDisplacementCollision(Player player, Lever lever);
+
+    /**
+     * Handles the collision beetwen a player and a Fan.
+     *
+     * @param player the player character
+     * @param fan the fan object
+     * @return the result of collision
+     */
+    Collisions playerOnFan(Player player, Fan fan);
+
+    /**
+     * Handles the collision beetwen a player and a platform.
+     *
+     * @param player the player character
+     * @param platform the platform object
+     * @return the result of collisions
+     */
+    Collisions platformCollisions(Player player, Platform platform);
 
     /**
      * Handles the collision beetwen a player and a movablePlatform.
@@ -71,4 +91,13 @@ public interface CollisionFactory {
      * @return the result of collisions
      */
     Collisions movablePlatformCollision(Player player, MovableIPlatform movablePlatform);
+
+    /**
+     * Handles the collision beetwen a player and a border.
+     *
+     * @param player the player character
+     * @param boundary one of the 4 boundary
+     * @return the result of collision
+     */
+    Collisions boundaryCollisions(Player player, BoundaryType boundary);
 }
