@@ -26,6 +26,7 @@ public class LevelView extends JPanel {
     private transient Image background;
     private transient Image fireBoyImg;
     private transient Image waterGirlImg;
+    private transient Image platformImg;
     private transient List<Player> players;
     private transient List<GameObject> objects;
 
@@ -49,21 +50,13 @@ public class LevelView extends JPanel {
     }
 
     /**
-     * Loads the background image.
-     */
-    private void loadBackground() {
-        background = new ImageIcon(getClass().getClassLoader()
-            .getResource("img/BackgroundLevel.png")).getImage();
-    }
-
-    /**
      * Initializes the view.
      */
     private void initView() {
-        loadBackground();
+        background = new ImageIcon(getClass().getClassLoader().getResource("img/BackgroundLevel.png")).getImage();
         fireBoyImg = new ImageIcon(getClass().getClassLoader() .getResource("img/FireBoy.png")).getImage();
         waterGirlImg = new ImageIcon(getClass().getClassLoader().getResource("img/WaterGirl.png")).getImage();
-        //super.setBackground(BACKGROUND_COLOR);
+        platformImg = new ImageIcon(getClass().getClassLoader().getResource("img/Platform.png")).getImage();
     }
 
     /**
@@ -90,12 +83,24 @@ public class LevelView extends JPanel {
         }
         g.setColor(OBJECT_COLOR);
         for (final GameObject obj : objects) {
-            g.fillRect(
-                obj.getPosition().getX(),
-                obj.getPosition().getY(),
-                obj.getWidth(),
-                obj.getHeight()
-            );
+            if ("PlatformImpl".equals(obj.getClass().getSimpleName())) {
+                g.drawImage(
+                    platformImg,
+                    obj.getPosition().getX(),
+                    obj.getPosition().getY(),
+                    obj.getWidth(),
+                    obj.getHeight(),
+                    this
+                );
+            } else {
+                g.setColor(OBJECT_COLOR);
+                g.fillRect(
+                    obj.getPosition().getX(),
+                    obj.getPosition().getY(),
+                    obj.getWidth(),
+                    obj.getHeight()
+                );
+            }
         }
         g.setColor(PLAYER_COLOR);
         for (final Player p : players) {
