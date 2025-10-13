@@ -16,5 +16,9 @@ public interface Button extends GameObject {
      * @param pressed is the new state of the button
      */
     void setPressed(boolean pressed);
- 
+
+    /**
+     * @return the linked platform
+     */
+    MovableIPlatform getLinkedPlatform();
 }

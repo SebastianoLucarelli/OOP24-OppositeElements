@@ -13,13 +13,11 @@ import it.unibo.sampleapp.model.object.api.Door;
 import it.unibo.sampleapp.model.object.api.GameObject;
 import it.unibo.sampleapp.model.object.api.Hazard;
 import it.unibo.sampleapp.model.object.api.Player;
-import it.unibo.sampleapp.model.object.impl.ButtonImpl;
 import it.unibo.sampleapp.model.object.impl.DoorImpl;
 import it.unibo.sampleapp.model.object.impl.FanImpl;
 import it.unibo.sampleapp.model.object.impl.Fireboy;
 import it.unibo.sampleapp.model.object.impl.GemImpl;
 import it.unibo.sampleapp.model.object.impl.HazardImpl;
-import it.unibo.sampleapp.model.object.impl.LeverImpl;
 import it.unibo.sampleapp.model.object.impl.MovablePlatformImpl;
 import it.unibo.sampleapp.model.object.impl.PlatformImpl;
 import it.unibo.sampleapp.model.object.impl.Watergirl;
@@ -70,12 +68,6 @@ public class LevelLoaderImpl implements LevelLoader {
                             break;
                         case 'Z':
                             objects.add(new DoorImpl(new PositionImpl(x, y), TILE_SIZE, TILE_SIZE, Door.DoorType.WATER));
-                            break;
-                        case 'L':
-                            objects.add(new LeverImpl(new PositionImpl(x, y), TILE_SIZE, TILE_SIZE));
-                            break;
-                        case 'B':
-                            objects.add(new ButtonImpl(new PositionImpl(x, y), TILE_SIZE, TILE_SIZE));
                             break;
                         case 'V':
                             objects.add(new FanImpl(new PositionImpl(x, y), TILE_SIZE, TILE_SIZE));

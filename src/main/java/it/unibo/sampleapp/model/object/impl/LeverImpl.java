@@ -1,6 +1,7 @@
 package it.unibo.sampleapp.model.object.impl;
 
 import it.unibo.sampleapp.model.object.api.Lever;
+import it.unibo.sampleapp.model.object.api.MovableIPlatform;
 import it.unibo.sampleapp.utils.api.Position;
 
 /**
@@ -9,6 +10,7 @@ import it.unibo.sampleapp.utils.api.Position;
 public class LeverImpl extends AbstractGameObject implements Lever {
 
     private boolean active;
+    private final MovableIPlatform linkedPlatform;
 
     /**
      * Constructor of LeverImpl.
@@ -16,10 +18,12 @@ public class LeverImpl extends AbstractGameObject implements Lever {
      * @param position contains the position of the lever
      * @param width contains the width of the lever
      * @param height contains the height of the lever
+     * @param platform contains the movable platform linked to the lever
      */
-    public LeverImpl(final Position position, final int width, final int height) {
+    public LeverImpl(final Position position, final int width, final int height, final MovableIPlatform platform) {
         super(position, width, height);
         active = false;
+        linkedPlatform = platform;
     }
 
     /**
@@ -36,6 +40,14 @@ public class LeverImpl extends AbstractGameObject implements Lever {
     @Override
     public void toggle() {
         this.active = !this.active;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public MovableIPlatform getLinkedPlatform() {
+        return this.linkedPlatform;
     }
 
 }
