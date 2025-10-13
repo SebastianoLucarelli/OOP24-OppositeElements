@@ -20,5 +20,5 @@ public interface Button extends GameObject {
     /**
      * @return the linked platform
      */
-    MovableIPlatform getLinkedPlatform();
+    GameObject getLinkedPlatform();
 }

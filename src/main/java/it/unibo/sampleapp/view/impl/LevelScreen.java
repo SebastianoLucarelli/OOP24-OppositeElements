@@ -5,8 +5,10 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 
 import javax.swing.JPanel;
+
 import it.unibo.sampleapp.model.level.api.Level;
 import it.unibo.sampleapp.model.level.api.LevelLoader;
+import it.unibo.sampleapp.model.level.impl.LevelLoaderImpl;
 
 /**
  * Panel that represents a specific level of the game.
@@ -26,26 +28,32 @@ public final class LevelScreen extends JPanel {
      */
     public LevelScreen(final int levelNumber, final LevelLoader loader) {
         super(new BorderLayout());
-        final String filename = "level" + levelNumber + ".txt";
-        this.level = loader.loadLevel(filename);
+        final String baseFile = "level" + levelNumber + ".txt";
+        final String objectFile = "level" + levelNumber + "Objects.txt";
+
+        if (loader instanceof LevelLoaderImpl impl) {
+            this.level = impl.loadLevelWithObjects(baseFile, objectFile);
+        } else {
+            this.level = loader.loadLevel(baseFile); // fallback
+        }
+
         this.levelView = new LevelView(level.getPlayers(), level.getGameObjects());
         initPanel();
     }
 
     /**
      * Initializes the layout of the level.
-     * Marked final to avoid PMD "overridable method in constructor" warning.
      */
     private void initPanel() {
         super.add(this.levelView, BorderLayout.CENTER);
     }
 
     /**
-     * Restores transient fields after deserialization.
+     * Custom deserialization to handle transient fields after restoring the object.
      *
-     * @param in the input stram
-     * @throws IOException if an I/O error occurs
-     * @throws ClassNotFoundException if the class is not found
+     * @param in the ObjectInputStream used for deserialization
+     * @throws IOException if an I/O error occurs while reading the stream
+     * @throws ClassNotFoundException if a class required for deserialization cannot be found
      */
     private void readObject(final ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
@@ -54,14 +62,14 @@ public final class LevelScreen extends JPanel {
     }
 
     /**
-     * @return the Level instance associated with this screen.
+     * @return the level instance
      */
     public Level getLevel() {
         return this.level;
     }
 
     /**
-     * @return the LevelView instance.
+     * @return a new LevelView instance based on the current level
      */
     public LevelView getLevelView() {
         return new LevelView(this.level.getPlayers(), this.level.getGameObjects());

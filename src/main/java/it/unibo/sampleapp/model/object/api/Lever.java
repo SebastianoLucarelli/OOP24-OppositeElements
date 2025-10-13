@@ -19,5 +19,5 @@ public interface Lever extends GameObject {
     /**
      * @return the linked platform
      */
-    MovableIPlatform getLinkedPlatform();
+    GameObject getLinkedPlatform();
 }
