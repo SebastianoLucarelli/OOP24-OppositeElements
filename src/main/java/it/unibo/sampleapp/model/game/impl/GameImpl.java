@@ -72,7 +72,7 @@ public class GameImpl implements Game {
     }
 
     /**
-     * Checks collisions beetwen the player and all game objects.
+     * Checks collisions beetwen the player and the game objects.
      *
      * @param p the player to check collisions for
      */
