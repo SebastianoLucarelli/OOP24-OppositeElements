@@ -1,4 +1,4 @@
-package it.unibo.sampleapp.model.api;
+package it.unibo.sampleapp.model.object.api;
 
 import it.unibo.sampleapp.utils.api.Position;
 
@@ -42,4 +42,16 @@ public interface Player {
      * @return the type of this player
      */
     PlayerType getType();
+
+    /**
+     * @return true if the player is currently at the door
+     */
+    boolean isAtDoor();
+
+    /**
+     * Sets whether the player is currently at the door.
+     *
+     * @param atDoor true if the player is in contact with the door
+     */
+    void setAtDoor(boolean atDoor);
 }

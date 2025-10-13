@@ -164,4 +164,3 @@ public abstract class AbstractPlayer implements Player {
     }
 
 }
-
