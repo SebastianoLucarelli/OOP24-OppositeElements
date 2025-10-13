@@ -2,9 +2,12 @@ package it.unibo.sampleapp.view.impl;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.List;
+
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import it.unibo.sampleapp.model.object.api.GameObject;
@@ -15,11 +18,14 @@ import it.unibo.sampleapp.model.object.api.Player;
  */
 public class LevelView extends JPanel {
 
-    private static final Color BACKGROUND_COLOR = Color.BLACK;
+    //private static final Color BACKGROUND_COLOR = Color.BLACK;
     private static final Color PLAYER_COLOR = Color.RED;
     private static final Color OBJECT_COLOR = Color.GRAY;
 
     private static final long serialVersionUID = 1L;
+    private transient Image background;
+    private transient Image fireBoyImg;
+    private transient Image waterGirlImg;
     private transient List<Player> players;
     private transient List<GameObject> objects;
 
@@ -43,10 +49,21 @@ public class LevelView extends JPanel {
     }
 
     /**
+     * Loads the background image.
+     */
+    private void loadBackground() {
+        background = new ImageIcon(getClass().getClassLoader()
+            .getResource("img/BackgroundLevel.png")).getImage();
+    }
+
+    /**
      * Initializes the view.
      */
     private void initView() {
-        super.setBackground(BACKGROUND_COLOR);
+        loadBackground();
+        fireBoyImg = new ImageIcon(getClass().getClassLoader() .getResource("img/FireBoy.png")).getImage();
+        waterGirlImg = new ImageIcon(getClass().getClassLoader().getResource("img/WaterGirl.png")).getImage();
+        //super.setBackground(BACKGROUND_COLOR);
     }
 
     /**
@@ -68,6 +85,9 @@ public class LevelView extends JPanel {
     @Override
     protected void paintComponent(final Graphics g) {
         super.paintComponent(g);
+        if (background != null) {
+            g.drawImage(background, 0, 0, getWidth(), getHeight(), this);
+        }
         g.setColor(OBJECT_COLOR);
         for (final GameObject obj : objects) {
             g.fillRect(
@@ -79,11 +99,14 @@ public class LevelView extends JPanel {
         }
         g.setColor(PLAYER_COLOR);
         for (final Player p : players) {
-            g.fillRect(
+            final Image img = "FIRE".equals(p.getType().toString()) ? fireBoyImg : waterGirlImg;
+            g.drawImage(
+                img,
                 p.getPosition().getX(),
                 p.getPosition().getY(),
                 p.getWidth(),
-                p.getHeight()
+                p.getHeight(),
+                this
             );
         }
     }

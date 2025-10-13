@@ -16,13 +16,13 @@ import it.unibo.sampleapp.model.object.api.Player;
 import it.unibo.sampleapp.model.object.impl.ButtonImpl;
 import it.unibo.sampleapp.model.object.impl.DoorImpl;
 import it.unibo.sampleapp.model.object.impl.FanImpl;
-import it.unibo.sampleapp.model.object.impl.FireBoy;
+import it.unibo.sampleapp.model.object.impl.Fireboy;
 import it.unibo.sampleapp.model.object.impl.GemImpl;
 import it.unibo.sampleapp.model.object.impl.HazardImpl;
 import it.unibo.sampleapp.model.object.impl.LeverImpl;
 import it.unibo.sampleapp.model.object.impl.MovablePlatformImpl;
 import it.unibo.sampleapp.model.object.impl.PlatformImpl;
-import it.unibo.sampleapp.model.object.impl.WaterGirl;
+import it.unibo.sampleapp.model.object.impl.Watergirl;
 import it.unibo.sampleapp.utils.impl.PositionImpl;
 
 /**
@@ -57,10 +57,10 @@ public class LevelLoaderImpl implements LevelLoader {
 
                     switch (c) {
                         case 'F': 
-                            players.add(new FireBoy(x, y, TILE_SIZE, TILE_SIZE));
+                            players.add(new Fireboy(x, y, TILE_SIZE, TILE_SIZE));
                             break;
                         case 'W':
-                            players.add(new WaterGirl(x, y, TILE_SIZE, TILE_SIZE));
+                            players.add(new Watergirl(x, y, TILE_SIZE, TILE_SIZE));
                             break;
                         case 'P':
                             objects.add(new PlatformImpl(new PositionImpl(x, y), TILE_SIZE, TILE_SIZE));
