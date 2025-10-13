@@ -19,4 +19,9 @@ public interface Hazard extends GameObject {
      */
     HazardType getType();
 
+    /**
+     * @param player the player to check
+     * @return true if the hazard is safe for the player, false otherwise
+     */
+    boolean safeForPlayer(Player player);
 }

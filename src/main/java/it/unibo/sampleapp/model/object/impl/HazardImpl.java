@@ -1,6 +1,8 @@
 package it.unibo.sampleapp.model.object.impl;
 
 import it.unibo.sampleapp.model.object.api.Hazard;
+import it.unibo.sampleapp.model.object.api.Player;
+import it.unibo.sampleapp.model.object.api.PlayerType;
 import it.unibo.sampleapp.utils.api.Position;
 
 /**
@@ -29,5 +31,18 @@ public class HazardImpl extends AbstractGameObject implements Hazard {
     @Override
     public HazardType getType() {
         return this.type;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean safeForPlayer(final Player player) {
+        switch (this.type) {
+            case ACID: return false; 
+            case FIRE: return player.getType() == PlayerType.FIRE;
+            case WATER: return player.getType() == PlayerType.WATER;
+        }
+        return false;
     }
 }
