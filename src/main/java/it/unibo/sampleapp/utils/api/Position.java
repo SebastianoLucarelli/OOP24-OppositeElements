@@ -8,26 +8,26 @@ public interface Position {
     /**
      * @return the x of the current position
      */
-    int getX();
+    double getX();
 
     /**
      * @return the y of the current position
      */
-    int getY();
+    double getY();
 
     /**
      * Change and set the new coordinate x of the current position.
      *
      * @param x is the new coordinate
      */
-    void setX(int x);
+    void setX(double x);
 
     /**
      * Change and set the new coordinate y of the current position.
      *
      * @param y is the new coordinate
      */
-    void setY(int y);
+    void setY(double y);
 
     /**
      * Compares this position with another object.

@@ -9,7 +9,7 @@ import it.unibo.sampleapp.utils.api.Position;
  */
 public final class PositionImpl implements Position {
 
-    private Pair<Integer, Integer> position;
+    private Pair<Double, Double> position;
 
     /**
      * Create a position.
@@ -17,7 +17,7 @@ public final class PositionImpl implements Position {
      * @param x initial X coordinate
      * @param y initial Y coordinate
      */
-    public PositionImpl(final int x, final int y) {
+    public PositionImpl(final double x, final double y) {
         this.position = new Pair<>(x, y);
     }
 
@@ -25,7 +25,7 @@ public final class PositionImpl implements Position {
      * {@inheritDoc}
      */
     @Override
-    public int getX() {
+    public double getX() {
         return this.position.getX();
     }
 
@@ -33,7 +33,7 @@ public final class PositionImpl implements Position {
      * {@inheritDoc}
      */
     @Override
-    public int getY() {
+    public double getY() {
         return this.position.getY();
     }
 
@@ -43,9 +43,8 @@ public final class PositionImpl implements Position {
      * @param x new X coordinate
      */
     @Override
-    public void setX(final int x) {
-        final int newX = x;
-        this.position = new Pair<>(newX, this.position.getY());
+    public void setX(final double x) {
+        this.position = new Pair<>(x, this.position.getY());
     }
 
     /**
@@ -54,9 +53,8 @@ public final class PositionImpl implements Position {
      * @param y new Y coordinate
      */
     @Override
-    public void setY(final int y) {
-        final int newY = y;
-        this.position = new Pair<>(this.position.getX(), newY);
+    public void setY(final double y) {
+        this.position = new Pair<>(this.position.getX(), y);
     }
 
     /**
@@ -71,8 +69,8 @@ public final class PositionImpl implements Position {
             return false;
         }
         final Position other = (Position) obj;
-        return other.getX() == this.position.getX()
-            && other.getY() == this.position.getY();
+        return Double.compare(other.getX(), this.position.getX())== 0
+            && Double.compare(other.getY(), this.position.getY()) == 0;
     }
 
     /**

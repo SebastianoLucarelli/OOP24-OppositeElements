@@ -17,6 +17,8 @@ public abstract class AbstractPlayer implements Player {
     private static final double SPEED_MOVE = 200.0;
     private static final double SPEED_JUMP = -400.0;
     private static final double GRAVITY = 800.0;
+    private static final int SCREEN_WIDTH = 800;
+    private static final int SCREEN_HEIGHT = 540;
 
     private final Position position;
     private double speedX;
@@ -34,7 +36,7 @@ public abstract class AbstractPlayer implements Player {
      * @param width  player width
      * @param height player height
      */
-    public AbstractPlayer(final int startX, final int startY, final int width, final int height) {
+    public AbstractPlayer(final double startX, final double startY, final int width, final int height) {
         this.position = new PositionImpl(startX, startY);
         this.width = width;
         this.height = height;
@@ -149,7 +151,12 @@ public abstract class AbstractPlayer implements Player {
      * @param deltaTime time since last update
      */
     protected void horizontalMove(final double deltaTime) {
-        final int newX = (int) (position.getX() + speedX * deltaTime);
+        double newX = position.getX() + speedX * deltaTime;
+        if (newX < 0) {
+            newX = 0;
+        } else if (newX + width > SCREEN_WIDTH) {
+            newX = SCREEN_WIDTH - width;
+        }
         position.setX(newX);
     }
 
@@ -159,8 +166,31 @@ public abstract class AbstractPlayer implements Player {
      * @param deltaTime time since last update
      */
     protected void verticalMove(final double deltaTime) {
-        final int newY = (int) (position.getY() + speedY * deltaTime);
+        double newY = position.getY() + speedY * deltaTime;
+        if (newY + height >= SCREEN_HEIGHT) {
+            newY = SCREEN_HEIGHT - height;
+            speedY = 0;
+        }
         position.setY(newY);
     }
 
+    /**
+     * Stops vertical movement.
+     *
+     * @param newY the position where the player should stand
+     */
+    public void landOn(final double newY) {
+        position.setY(newY);
+        speedY = 0;
+        onFloor = true;
+    }
+
+    /**
+     * Sets whether the player is currently on the floor.
+     *
+     * @param onFloor true if the player is touching the ground, false otherwise
+     */
+    public void setOnFloor(final boolean onFloor) {
+        this.onFloor = onFloor;
+    }
 }
