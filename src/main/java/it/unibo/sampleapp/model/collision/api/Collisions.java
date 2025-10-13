@@ -5,6 +5,7 @@ import it.unibo.sampleapp.model.game.api.Game;
 /**
  * Represents a Collision event that can be handled in the game.
  */
+@FunctionalInterface
 public interface Collisions {
 
     /**
