@@ -63,6 +63,14 @@ public class GameEngineImpl implements GameEngine {
     }
 
     /**
+     * Used to start the correct level.
+     */
+    @Override
+    public void startLevel(int levelNumber) {
+        this.currentState = GameState.PLAYING;
+    }
+
+    /**
      * Initializes and displays the level selection screen.
      */
     private void showHomePanel() {
