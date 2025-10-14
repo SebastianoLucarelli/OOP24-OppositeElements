@@ -12,12 +12,14 @@ import java.util.Map;
 import it.unibo.sampleapp.model.level.api.Level;
 import it.unibo.sampleapp.model.level.api.LevelLoader;
 import it.unibo.sampleapp.model.object.api.GameObject;
+import it.unibo.sampleapp.model.object.api.Hazard.HazardType;
 import it.unibo.sampleapp.model.object.api.MovableIPlatform;
 import it.unibo.sampleapp.model.object.api.Player;
 import it.unibo.sampleapp.model.object.api.Door.DoorType;
 import it.unibo.sampleapp.model.object.impl.ButtonImpl;
 import it.unibo.sampleapp.model.object.impl.DoorImpl;
 import it.unibo.sampleapp.model.object.impl.Fireboy;
+import it.unibo.sampleapp.model.object.impl.HazardImpl;
 import it.unibo.sampleapp.model.object.impl.LeverImpl;
 import it.unibo.sampleapp.model.object.impl.MovablePlatformImpl;
 import it.unibo.sampleapp.model.object.impl.PlatformImpl;
@@ -35,6 +37,8 @@ public class LevelLoaderImpl implements LevelLoader {
     private static final int PLATFORM_HEIGHT_INDEX = 5;
     private static final int PLATFORM_DIRECTION_INDEX = 6;
     private static final int BUTTON_HEIGHT = 10;
+    private static final int HAZARD_HEIGHT = TILE_SIZE / 2;
+    private static final int HAZARD_WIDTH = TILE_SIZE * 2;
 
     /**
      * Loads only the base grid from a level file (e.g., platforms).
@@ -153,6 +157,17 @@ public class LevelLoaderImpl implements LevelLoader {
                         final int x = Integer.parseInt(tokens[1]);
                         final int y = Integer.parseInt(tokens[2]);
                         objects.add(new DoorImpl(new PositionImpl(x, y), TILE_SIZE, TILE_SIZE * 2, DoorType.WATER));
+                    }
+                    case "A", "X", "Y" -> {
+                        final int x = Integer.parseInt(tokens[1]);
+                        final int y = Integer.parseInt(tokens[2]);
+                        final HazardType hazardType = switch (type) {
+                            case "A" -> HazardType.ACID;
+                            case "X" -> HazardType.FIRE;
+                            case "Y" -> HazardType.WATER;
+                            default -> throw new IllegalArgumentException("Unknown hazard type: " + type);
+                        };
+                        objects.add(new HazardImpl(new PositionImpl(x, y), HAZARD_WIDTH, HAZARD_HEIGHT, hazardType));
                     }
                     default -> throw new IllegalArgumentException("Unknown object type: " + type);
                 }

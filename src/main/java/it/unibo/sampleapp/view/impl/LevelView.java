@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 
 import it.unibo.sampleapp.model.object.api.Door;
 import it.unibo.sampleapp.model.object.api.GameObject;
+import it.unibo.sampleapp.model.object.api.Hazard;
 import it.unibo.sampleapp.model.object.api.Player;
 
 /**
@@ -32,6 +33,9 @@ public class LevelView extends JPanel {
     private transient Image buttonImg;
     private transient Image fireDoorImg;
     private transient Image waterDoorImg;
+    private transient Image acidHazardImg;
+    private transient Image fireHazardImg;
+    private transient Image waterHazardImg;
     private transient List<Player> players;
     private transient List<GameObject> objects;
 
@@ -66,6 +70,10 @@ public class LevelView extends JPanel {
         buttonImg = new ImageIcon(getClass().getClassLoader().getResource("img/Button.png")).getImage();
         fireDoorImg = new ImageIcon(getClass().getClassLoader().getResource("img/FireDoor.png")).getImage();
         waterDoorImg = new ImageIcon(getClass().getClassLoader().getResource("img/WaterDoor.png")).getImage();
+        acidHazardImg = new ImageIcon(getClass().getClassLoader().getResource("img/AcidHazard.png")).getImage();
+        fireHazardImg = new ImageIcon(getClass().getClassLoader().getResource("img/FireHazard.png")).getImage();
+        waterHazardImg = new ImageIcon(getClass().getClassLoader().getResource("img/WaterHazard.png")).getImage();
+
     }
 
     /**
@@ -130,6 +138,22 @@ public class LevelView extends JPanel {
                         (int) Math.round(door.getPosition().getY()),
                         door.getWidth(),
                         door.getHeight(),
+                        this
+                    );
+                }
+                case "HazardImpl" -> {
+                    final Hazard hazard = (Hazard) obj;
+                    final Image img = switch (hazard.getType()) {
+                        case ACID -> acidHazardImg;
+                        case FIRE -> fireHazardImg;
+                        case WATER -> waterHazardImg;
+                    };
+                    g.drawImage(
+                        img,
+                        (int) Math.round(hazard.getPosition().getX()),
+                        (int) Math.round(hazard.getPosition().getY()),
+                        hazard.getWidth(),
+                        hazard.getHeight(),
                         this
                     );
                 }
