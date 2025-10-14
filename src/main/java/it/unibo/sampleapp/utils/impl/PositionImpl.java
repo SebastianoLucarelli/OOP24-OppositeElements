@@ -69,7 +69,7 @@ public final class PositionImpl implements Position {
             return false;
         }
         final Position other = (Position) obj;
-        return Double.compare(other.getX(), this.position.getX())== 0
+        return Double.compare(other.getX(), this.position.getX()) == 0
             && Double.compare(other.getY(), this.position.getY()) == 0;
     }
 

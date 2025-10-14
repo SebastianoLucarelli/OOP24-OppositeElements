@@ -86,8 +86,8 @@ public class LevelView extends JPanel {
             if ("PlatformImpl".equals(obj.getClass().getSimpleName())) {
                 g.drawImage(
                     platformImg,
-                    obj.getPosition().getX(),
-                    obj.getPosition().getY(),
+                    (int) Math.round(obj.getPosition().getX()),
+                    (int) Math.round(obj.getPosition().getY()),
                     obj.getWidth(),
                     obj.getHeight(),
                     this
@@ -95,8 +95,8 @@ public class LevelView extends JPanel {
             } else {
                 g.setColor(OBJECT_COLOR);
                 g.fillRect(
-                    obj.getPosition().getX(),
-                    obj.getPosition().getY(),
+                    (int) Math.round(obj.getPosition().getX()),
+                    (int) Math.round(obj.getPosition().getY()),
                     obj.getWidth(),
                     obj.getHeight()
                 );
@@ -107,8 +107,8 @@ public class LevelView extends JPanel {
             final Image img = "FIRE".equals(p.getType().toString()) ? fireBoyImg : waterGirlImg;
             g.drawImage(
                 img,
-                p.getPosition().getX(),
-                p.getPosition().getY(),
+                (int) Math.round(p.getPosition().getX()),
+                (int) Math.round(p.getPosition().getY()),
                 p.getWidth(),
                 p.getHeight(),
                 this
