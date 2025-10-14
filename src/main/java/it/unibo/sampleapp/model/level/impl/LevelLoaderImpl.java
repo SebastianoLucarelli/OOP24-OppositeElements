@@ -147,12 +147,12 @@ public class LevelLoaderImpl implements LevelLoader {
                     case "E" -> {
                         final int x = Integer.parseInt(tokens[1]);
                         final int y = Integer.parseInt(tokens[2]);
-                        objects.add(new DoorImpl(new PositionImpl(x, y), TILE_SIZE, TILE_SIZE, DoorType.FIRE));
+                        objects.add(new DoorImpl(new PositionImpl(x, y), TILE_SIZE, TILE_SIZE * 2, DoorType.FIRE));
                     }
                     case "Z" -> {
                         final int x = Integer.parseInt(tokens[1]);
                         final int y = Integer.parseInt(tokens[2]);
-                        objects.add(new DoorImpl(new PositionImpl(x, y), TILE_SIZE, TILE_SIZE, DoorType.WATER));
+                        objects.add(new DoorImpl(new PositionImpl(x, y), TILE_SIZE, TILE_SIZE * 2, DoorType.WATER));
                     }
                     default -> throw new IllegalArgumentException("Unknown object type: " + type);
                 }

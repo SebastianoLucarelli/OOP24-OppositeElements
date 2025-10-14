@@ -64,8 +64,8 @@ public class LevelView extends JPanel {
         platformImg = new ImageIcon(getClass().getClassLoader().getResource("img/Platform.png")).getImage();
         movablePlatformImg = new ImageIcon(getClass().getClassLoader().getResource("img/MovablePlatform.png")).getImage();
         buttonImg = new ImageIcon(getClass().getClassLoader().getResource("img/Button.png")).getImage();
-        fireDoorImg = new ImageIcon(getClass().getClassLoader().getResource("img/Home.png")).getImage();
-        waterDoorImg = new ImageIcon(getClass().getClassLoader().getResource("img/Home.png")).getImage();
+        fireDoorImg = new ImageIcon(getClass().getClassLoader().getResource("img/FireDoor.png")).getImage();
+        waterDoorImg = new ImageIcon(getClass().getClassLoader().getResource("img/WaterDoor.png")).getImage();
     }
 
     /**
