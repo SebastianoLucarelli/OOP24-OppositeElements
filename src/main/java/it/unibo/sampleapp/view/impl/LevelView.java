@@ -27,6 +27,8 @@ public class LevelView extends JPanel {
     private transient Image fireBoyImg;
     private transient Image waterGirlImg;
     private transient Image platformImg;
+    private transient Image movablePlatformImg;
+    private transient Image buttonImg;
     private transient List<Player> players;
     private transient List<GameObject> objects;
 
@@ -57,6 +59,8 @@ public class LevelView extends JPanel {
         fireBoyImg = new ImageIcon(getClass().getClassLoader() .getResource("img/FireBoy.png")).getImage();
         waterGirlImg = new ImageIcon(getClass().getClassLoader().getResource("img/WaterGirl.png")).getImage();
         platformImg = new ImageIcon(getClass().getClassLoader().getResource("img/Platform.png")).getImage();
+        movablePlatformImg = new ImageIcon(getClass().getClassLoader().getResource("img/MovablePlatform.png")).getImage();
+        buttonImg = new ImageIcon(getClass().getClassLoader().getResource("img/Button.png")).getImage();
     }
 
     /**
@@ -83,8 +87,9 @@ public class LevelView extends JPanel {
         }
         g.setColor(OBJECT_COLOR);
         for (final GameObject obj : objects) {
-            if ("PlatformImpl".equals(obj.getClass().getSimpleName())) {
-                g.drawImage(
+        final String className = obj.getClass().getSimpleName();
+            switch (className) {
+                case "PlatformImpl" -> g.drawImage(
                     platformImg,
                     (int) Math.round(obj.getPosition().getX()),
                     (int) Math.round(obj.getPosition().getY()),
@@ -92,9 +97,23 @@ public class LevelView extends JPanel {
                     obj.getHeight(),
                     this
                 );
-            } else {
-                g.setColor(OBJECT_COLOR);
-                g.fillRect(
+                case "MovablePlatformImpl" -> g.drawImage(
+                    movablePlatformImg,
+                    (int) Math.round(obj.getPosition().getX()),
+                    (int) Math.round(obj.getPosition().getY()),
+                    obj.getWidth(),
+                    obj.getHeight(),
+                    this
+                );
+                case "ButtonImpl" -> g.drawImage(
+                    buttonImg,
+                    (int) Math.round(obj.getPosition().getX()),
+                    (int) Math.round(obj.getPosition().getY()),
+                    obj.getWidth(),
+                    obj.getHeight(),
+                    this
+                );
+                default -> g.fillRect(
                     (int) Math.round(obj.getPosition().getX()),
                     (int) Math.round(obj.getPosition().getY()),
                     obj.getWidth(),

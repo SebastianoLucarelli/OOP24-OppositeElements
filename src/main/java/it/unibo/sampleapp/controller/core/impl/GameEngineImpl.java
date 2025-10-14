@@ -66,7 +66,7 @@ public class GameEngineImpl implements GameEngine {
      * Used to start the correct level.
      */
     @Override
-    public void startLevel(int levelNumber) {
+    public void startLevel(final int levelNumber) {
         this.currentState = GameState.PLAYING;
     }
 

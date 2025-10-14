@@ -32,6 +32,7 @@ public class LevelLoaderImpl implements LevelLoader {
     private static final int PLATFORM_WIDTH_INDEX = 4;
     private static final int PLATFORM_HEIGHT_INDEX = 5;
     private static final int PLATFORM_DIRECTION_INDEX = 6;
+    private static final int BUTTON_HEIGHT = 10;
 
     /**
      * Loads only the base grid from a level file (e.g., platforms).
@@ -128,7 +129,7 @@ public class LevelLoaderImpl implements LevelLoader {
                             throw new IllegalStateException("Missing target: " + targetId);
                         }
                         final MovableIPlatform finaltarget = (MovableIPlatform) target;
-                        objects.add(new ButtonImpl(new PositionImpl(x, y), TILE_SIZE, TILE_SIZE, finaltarget));
+                        objects.add(new ButtonImpl(new PositionImpl(x, y), TILE_SIZE, BUTTON_HEIGHT, finaltarget));
                     }
                     case "L" -> {
                         final int x = Integer.parseInt(tokens[1]);
