@@ -93,11 +93,11 @@ public class MovablePlatformImpl extends AbstractGameObject implements MovableIP
      * @param destination contains the destination position of the platform, where it has to go
      */
     private void update(final Position currentPosition, final Position destination) {
-        final int dx = destination.getX() - currentPosition.getX(); 
-        final int dy = destination.getY() - currentPosition.getY();
+        final double dx = destination.getX() - currentPosition.getX(); 
+        final double dy = destination.getY() - currentPosition.getY();
 
-        int stepX = 0;
-        int stepY = 0;
+        double stepX = 0;
+        double stepY = 0;
 
         if (dx != 0) {
             stepX = (dx > 0) ? Math.min(stepSize, dx) : Math.max(-stepSize, dx);

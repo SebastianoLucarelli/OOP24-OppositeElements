@@ -12,6 +12,7 @@ import java.util.Map;
 import it.unibo.sampleapp.model.level.api.Level;
 import it.unibo.sampleapp.model.level.api.LevelLoader;
 import it.unibo.sampleapp.model.object.api.GameObject;
+import it.unibo.sampleapp.model.object.api.MovableIPlatform;
 import it.unibo.sampleapp.model.object.api.Player;
 import it.unibo.sampleapp.model.object.impl.ButtonImpl;
 import it.unibo.sampleapp.model.object.impl.Fireboy;
@@ -126,7 +127,8 @@ public class LevelLoaderImpl implements LevelLoader {
                         if (target == null) {
                             throw new IllegalStateException("Missing target: " + targetId);
                         }
-                        objects.add(new ButtonImpl(new PositionImpl(x, y), TILE_SIZE, TILE_SIZE, target));
+                        final MovableIPlatform finaltarget = (MovableIPlatform) target;
+                        objects.add(new ButtonImpl(new PositionImpl(x, y), TILE_SIZE, TILE_SIZE, finaltarget));
                     }
                     case "L" -> {
                         final int x = Integer.parseInt(tokens[1]);
@@ -136,7 +138,8 @@ public class LevelLoaderImpl implements LevelLoader {
                         if (target == null) {
                             throw new IllegalStateException("Missing target: " + targetId);
                         }
-                        objects.add(new LeverImpl(new PositionImpl(x, y), TILE_SIZE, TILE_SIZE, target));
+                        final MovableIPlatform finaltarget = (MovableIPlatform) target;
+                        objects.add(new LeverImpl(new PositionImpl(x, y), TILE_SIZE, TILE_SIZE, finaltarget));
                     }
                     default -> throw new IllegalArgumentException("Unknown object type: " + type);
                 }
