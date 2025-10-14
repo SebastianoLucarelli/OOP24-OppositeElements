@@ -14,7 +14,9 @@ import it.unibo.sampleapp.model.level.api.LevelLoader;
 import it.unibo.sampleapp.model.object.api.GameObject;
 import it.unibo.sampleapp.model.object.api.MovableIPlatform;
 import it.unibo.sampleapp.model.object.api.Player;
+import it.unibo.sampleapp.model.object.api.Door.DoorType;
 import it.unibo.sampleapp.model.object.impl.ButtonImpl;
+import it.unibo.sampleapp.model.object.impl.DoorImpl;
 import it.unibo.sampleapp.model.object.impl.Fireboy;
 import it.unibo.sampleapp.model.object.impl.LeverImpl;
 import it.unibo.sampleapp.model.object.impl.MovablePlatformImpl;
@@ -141,6 +143,16 @@ public class LevelLoaderImpl implements LevelLoader {
                         }
                         final MovableIPlatform finaltarget = (MovableIPlatform) target;
                         objects.add(new LeverImpl(new PositionImpl(x, y), TILE_SIZE, TILE_SIZE, finaltarget));
+                    }
+                    case "E" -> {
+                        final int x = Integer.parseInt(tokens[1]);
+                        final int y = Integer.parseInt(tokens[2]);
+                        objects.add(new DoorImpl(new PositionImpl(x, y), TILE_SIZE, TILE_SIZE, DoorType.FIRE));
+                    }
+                    case "Z" -> {
+                        final int x = Integer.parseInt(tokens[1]);
+                        final int y = Integer.parseInt(tokens[2]);
+                        objects.add(new DoorImpl(new PositionImpl(x, y), TILE_SIZE, TILE_SIZE, DoorType.WATER));
                     }
                     default -> throw new IllegalArgumentException("Unknown object type: " + type);
                 }

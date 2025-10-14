@@ -10,6 +10,7 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+import it.unibo.sampleapp.model.object.api.Door;
 import it.unibo.sampleapp.model.object.api.GameObject;
 import it.unibo.sampleapp.model.object.api.Player;
 
@@ -29,6 +30,8 @@ public class LevelView extends JPanel {
     private transient Image platformImg;
     private transient Image movablePlatformImg;
     private transient Image buttonImg;
+    private transient Image fireDoorImg;
+    private transient Image waterDoorImg;
     private transient List<Player> players;
     private transient List<GameObject> objects;
 
@@ -61,6 +64,8 @@ public class LevelView extends JPanel {
         platformImg = new ImageIcon(getClass().getClassLoader().getResource("img/Platform.png")).getImage();
         movablePlatformImg = new ImageIcon(getClass().getClassLoader().getResource("img/MovablePlatform.png")).getImage();
         buttonImg = new ImageIcon(getClass().getClassLoader().getResource("img/Button.png")).getImage();
+        fireDoorImg = new ImageIcon(getClass().getClassLoader().getResource("img/Home.png")).getImage();
+        waterDoorImg = new ImageIcon(getClass().getClassLoader().getResource("img/Home.png")).getImage();
     }
 
     /**
@@ -113,6 +118,21 @@ public class LevelView extends JPanel {
                     obj.getHeight(),
                     this
                 );
+                case "DoorImpl" -> {
+                    final Door door = (Door) obj;
+                    final Image img = switch (door.getType()) {
+                        case FIRE -> fireDoorImg;
+                        case WATER -> waterDoorImg;
+                    };
+                    g.drawImage(
+                        img,
+                        (int) Math.round(door.getPosition().getX()),
+                        (int) Math.round(door.getPosition().getY()),
+                        door.getWidth(),
+                        door.getHeight(),
+                        this
+                    );
+                }
                 default -> g.fillRect(
                     (int) Math.round(obj.getPosition().getX()),
                     (int) Math.round(obj.getPosition().getY()),
