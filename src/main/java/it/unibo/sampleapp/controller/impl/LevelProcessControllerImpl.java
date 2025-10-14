@@ -34,7 +34,7 @@ public class LevelProcessControllerImpl implements LevelProcessController {
     public void levelSelected(final int index) {
         final LevelState state = levelProcess.getLevelState(index);
         if (state == LevelState.UNLOCKED || state == LevelState.COMPLETED) {
-            engine.changeState(GameState.PLAYING);
+            engine.startLevel(index + 1);
         }
     }
 

@@ -18,4 +18,11 @@ public interface GameEngine {
      * @param state the new state
      */
     void changeState(GameState state);
+
+    /**
+     * Method used to start the correct level.
+     *
+     * @param levelNumber level that must be loaded
+     */
+    void startLevel(int levelNumber);
 }

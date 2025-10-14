@@ -62,6 +62,11 @@ public class GameEngineImpl implements GameEngine {
         gameLoop();
     }
 
+    @Override
+    public void startLevel(int levelNumber) {
+        this.currentState = GameState.PLAYING;
+    }
+
     /**
      * Initializes and displays the level selection screen.
      */
