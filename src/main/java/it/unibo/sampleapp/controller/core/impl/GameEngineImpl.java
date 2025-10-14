@@ -62,6 +62,9 @@ public class GameEngineImpl implements GameEngine {
         gameLoop();
     }
 
+    /**
+     * Used to start the correct level.
+     */
     @Override
     public void startLevel(int levelNumber) {
         this.currentState = GameState.PLAYING;
