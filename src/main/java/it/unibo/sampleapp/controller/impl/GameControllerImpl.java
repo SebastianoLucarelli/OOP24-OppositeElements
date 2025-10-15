@@ -8,7 +8,7 @@ import it.unibo.sampleapp.view.impl.LevelView;
 /**
  * Implements the game controller and manages the level loop.
  */
-public class GameControllerImpl implements GameController, Runnable{
+public class GameControllerImpl implements GameController, Runnable {
 
     private static final int FPS = 60;
     private static final double FRAME_TIME = 1.0 / FPS;
@@ -20,15 +20,19 @@ public class GameControllerImpl implements GameController, Runnable{
     private Thread levelLoopThread;
     private boolean running;
 
+    private final PlayerControllerImpl playerController;
+
     /**
      * Builds the controller with game and view.
      *
      * @param game the game
      * @param levelView the view of the level
+     * @param playerController the controller of players
      */
-    public GameControllerImpl(final Game game, final LevelView levelView) {
+    public GameControllerImpl(final Game game, final LevelView levelView, final PlayerControllerImpl playerController) {
         this.game = game;
         this.levelView = levelView;
+        this.playerController = playerController;
     }
 
     /**
@@ -80,11 +84,12 @@ public class GameControllerImpl implements GameController, Runnable{
         long lastTime = System.nanoTime();
 
         while (running) {
-            long now = System.nanoTime();
-            double deltaTime = (now - lastTime) / NANOSECONDS_IN_SECONDS;
+            final long now = System.nanoTime();
+            final double deltaTime = (now - lastTime) / NANOSECONDS_IN_SECONDS;
             lastTime = now;
 
             if (game.getCurrentGameState() == GameState.PLAYING) {
+                playerController.inputProcess();
                 game.update(deltaTime);
                 levelView.repaint();
             }
@@ -95,7 +100,7 @@ public class GameControllerImpl implements GameController, Runnable{
 
             try {
                 Thread.sleep((long) (FRAME_TIME * 1000));
-            } catch (InterruptedException e) {
+            } catch (final InterruptedException e) {
                 Thread.currentThread().interrupt();
                 break;
             }

@@ -5,12 +5,12 @@ import it.unibo.sampleapp.controller.core.api.GameEngine;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import it.unibo.sampleapp.controller.api.GameController;
 import it.unibo.sampleapp.controller.api.HomeController;
 import it.unibo.sampleapp.controller.api.LevelProcessController;
 import it.unibo.sampleapp.controller.impl.GameControllerImpl;
 import it.unibo.sampleapp.controller.impl.HomeControllerImpl;
 import it.unibo.sampleapp.controller.impl.LevelProcessControllerImpl;
+import it.unibo.sampleapp.controller.impl.PlayerControllerImpl;
 import it.unibo.sampleapp.model.api.LevelProcess;
 import it.unibo.sampleapp.model.game.GameState;
 import it.unibo.sampleapp.model.game.api.Game;
@@ -18,6 +18,8 @@ import it.unibo.sampleapp.model.game.impl.GameImpl;
 import it.unibo.sampleapp.model.impl.LevelProcessImpl;
 import it.unibo.sampleapp.model.level.api.LevelLoader;
 import it.unibo.sampleapp.model.level.impl.LevelLoaderImpl;
+import it.unibo.sampleapp.model.object.impl.Fireboy;
+import it.unibo.sampleapp.model.object.impl.Watergirl;
 import it.unibo.sampleapp.view.impl.HomePanel;
 import it.unibo.sampleapp.view.impl.LevelProcessView;
 import it.unibo.sampleapp.view.impl.LevelScreen;
@@ -93,10 +95,20 @@ public class GameEngineImpl implements GameEngine {
         final Game game = new GameImpl(levelScreen.getLevel());
         final LevelView levelView = levelScreen.getLevelView();
 
-        final GameController gameController = new GameControllerImpl(game, levelView);
+        final Fireboy fireboy = (Fireboy) game.getPlayers().stream()
+            .filter(p -> p instanceof Fireboy).findFirst().orElseThrow();
+        final Watergirl watergirl = (Watergirl) game.getPlayers().stream()
+            .filter(p -> p instanceof Watergirl).findFirst().orElseThrow();
+
+        final PlayerControllerImpl playerController = new PlayerControllerImpl(fireboy, watergirl);
+        levelView.addKeyListener(playerController);
+        levelView.setFocusable(true);
+        levelView.requestFocusInWindow();
+
+        final GameControllerImpl gameController = new GameControllerImpl(game, levelView, playerController);
 
         showPanel(levelView);
-        gameController.start();
+        new Thread(gameController).start();
     }
 
     /**
