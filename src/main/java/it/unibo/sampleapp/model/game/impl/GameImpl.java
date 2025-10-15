@@ -25,6 +25,8 @@ import it.unibo.sampleapp.model.object.api.Player;
  */
 public class GameImpl implements Game {
 
+    private static final int TIME_LIMIT_PER_LEVEL = 60;
+
     private final List<GameObject> gameObjects;
     private final List<Player> players;
 
@@ -57,7 +59,7 @@ public class GameImpl implements Game {
         this.totalGems = countGem;
         this.collectedGems = 0;
 
-        this.timeLimitPerLevel = 60;
+        this.timeLimitPerLevel = TIME_LIMIT_PER_LEVEL;
         timer.start();
     }
 

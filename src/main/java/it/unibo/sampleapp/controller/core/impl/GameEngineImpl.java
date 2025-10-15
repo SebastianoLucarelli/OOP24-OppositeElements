@@ -5,15 +5,23 @@ import it.unibo.sampleapp.controller.core.api.GameEngine;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import it.unibo.sampleapp.controller.api.GameController;
 import it.unibo.sampleapp.controller.api.HomeController;
 import it.unibo.sampleapp.controller.api.LevelProcessController;
+import it.unibo.sampleapp.controller.impl.GameControllerImpl;
 import it.unibo.sampleapp.controller.impl.HomeControllerImpl;
 import it.unibo.sampleapp.controller.impl.LevelProcessControllerImpl;
 import it.unibo.sampleapp.model.api.LevelProcess;
 import it.unibo.sampleapp.model.game.GameState;
+import it.unibo.sampleapp.model.game.api.Game;
+import it.unibo.sampleapp.model.game.impl.GameImpl;
 import it.unibo.sampleapp.model.impl.LevelProcessImpl;
+import it.unibo.sampleapp.model.level.api.LevelLoader;
+import it.unibo.sampleapp.model.level.impl.LevelLoaderImpl;
 import it.unibo.sampleapp.view.impl.HomePanel;
 import it.unibo.sampleapp.view.impl.LevelProcessView;
+import it.unibo.sampleapp.view.impl.LevelScreen;
+import it.unibo.sampleapp.view.impl.LevelView;
 
 /**
  * The gameEngine implementation.
@@ -21,7 +29,7 @@ import it.unibo.sampleapp.view.impl.LevelProcessView;
 public class GameEngineImpl implements GameEngine {
 
     private static final int WIDTH = 800;
-    private static final int HEIGHT = 544;
+    private static final int HEIGHT = 612;
 
     private GameState currentState;
     private final LevelProcess levelProcess;
@@ -49,6 +57,7 @@ public class GameEngineImpl implements GameEngine {
         switch (currentState) {
             case HOME -> showHomePanel();
             case LEVEL_SELECTION -> showLevelSelection();
+            case PLAYING -> System.out.println("Game is running");
             default -> throw new IllegalArgumentException("Unexpected value: " + currentState);
         }
     }
@@ -68,6 +77,17 @@ public class GameEngineImpl implements GameEngine {
     @Override
     public void startLevel(final int levelNumber) {
         this.currentState = GameState.PLAYING;
+
+        final LevelLoader levelLoader = new LevelLoaderImpl();
+        final LevelScreen levelScreen = new LevelScreen(levelNumber, levelLoader);
+
+        final Game game = new GameImpl(levelScreen.getLevel());
+        final LevelView levelView = levelScreen.getLevelView();
+
+        final GameController gameController = new GameControllerImpl(game, levelView);
+
+        showPanel(levelView);
+        gameController.start();
     }
 
     /**
