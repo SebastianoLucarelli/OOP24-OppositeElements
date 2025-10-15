@@ -8,10 +8,13 @@ import java.io.ObjectInputStream;
 import java.util.List;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import it.unibo.sampleapp.model.object.api.Door;
 import it.unibo.sampleapp.model.object.api.GameObject;
+import it.unibo.sampleapp.model.object.api.Gem;
 import it.unibo.sampleapp.model.object.api.Hazard;
 import it.unibo.sampleapp.model.object.api.Player;
 
@@ -23,6 +26,7 @@ public class LevelView extends JPanel {
     //private static final Color BACKGROUND_COLOR = Color.BLACK;
     private static final Color PLAYER_COLOR = Color.RED;
     private static final Color OBJECT_COLOR = Color.GRAY;
+    private static final int PAUSE_DIMENSION = 50;
 
     private static final long serialVersionUID = 1L;
     private transient Image background;
@@ -36,6 +40,9 @@ public class LevelView extends JPanel {
     private transient Image acidHazardImg;
     private transient Image fireHazardImg;
     private transient Image waterHazardImg;
+    private transient Image gemFireImg;
+    private transient Image gemWaterImg;
+    private transient Image pauseImg;
     private transient List<Player> players;
     private transient List<GameObject> objects;
 
@@ -56,6 +63,7 @@ public class LevelView extends JPanel {
         this.players = List.copyOf(players);
         this.objects = List.copyOf(objects);
         initView();
+        SwingUtilities.invokeLater(this::addPauseButton);
     }
 
     /**
@@ -73,7 +81,9 @@ public class LevelView extends JPanel {
         acidHazardImg = new ImageIcon(getClass().getClassLoader().getResource("img/AcidHazard.png")).getImage();
         fireHazardImg = new ImageIcon(getClass().getClassLoader().getResource("img/FireHazard.png")).getImage();
         waterHazardImg = new ImageIcon(getClass().getClassLoader().getResource("img/WaterHazard.png")).getImage();
-
+        gemFireImg = new ImageIcon(getClass().getClassLoader().getResource("img/FireGem.png")).getImage();
+        gemWaterImg = new ImageIcon(getClass().getClassLoader().getResource("img/WaterGem.png")).getImage();
+        pauseImg = new ImageIcon(getClass().getClassLoader().getResource("img/Home.png")).getImage();
     }
 
     /**
@@ -157,6 +167,21 @@ public class LevelView extends JPanel {
                         this
                     );
                 }
+                case "GemImpl" -> {
+                    final Gem gem = (Gem) obj;
+                    final Image img = switch (gem.getType()) {
+                        case FIRE -> gemFireImg;
+                        case WATER -> gemWaterImg;
+                    };
+                    g.drawImage(
+                        img,
+                        (int) Math.round(gem.getPosition().getX()),
+                        (int) Math.round(gem.getPosition().getY()),
+                        gem.getWidth(),
+                        gem.getHeight(),
+                        this
+                    );
+                }
                 default -> g.fillRect(
                     (int) Math.round(obj.getPosition().getX()),
                     (int) Math.round(obj.getPosition().getY()),
@@ -178,4 +203,19 @@ public class LevelView extends JPanel {
             );
         }
     }
+
+    private void addPauseButton() {
+        setLayout(null);
+        final Image scaled = pauseImg.getScaledInstance(PAUSE_DIMENSION, PAUSE_DIMENSION, Image.SCALE_SMOOTH);
+        final JButton pauseButton = new JButton(new ImageIcon(scaled));
+        pauseButton.setBorderPainted(false);
+        pauseButton.setContentAreaFilled(false);
+        pauseButton.setFocusPainted(false);
+        pauseButton.setBounds(0, 0, PAUSE_DIMENSION, PAUSE_DIMENSION); 
+        pauseButton.addActionListener(e -> {
+            //we'll go to implement that tomorrow
+        });
+        add(pauseButton);
+    }
+
 }
