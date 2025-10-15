@@ -10,9 +10,9 @@ public interface Player {
     /**
      * Process controller commands.
      *
-     * @param left if the player has move to left
+     * @param left  if the player has move to left
      * @param right if the player has move to right
-     * @param jump if the player has to jump
+     * @param jump  if the player has to jump
      */
     void input(boolean left, boolean right, boolean jump);
 
@@ -54,4 +54,15 @@ public interface Player {
      * @param atDoor true if the player is in contact with the door
      */
     void setAtDoor(boolean atDoor);
+
+    /**
+     * @return the current direction
+     */
+    String getDirection();
+
+    /**
+     * @return the current aniamtion frame number
+     */
+    int getFrameNum();
+
 }

@@ -11,6 +11,7 @@ import it.unibo.sampleapp.utils.impl.PositionImpl;
  * - speed and gravity
  * - jump
  * - movement
+ * - animation
  */
 public abstract class AbstractPlayer implements Player {
 
@@ -19,6 +20,11 @@ public abstract class AbstractPlayer implements Player {
     private static final double GRAVITY = 800.0;
     private static final int SCREEN_WIDTH = 800;
     private static final int SCREEN_HEIGHT = 540;
+    private static final double FRAME_TIME = 0.15;
+
+    private static final String DIRECTION_LEFT = "left";
+    private static final String DIRECTION_RIGHT = "right";
+    private static final String DIRECTION_FRONT = "front";
 
     private final Position position;
     private double speedX;
@@ -27,6 +33,9 @@ public abstract class AbstractPlayer implements Player {
     private final int height;
     private boolean onFloor;
     private boolean atDoor;
+    private String direction = "front";
+    private int frameNum = 1;
+    private double animationTimer;
 
     /**
      * Constructor for AbstractPlayer.
@@ -56,10 +65,13 @@ public abstract class AbstractPlayer implements Player {
     public void input(final boolean left, final boolean right, final boolean jump) {
         if (left && !right) {
             speedX = -SPEED_MOVE;
+            direction = DIRECTION_LEFT;
         } else if (right && !left) {
             speedX = SPEED_MOVE;
+            direction = DIRECTION_RIGHT;
         } else {
             speedX = 0.0;
+            direction = DIRECTION_FRONT;
         }
 
         if (jump && onFloor) {
@@ -78,6 +90,7 @@ public abstract class AbstractPlayer implements Player {
         gravityApply(deltaTime);
         horizontalMove(deltaTime);
         verticalMove(deltaTime);
+        animate(deltaTime);
     }
 
     /**
@@ -85,7 +98,7 @@ public abstract class AbstractPlayer implements Player {
      */
     @Override
     public int getHeight() {
-        return height;
+        return this.height;
     }
 
     /**
@@ -101,7 +114,7 @@ public abstract class AbstractPlayer implements Player {
      */
     @Override
     public int getWidth() {
-        return width;
+        return this.width;
     }
 
     /**
@@ -109,7 +122,7 @@ public abstract class AbstractPlayer implements Player {
      */
     @Override
     public boolean isAtDoor() {
-        return atDoor;
+        return this.atDoor;
     }
 
     /**
@@ -123,17 +136,33 @@ public abstract class AbstractPlayer implements Player {
     }
 
     /**
+     * @return the current direction
+     */
+    @Override
+    public String getDirection() {
+        return this.direction;
+    }
+
+    /**
+     * @return the current aniamtion frame number
+     */
+    @Override
+    public int getFrameNum() {
+        return this.frameNum;
+    }
+
+    /**
      * @return the horizontal speed
      */
     public double getSpeedX() {
-        return speedX;
+        return this.speedX;
     }
 
     /**
      * @return true if the player is on the floor
      */
     public boolean isOnFloor() {
-        return onFloor;
+        return this.onFloor;
     }
 
     /**
@@ -142,7 +171,7 @@ public abstract class AbstractPlayer implements Player {
      * @param deltaTime time since last update
      */
     protected void gravityApply(final double deltaTime) {
-        speedY += GRAVITY * deltaTime;
+        this.speedY += GRAVITY * deltaTime;
     }
 
     /**
@@ -151,13 +180,13 @@ public abstract class AbstractPlayer implements Player {
      * @param deltaTime time since last update
      */
     protected void horizontalMove(final double deltaTime) {
-        double newX = position.getX() + speedX * deltaTime;
+        double newX = this.position.getX() + this.speedX * deltaTime;
         if (newX < 0) {
             newX = 0;
-        } else if (newX + width > SCREEN_WIDTH) {
-            newX = SCREEN_WIDTH - width;
+        } else if (newX + this.width > SCREEN_WIDTH) {
+            newX = SCREEN_WIDTH - this.width;
         }
-        position.setX(newX);
+        this.position.setX(newX);
     }
 
     /**
@@ -166,12 +195,12 @@ public abstract class AbstractPlayer implements Player {
      * @param deltaTime time since last update
      */
     protected void verticalMove(final double deltaTime) {
-        double newY = position.getY() + speedY * deltaTime;
-        if (newY + height >= SCREEN_HEIGHT) {
-            newY = SCREEN_HEIGHT - height;
+        double newY = position.getY() + this.speedY * deltaTime;
+        if (newY + this.height >= SCREEN_HEIGHT) {
+            newY = SCREEN_HEIGHT - this.height;
             speedY = 0;
         }
-        position.setY(newY);
+        this.position.setY(newY);
     }
 
     /**
@@ -180,9 +209,9 @@ public abstract class AbstractPlayer implements Player {
      * @param newY the position where the player should stand
      */
     public void landOn(final double newY) {
-        position.setY(newY);
-        speedY = 0;
-        onFloor = true;
+        this.position.setY(newY);
+        this.speedY = 0;
+        this.onFloor = true;
     }
 
     /**
@@ -192,5 +221,22 @@ public abstract class AbstractPlayer implements Player {
      */
     public void setOnFloor(final boolean onFloor) {
         this.onFloor = onFloor;
+    }
+
+    /**
+     * Handles animation frame changes based on direction and time.
+     *
+     * @param deltaTime time since last update
+     */
+    private void animate(final double deltaTime) {
+        if (!direction.equals(this.direction)) {
+            this.animationTimer += deltaTime;
+            if (animationTimer >= FRAME_TIME) {
+                this.frameNum = (this.frameNum == 1) ? 2 : 1;
+                this.animationTimer = 0;
+            }
+        } else {
+            this.frameNum = 1;
+        }
     }
 }
