@@ -26,4 +26,11 @@ public interface PlayerController {
      * @param e key release event
      */
     void keyReleased(KeyEvent e);
+
+    /**
+     * KeyListener method.
+     *
+     * @param e e
+     */
+    void keyTyped(KeyEvent e);
 }

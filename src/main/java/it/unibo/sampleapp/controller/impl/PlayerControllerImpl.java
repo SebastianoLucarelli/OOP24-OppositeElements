@@ -1,6 +1,8 @@
 package it.unibo.sampleapp.controller.impl;
 
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
 import it.unibo.sampleapp.model.object.impl.Fireboy;
 import it.unibo.sampleapp.model.object.impl.Watergirl;
 import it.unibo.sampleapp.controller.api.PlayerController;
@@ -8,7 +10,7 @@ import it.unibo.sampleapp.controller.api.PlayerController;
 /**
  * Controller implementation that handles Fireboy and Watergirl inputs.
  */
-public class PlayerControllerImpl implements PlayerController {
+public class PlayerControllerImpl implements PlayerController, KeyListener {
 
     private final Fireboy fireboy;
     private final Watergirl watergirl;
@@ -99,5 +101,14 @@ public class PlayerControllerImpl implements PlayerController {
             default:
                 break;
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void keyTyped(final KeyEvent e) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'keyTyped'");
     }
 }

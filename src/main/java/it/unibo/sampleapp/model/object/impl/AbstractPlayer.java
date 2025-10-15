@@ -229,14 +229,14 @@ public abstract class AbstractPlayer implements Player {
      * @param deltaTime time since last update
      */
     private void animate(final double deltaTime) {
-        if (!direction.equals(this.direction)) {
-            this.animationTimer += deltaTime;
+        if (!direction.equals(direction)) {
+            animationTimer += deltaTime;
             if (animationTimer >= FRAME_TIME) {
-                this.frameNum = (this.frameNum == 1) ? 2 : 1;
-                this.animationTimer = 0;
+                frameNum = (frameNum == 1) ? 2 : 1;
+                animationTimer = 0;
             }
         } else {
-            this.frameNum = 1;
+            frameNum = 1;
         }
     }
 }
