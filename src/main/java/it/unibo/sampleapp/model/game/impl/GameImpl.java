@@ -8,6 +8,8 @@ import it.unibo.sampleapp.model.collision.impl.CollisionFactoryImpl;
 import it.unibo.sampleapp.model.collision.impl.CollisionQueue;
 import it.unibo.sampleapp.model.game.GameState;
 import it.unibo.sampleapp.model.game.api.Game;
+import it.unibo.sampleapp.model.api.Timer;
+import it.unibo.sampleapp.model.impl.TimerImpl;
 import it.unibo.sampleapp.model.level.api.Level;
 import it.unibo.sampleapp.model.object.api.Button;
 import it.unibo.sampleapp.model.object.api.Door;
@@ -34,6 +36,9 @@ public class GameImpl implements Game {
     private final int totalGems;
     private int collectedGems;
 
+    private final Timer timer = new TimerImpl();
+    private final long timeLimitPerLevel;
+
     /**
      * Builds a new GameImpl instance from a given level.
      *
@@ -51,6 +56,9 @@ public class GameImpl implements Game {
         }
         this.totalGems = countGem;
         this.collectedGems = 0;
+
+        this.timeLimitPerLevel = 60;
+        timer.start();
     }
 
     /**
@@ -134,11 +142,42 @@ public class GameImpl implements Game {
     }
 
     /**
+     * Check if the time target is passed.
+     */
+    @Override
+    public boolean isTimerObjectiveReached() {
+        final long totalTime = timer.getTotalDurationSeconds();
+        return totalTime <= timeLimitPerLevel;
+    }
+
+    /**
      * Removes a game object from the level.
      */
     @Override
     public void removeObject(final GameObject object) {
         this.gameObjects.remove(object);
+    }
+
+    /**
+     * Pauses the level, also stopping the timer.
+     */
+    @Override
+    public void pauseLevel() {
+        if (this.currenState == GameState.PLAYING) {
+            this.currenState = GameState.PAUSE;
+            this.timer.stop();
+        }
+    }
+
+    /**
+     * Resumes the level, also restoring the timer.
+     */
+    @Override
+    public void resumeLevel() {
+        if (this.currenState == GameState.PAUSE) {
+            this.currenState = GameState.PLAYING;
+            this.timer.start();
+        }
     }
 
     /**
@@ -148,6 +187,7 @@ public class GameImpl implements Game {
     public void checkLevelWin() {
         final boolean allAtDoor = players.stream().allMatch(Player::isAtDoor);
         if (allAtDoor) {
+            timer.stop();
             this.currenState = GameState.LEVEL_COMPLETED;
         }
     }
@@ -174,5 +214,13 @@ public class GameImpl implements Game {
     @Override
     public List<Player> getPlayers() {
         return new ArrayList<>(this.players);
+    }
+
+    /**
+     * Returns the current GameState.
+     */
+    @Override
+    public GameState getCurrentGameState() {
+        return this.currenState;
     }
 }

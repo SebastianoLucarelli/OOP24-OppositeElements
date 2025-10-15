@@ -2,6 +2,7 @@ package it.unibo.sampleapp.model.game.api;
 
 import java.util.List;
 
+import it.unibo.sampleapp.model.game.GameState;
 import it.unibo.sampleapp.model.object.api.GameObject;
 import it.unibo.sampleapp.model.object.api.Player;
 
@@ -31,11 +32,28 @@ public interface Game {
     boolean areAllGemsCollected();
 
     /**
+     * Used to check whether the time taken to complete the level is less than, equal to, or greater than the limit time.
+     *
+     * @return true if the target has been passed, false otherwise
+     */
+    boolean isTimerObjectiveReached();
+
+    /**
      * Remove an object from the level due to a specific collision. 
      *
      * @param object the object that must be removed
      */
     void removeObject(GameObject object);
+
+    /**
+     * Pauses the level you are playing.
+     */
+    void pauseLevel();
+
+    /**
+     * Resumes the level you are playing.
+     */
+    void resumeLevel();
 
     /**
      * Check if the level is completed, i.e. if both players are in front of the correct door.
@@ -56,4 +74,9 @@ public interface Game {
      * @return the list of the players
      */
     List<Player> getPlayers();
+
+    /**
+     * @return the current GameState
+     */
+    GameState getCurrentGameState();
 }
