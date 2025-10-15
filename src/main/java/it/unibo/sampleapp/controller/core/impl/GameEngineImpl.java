@@ -35,6 +35,8 @@ public class GameEngineImpl implements GameEngine {
     private final LevelProcess levelProcess;
     private final JFrame mainFrame;
 
+    private int currentLevelNumber;
+
     /**
      * Builder for the GameEngine.
      */
@@ -57,7 +59,7 @@ public class GameEngineImpl implements GameEngine {
         switch (currentState) {
             case HOME -> showHomePanel();
             case LEVEL_SELECTION -> showLevelSelection();
-            case PLAYING -> System.out.println("Game is running");
+            case PLAYING -> startCurrentLevel();
             default -> throw new IllegalArgumentException("Unexpected value: " + currentState);
         }
     }
@@ -77,9 +79,16 @@ public class GameEngineImpl implements GameEngine {
     @Override
     public void startLevel(final int levelNumber) {
         this.currentState = GameState.PLAYING;
+        this.currentLevelNumber = levelNumber;
+        gameLoop();
+    }
 
+    /**
+     * Initialized the current level screen and its logic.
+     */
+    private void startCurrentLevel() {
         final LevelLoader levelLoader = new LevelLoaderImpl();
-        final LevelScreen levelScreen = new LevelScreen(levelNumber, levelLoader);
+        final LevelScreen levelScreen = new LevelScreen(currentLevelNumber, levelLoader);
 
         final Game game = new GameImpl(levelScreen.getLevel());
         final LevelView levelView = levelScreen.getLevelView();

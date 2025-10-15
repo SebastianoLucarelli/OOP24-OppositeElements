@@ -1,6 +1,5 @@
 package it.unibo.sampleapp.controller.impl;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.sampleapp.controller.api.GameController;
 import it.unibo.sampleapp.model.game.GameState;
 import it.unibo.sampleapp.model.game.api.Game;
@@ -9,8 +8,7 @@ import it.unibo.sampleapp.view.impl.LevelView;
 /**
  * Implements the game controller and manages the level loop.
  */
-@SuppressFBWarnings(value = "EI2", justification = "Game and LevelView are controlled objects")
-public class GameControllerImpl implements GameController, Runnable {
+public class GameControllerImpl implements GameController, Runnable{
 
     private static final int FPS = 60;
     private static final double FRAME_TIME = 1.0 / FPS;
@@ -19,7 +17,8 @@ public class GameControllerImpl implements GameController, Runnable {
     private final Game game;
     private final LevelView levelView;
 
-    private volatile boolean running;
+    private Thread levelLoopThread;
+    private boolean running;
 
     /**
      * Builds the controller with game and view.
@@ -41,7 +40,7 @@ public class GameControllerImpl implements GameController, Runnable {
             return;
         }
         running = true;
-        final Thread levelLoopThread = new Thread(this);
+        levelLoopThread = new Thread(this);
         levelLoopThread.start();
     }
 
@@ -81,8 +80,8 @@ public class GameControllerImpl implements GameController, Runnable {
         long lastTime = System.nanoTime();
 
         while (running) {
-            final long now = System.nanoTime();
-            final double deltaTime = (now - lastTime) / NANOSECONDS_IN_SECONDS;
+            long now = System.nanoTime();
+            double deltaTime = (now - lastTime) / NANOSECONDS_IN_SECONDS;
             lastTime = now;
 
             if (game.getCurrentGameState() == GameState.PLAYING) {
@@ -96,7 +95,7 @@ public class GameControllerImpl implements GameController, Runnable {
 
             try {
                 Thread.sleep((long) (FRAME_TIME * 1000));
-            } catch (final InterruptedException e) {
+            } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 break;
             }
