@@ -10,7 +10,9 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+import it.unibo.sampleapp.model.object.api.Door;
 import it.unibo.sampleapp.model.object.api.GameObject;
+import it.unibo.sampleapp.model.object.api.Hazard;
 import it.unibo.sampleapp.model.object.api.Player;
 
 /**
@@ -27,6 +29,13 @@ public class LevelView extends JPanel {
     private transient Image fireBoyImg;
     private transient Image waterGirlImg;
     private transient Image platformImg;
+    private transient Image movablePlatformImg;
+    private transient Image buttonImg;
+    private transient Image fireDoorImg;
+    private transient Image waterDoorImg;
+    private transient Image acidHazardImg;
+    private transient Image fireHazardImg;
+    private transient Image waterHazardImg;
     private transient List<Player> players;
     private transient List<GameObject> objects;
 
@@ -57,6 +66,14 @@ public class LevelView extends JPanel {
         fireBoyImg = new ImageIcon(getClass().getClassLoader() .getResource("img/FireBoy.png")).getImage();
         waterGirlImg = new ImageIcon(getClass().getClassLoader().getResource("img/WaterGirl.png")).getImage();
         platformImg = new ImageIcon(getClass().getClassLoader().getResource("img/Platform.png")).getImage();
+        movablePlatformImg = new ImageIcon(getClass().getClassLoader().getResource("img/MovablePlatform.png")).getImage();
+        buttonImg = new ImageIcon(getClass().getClassLoader().getResource("img/Button.png")).getImage();
+        fireDoorImg = new ImageIcon(getClass().getClassLoader().getResource("img/FireDoor.png")).getImage();
+        waterDoorImg = new ImageIcon(getClass().getClassLoader().getResource("img/WaterDoor.png")).getImage();
+        acidHazardImg = new ImageIcon(getClass().getClassLoader().getResource("img/AcidHazard.png")).getImage();
+        fireHazardImg = new ImageIcon(getClass().getClassLoader().getResource("img/FireHazard.png")).getImage();
+        waterHazardImg = new ImageIcon(getClass().getClassLoader().getResource("img/WaterHazard.png")).getImage();
+
     }
 
     /**
@@ -83,20 +100,66 @@ public class LevelView extends JPanel {
         }
         g.setColor(OBJECT_COLOR);
         for (final GameObject obj : objects) {
-            if ("PlatformImpl".equals(obj.getClass().getSimpleName())) {
-                g.drawImage(
+        final String className = obj.getClass().getSimpleName();
+            switch (className) {
+                case "PlatformImpl" -> g.drawImage(
                     platformImg,
-                    obj.getPosition().getX(),
-                    obj.getPosition().getY(),
+                    (int) Math.round(obj.getPosition().getX()),
+                    (int) Math.round(obj.getPosition().getY()),
                     obj.getWidth(),
                     obj.getHeight(),
                     this
                 );
-            } else {
-                g.setColor(OBJECT_COLOR);
-                g.fillRect(
-                    obj.getPosition().getX(),
-                    obj.getPosition().getY(),
+                case "MovablePlatformImpl" -> g.drawImage(
+                    movablePlatformImg,
+                    (int) Math.round(obj.getPosition().getX()),
+                    (int) Math.round(obj.getPosition().getY()),
+                    obj.getWidth(),
+                    obj.getHeight(),
+                    this
+                );
+                case "ButtonImpl" -> g.drawImage(
+                    buttonImg,
+                    (int) Math.round(obj.getPosition().getX()),
+                    (int) Math.round(obj.getPosition().getY()),
+                    obj.getWidth(),
+                    obj.getHeight(),
+                    this
+                );
+                case "DoorImpl" -> {
+                    final Door door = (Door) obj;
+                    final Image img = switch (door.getType()) {
+                        case FIRE -> fireDoorImg;
+                        case WATER -> waterDoorImg;
+                    };
+                    g.drawImage(
+                        img,
+                        (int) Math.round(door.getPosition().getX()),
+                        (int) Math.round(door.getPosition().getY()),
+                        door.getWidth(),
+                        door.getHeight(),
+                        this
+                    );
+                }
+                case "HazardImpl" -> {
+                    final Hazard hazard = (Hazard) obj;
+                    final Image img = switch (hazard.getType()) {
+                        case ACID -> acidHazardImg;
+                        case FIRE -> fireHazardImg;
+                        case WATER -> waterHazardImg;
+                    };
+                    g.drawImage(
+                        img,
+                        (int) Math.round(hazard.getPosition().getX()),
+                        (int) Math.round(hazard.getPosition().getY()),
+                        hazard.getWidth(),
+                        hazard.getHeight(),
+                        this
+                    );
+                }
+                default -> g.fillRect(
+                    (int) Math.round(obj.getPosition().getX()),
+                    (int) Math.round(obj.getPosition().getY()),
                     obj.getWidth(),
                     obj.getHeight()
                 );
@@ -107,8 +170,8 @@ public class LevelView extends JPanel {
             final Image img = "FIRE".equals(p.getType().toString()) ? fireBoyImg : waterGirlImg;
             g.drawImage(
                 img,
-                p.getPosition().getX(),
-                p.getPosition().getY(),
+                (int) Math.round(p.getPosition().getX()),
+                (int) Math.round(p.getPosition().getY()),
                 p.getWidth(),
                 p.getHeight(),
                 this
