@@ -12,6 +12,7 @@ import java.util.Map;
 import it.unibo.sampleapp.model.level.api.Level;
 import it.unibo.sampleapp.model.level.api.LevelLoader;
 import it.unibo.sampleapp.model.object.api.GameObject;
+import it.unibo.sampleapp.model.object.api.Gem;
 import it.unibo.sampleapp.model.object.api.Hazard.HazardType;
 import it.unibo.sampleapp.model.object.api.MovableIPlatform;
 import it.unibo.sampleapp.model.object.api.Player;
@@ -19,6 +20,7 @@ import it.unibo.sampleapp.model.object.api.Door.DoorType;
 import it.unibo.sampleapp.model.object.impl.ButtonImpl;
 import it.unibo.sampleapp.model.object.impl.DoorImpl;
 import it.unibo.sampleapp.model.object.impl.Fireboy;
+import it.unibo.sampleapp.model.object.impl.GemImpl;
 import it.unibo.sampleapp.model.object.impl.HazardImpl;
 import it.unibo.sampleapp.model.object.impl.LeverImpl;
 import it.unibo.sampleapp.model.object.impl.MovablePlatformImpl;
@@ -105,21 +107,21 @@ public class LevelLoaderImpl implements LevelLoader {
 
                 switch (type) {
                     case "F" -> {
-                        final int x = Integer.parseInt(tokens[1]);
-                        final int y = Integer.parseInt(tokens[2]);
+                        final int x = Integer.parseInt(tokens[1]) * TILE_SIZE;
+                        final int y = Integer.parseInt(tokens[2]) * TILE_SIZE;
                         players.add(new Fireboy(x, y, TILE_SIZE, TILE_SIZE));
                     }
                     case "W" -> {
-                        final int x = Integer.parseInt(tokens[1]);
-                        final int y = Integer.parseInt(tokens[2]);
+                        final int x = Integer.parseInt(tokens[1]) * TILE_SIZE;
+                        final int y = Integer.parseInt(tokens[2]) * TILE_SIZE;
                         players.add(new Watergirl(x, y, TILE_SIZE, TILE_SIZE));
                     }
                     case "M" -> {
                         final String id = tokens[1];
-                        final int x = Integer.parseInt(tokens[2]);
-                        final int y = Integer.parseInt(tokens[3]);
-                        final int w = Integer.parseInt(tokens[PLATFORM_WIDTH_INDEX]);
-                        final int h = Integer.parseInt(tokens[PLATFORM_HEIGHT_INDEX]);
+                        final int x = Integer.parseInt(tokens[2]) * TILE_SIZE;
+                        final int y = Integer.parseInt(tokens[3]) * TILE_SIZE;
+                        final int w = Integer.parseInt(tokens[PLATFORM_WIDTH_INDEX]) * TILE_SIZE;
+                        final int h = Integer.parseInt(tokens[PLATFORM_HEIGHT_INDEX]) * TILE_SIZE;
                         final boolean horizontal = "horizontal".equals(tokens[PLATFORM_DIRECTION_INDEX]);
                         final MovablePlatformImpl mp = new MovablePlatformImpl(
                             new PositionImpl(x, y), w, h, 4, horizontal, DIRECTION);
@@ -127,8 +129,8 @@ public class LevelLoaderImpl implements LevelLoader {
                         objects.add(mp);
                     }
                     case "B" -> {
-                        final int x = Integer.parseInt(tokens[1]);
-                        final int y = Integer.parseInt(tokens[2]);
+                        final int x = Integer.parseInt(tokens[1]) * TILE_SIZE;
+                        final int y = Integer.parseInt(tokens[2]) * TILE_SIZE - BUTTON_HEIGHT;
                         final String targetId = tokens[3];
                         final GameObject target = objectById.get(targetId);
                         if (target == null) {
@@ -138,8 +140,8 @@ public class LevelLoaderImpl implements LevelLoader {
                         objects.add(new ButtonImpl(new PositionImpl(x, y), TILE_SIZE, BUTTON_HEIGHT, finaltarget));
                     }
                     case "L" -> {
-                        final int x = Integer.parseInt(tokens[1]);
-                        final int y = Integer.parseInt(tokens[2]);
+                        final int x = Integer.parseInt(tokens[1]) * TILE_SIZE;
+                        final int y = Integer.parseInt(tokens[2]) * TILE_SIZE;
                         final String targetId = tokens[3];
                         final GameObject target = objectById.get(targetId);
                         if (target == null) {
@@ -149,18 +151,18 @@ public class LevelLoaderImpl implements LevelLoader {
                         objects.add(new LeverImpl(new PositionImpl(x, y), TILE_SIZE, TILE_SIZE, finaltarget));
                     }
                     case "E" -> {
-                        final int x = Integer.parseInt(tokens[1]);
-                        final int y = Integer.parseInt(tokens[2]);
+                        final int x = Integer.parseInt(tokens[1]) * TILE_SIZE;
+                        final int y = Integer.parseInt(tokens[2]) * TILE_SIZE;
                         objects.add(new DoorImpl(new PositionImpl(x, y), TILE_SIZE, TILE_SIZE * 2, DoorType.FIRE));
                     }
                     case "Z" -> {
-                        final int x = Integer.parseInt(tokens[1]);
-                        final int y = Integer.parseInt(tokens[2]);
+                        final int x = Integer.parseInt(tokens[1]) * TILE_SIZE;
+                        final int y = Integer.parseInt(tokens[2]) * TILE_SIZE;
                         objects.add(new DoorImpl(new PositionImpl(x, y), TILE_SIZE, TILE_SIZE * 2, DoorType.WATER));
                     }
                     case "A", "X", "Y" -> {
-                        final int x = Integer.parseInt(tokens[1]);
-                        final int y = Integer.parseInt(tokens[2]);
+                        final int x = Integer.parseInt(tokens[1]) * TILE_SIZE;
+                        final int y = Integer.parseInt(tokens[2]) * TILE_SIZE;
                         final HazardType hazardType = switch (type) {
                             case "A" -> HazardType.ACID;
                             case "X" -> HazardType.FIRE;
@@ -168,6 +170,13 @@ public class LevelLoaderImpl implements LevelLoader {
                             default -> throw new IllegalArgumentException("Unknown hazard type: " + type);
                         };
                         objects.add(new HazardImpl(new PositionImpl(x, y), HAZARD_WIDTH, HAZARD_HEIGHT, hazardType));
+                    }
+                    case "G", "D" -> {
+                        final int x = Integer.parseInt(tokens[1]) * TILE_SIZE;
+                        final int y = Integer.parseInt(tokens[2]) * TILE_SIZE;
+                        objects.add(new GemImpl(new PositionImpl(x, y), TILE_SIZE, TILE_SIZE, 
+                        //type.equals("G") ? Gem.GemType.FIRE : Gem.GemType.WATER));
+                        "G".equals(type) ? Gem.GemType.FIRE : Gem.GemType.WATER));
                     }
                     default -> throw new IllegalArgumentException("Unknown object type: " + type);
                 }
