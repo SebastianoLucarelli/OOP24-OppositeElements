@@ -141,7 +141,7 @@ public class LevelView extends JPanel {
                     obj.getHeight(),
                     this
                 );
-                case "LeverImpl" ->g.drawImage(
+                case "LeverImpl" -> g.drawImage(
                     leverImg,
                     (int) Math.round(obj.getPosition().getX()),
                     (int) Math.round(obj.getPosition().getY()),

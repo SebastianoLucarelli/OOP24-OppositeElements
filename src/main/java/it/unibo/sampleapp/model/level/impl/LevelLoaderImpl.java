@@ -116,14 +116,14 @@ public class LevelLoaderImpl implements LevelLoader {
                         final int y = Integer.parseInt(tokens[2]) * TILE_SIZE;
                         players.add(new Watergirl(x, y, TILE_SIZE, TILE_SIZE));
                     }
-                    case "M","O" -> {
+                    case "M", "O" -> {
                         final String id = tokens[1];
                         final int x = Integer.parseInt(tokens[2]) * TILE_SIZE;
                         final int y = Integer.parseInt(tokens[3]) * TILE_SIZE;
                         final int w = Integer.parseInt(tokens[PLATFORM_WIDTH_INDEX]) * TILE_SIZE;
                         final int h = Integer.parseInt(tokens[PLATFORM_HEIGHT_INDEX]) * TILE_SIZE;
                         final MovablePlatformImpl mp = new MovablePlatformImpl(new PositionImpl(x, y), w, h, 4, 
-                            "O".equals(type) ? false : true, DIRECTION);
+                            "M".equals(type), DIRECTION);
                         objectById.put(id, mp);
                         objects.add(mp);
                     }
