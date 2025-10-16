@@ -19,6 +19,7 @@ import it.unibo.sampleapp.model.object.api.Player;
 import it.unibo.sampleapp.model.object.api.Door.DoorType;
 import it.unibo.sampleapp.model.object.impl.ButtonImpl;
 import it.unibo.sampleapp.model.object.impl.DoorImpl;
+import it.unibo.sampleapp.model.object.impl.FanImpl;
 import it.unibo.sampleapp.model.object.impl.Fireboy;
 import it.unibo.sampleapp.model.object.impl.GemImpl;
 import it.unibo.sampleapp.model.object.impl.HazardImpl;
@@ -37,7 +38,6 @@ public class LevelLoaderImpl implements LevelLoader {
     private static final int DIRECTION = 1;
     private static final int PLATFORM_WIDTH_INDEX = 4;
     private static final int PLATFORM_HEIGHT_INDEX = 5;
-    private static final int PLATFORM_DIRECTION_INDEX = 6;
     private static final int BUTTON_HEIGHT = 10;
     private static final int HAZARD_HEIGHT = TILE_SIZE / 2;
     private static final int HAZARD_WIDTH = TILE_SIZE * 2;
@@ -116,15 +116,14 @@ public class LevelLoaderImpl implements LevelLoader {
                         final int y = Integer.parseInt(tokens[2]) * TILE_SIZE;
                         players.add(new Watergirl(x, y, TILE_SIZE, TILE_SIZE));
                     }
-                    case "M" -> {
+                    case "M", "O" -> {
                         final String id = tokens[1];
                         final int x = Integer.parseInt(tokens[2]) * TILE_SIZE;
                         final int y = Integer.parseInt(tokens[3]) * TILE_SIZE;
                         final int w = Integer.parseInt(tokens[PLATFORM_WIDTH_INDEX]) * TILE_SIZE;
                         final int h = Integer.parseInt(tokens[PLATFORM_HEIGHT_INDEX]) * TILE_SIZE;
-                        final boolean horizontal = "horizontal".equals(tokens[PLATFORM_DIRECTION_INDEX]);
-                        final MovablePlatformImpl mp = new MovablePlatformImpl(
-                            new PositionImpl(x, y), w, h, 4, horizontal, DIRECTION);
+                        final MovablePlatformImpl mp = new MovablePlatformImpl(new PositionImpl(x, y), w, h, 4, 
+                            "M".equals(type), DIRECTION);
                         objectById.put(id, mp);
                         objects.add(mp);
                     }
@@ -177,6 +176,11 @@ public class LevelLoaderImpl implements LevelLoader {
                         objects.add(new GemImpl(new PositionImpl(x, y), TILE_SIZE, TILE_SIZE, 
                         //type.equals("G") ? Gem.GemType.FIRE : Gem.GemType.WATER));
                         "G".equals(type) ? Gem.GemType.FIRE : Gem.GemType.WATER));
+                    }
+                    case "V" -> {
+                        final int x = Integer.parseInt(tokens[1]) * TILE_SIZE;
+                        final int y = Integer.parseInt(tokens[2]) * TILE_SIZE;
+                        objects.add(new FanImpl(new PositionImpl(x, y), TILE_SIZE * 2, TILE_SIZE));
                     }
                     default -> throw new IllegalArgumentException("Unknown object type: " + type);
                 }

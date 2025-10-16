@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import it.unibo.sampleapp.model.object.api.Door;
+import it.unibo.sampleapp.model.object.api.Fan;
 import it.unibo.sampleapp.model.object.api.GameObject;
 import it.unibo.sampleapp.model.object.api.Gem;
 import it.unibo.sampleapp.model.object.api.Hazard;
@@ -42,7 +43,9 @@ public class LevelView extends JPanel {
     private transient Image waterHazardImg;
     private transient Image gemFireImg;
     private transient Image gemWaterImg;
+    private transient Image fanImg;
     private transient Image pauseImg;
+    private transient Image leverImg;
     private transient List<Player> players;
     private transient List<GameObject> objects;
 
@@ -83,6 +86,8 @@ public class LevelView extends JPanel {
         waterHazardImg = new ImageIcon(getClass().getClassLoader().getResource("img/WaterHazard.png")).getImage();
         gemFireImg = new ImageIcon(getClass().getClassLoader().getResource("img/FireGem.png")).getImage();
         gemWaterImg = new ImageIcon(getClass().getClassLoader().getResource("img/WaterGem.png")).getImage();
+        fanImg = new ImageIcon(getClass().getClassLoader().getResource("img/Fan.png")).getImage();
+        leverImg = new ImageIcon(getClass().getClassLoader().getResource("img/LeverOff.png")).getImage();
         pauseImg = new ImageIcon(getClass().getClassLoader().getResource("img/Home.png")).getImage();
     }
 
@@ -136,6 +141,14 @@ public class LevelView extends JPanel {
                     obj.getHeight(),
                     this
                 );
+                case "LeverImpl" -> g.drawImage(
+                    leverImg,
+                    (int) Math.round(obj.getPosition().getX()),
+                    (int) Math.round(obj.getPosition().getY()),
+                    obj.getWidth(),
+                    obj.getHeight(),
+                    this
+                );
                 case "DoorImpl" -> {
                     final Door door = (Door) obj;
                     final Image img = switch (door.getType()) {
@@ -179,6 +192,18 @@ public class LevelView extends JPanel {
                         (int) Math.round(gem.getPosition().getY()),
                         gem.getWidth(),
                         gem.getHeight(),
+                        this
+                    );
+                }
+                case "FanImpl" -> {
+                    final Fan fan = (Fan) obj;
+                    final Image img = fanImg;
+                    g.drawImage(
+                        img, 
+                        (int) Math.round(fan.getPosition().getX()),
+                        (int) Math.round(fan.getPosition().getY()),
+                        fan.getWidth(),
+                        fan.getHeight(),
                         this
                     );
                 }
