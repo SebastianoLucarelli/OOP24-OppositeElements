@@ -97,16 +97,16 @@ public abstract class AbstractPlayer implements Player {
      * {@inheritDoc}
      */
     @Override
-    public int getHeight() {
-        return this.height;
+    public Position getPosition() {
+        return new PositionImpl(position.getX(), position.getY());
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Position getPosition() {
-        return new PositionImpl(position.getX(), position.getY());
+    public int getHeight() {
+        return this.height;
     }
 
     /**
@@ -154,8 +154,31 @@ public abstract class AbstractPlayer implements Player {
     /**
      * @return the horizontal speed
      */
+    @Override
     public double getSpeedX() {
         return this.speedX;
+    }
+
+    /**
+     * Stops vertical movement.
+     *
+     * @param newY the position where the player should stand
+     */
+    @Override
+    public void landOn(final double newY) {
+        this.position.setY(newY);
+        this.speedY = 0;
+        this.onFloor = true;
+    }
+
+    /**
+     * Sets whether the player is currently on the floor.
+     *
+     * @param onFloor true if the player is touching the ground, false otherwise
+     */
+    @Override
+    public void setOnFloor(final boolean onFloor) {
+        this.onFloor = onFloor;
     }
 
     /**
@@ -199,28 +222,9 @@ public abstract class AbstractPlayer implements Player {
         if (newY + this.height >= SCREEN_HEIGHT) {
             newY = SCREEN_HEIGHT - this.height;
             speedY = 0;
+            this.onFloor = true;
         }
         this.position.setY(newY);
-    }
-
-    /**
-     * Stops vertical movement.
-     *
-     * @param newY the position where the player should stand
-     */
-    public void landOn(final double newY) {
-        this.position.setY(newY);
-        this.speedY = 0;
-        this.onFloor = true;
-    }
-
-    /**
-     * Sets whether the player is currently on the floor.
-     *
-     * @param onFloor true if the player is touching the ground, false otherwise
-     */
-    public void setOnFloor(final boolean onFloor) {
-        this.onFloor = onFloor;
     }
 
     /**
@@ -237,6 +241,7 @@ public abstract class AbstractPlayer implements Player {
             }
         } else {
             frameNum = 1;
+            animationTimer = 0;
         }
     }
 }

@@ -65,4 +65,23 @@ public interface Player {
      */
     int getFrameNum();
 
+    /**
+     * @return the horizontal speed
+     */
+    double getSpeedX();
+
+    /**
+     * Stops vertical movement.
+     *
+     * @param newY the position where the player should stand
+     */
+    void landOn(double newY);
+
+    /**
+     * Sets whether the player is currently on the floor.
+     *
+     * @param onFloor if the player is touching the ground
+     */
+    void setOnFloor(boolean onFloor);
+
 }

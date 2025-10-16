@@ -108,7 +108,6 @@ public class PlayerControllerImpl implements PlayerController, KeyListener {
      */
     @Override
     public void keyTyped(final KeyEvent e) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'keyTyped'");
+
     }
 }
