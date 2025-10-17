@@ -40,8 +40,7 @@ public class LevelLoaderImpl implements LevelLoader {
     private static final int PLATFORM_HEIGHT_INDEX = 5;
     private static final int BUTTON_HEIGHT = 10;
     private static final int HAZARD_HEIGHT = TILE_SIZE / 2;
-    private static final int HAZARD_WIDTH = TILE_SIZE * 2;
-
+    private static final int HAZARD_WIDTH = (int) (TILE_SIZE * 1.5);
     /**
      * Loads only the base grid from a level file (e.g., platforms).
      *

@@ -39,8 +39,10 @@ public class CollisionFactoryImpl implements CollisionFactory {
     public Collisions hitHazard(final Player player, final Hazard hazard) {
         return game -> {
             if (!hazard.safeForPlayer(player)) {
+                System.out.println("player" + player + "tocca" + hazard.getType());
                 game.gameOver();
             }
+            System.out.println("player" + player + "tocca" + hazard.getType());
         };
     }
 
@@ -157,10 +159,47 @@ public class CollisionFactoryImpl implements CollisionFactory {
         return game -> {
             final double playerBottom = player.getPosition().getY() + player.getHeight();
             final double platformTop = movablePlatform.getPosition().getY();
-            if(player.getPosition().getY() < platformTop && playerBottom > platformTop && player.getSpeedX() >= Double.MAX_VALUE) {
-                player.landOn(platformTop - player.getHeight());
-                player.setOnFloor(true);
+            final double playerTop = player.getPosition().getY();
+            final double platformBottom = platformTop + movablePlatform.getHeight();
+            final double playerLeft = player.getPosition().getX();
+            final double playerRight = player.getPosition().getX() + player.getWidth();
+            final double platformLeft = movablePlatform.getPosition().getX();
+            final double platformRight = movablePlatform.getPosition().getX() + movablePlatform.getWidth();
+
+            if (playerBottom >= platformTop &&
+                playerTop < platformTop &&
+                player.getSpeedY() >= 0 &&
+                playerBottom - platformTop < player.getHeight() * 0.5) {
+                    player.landOn(platformTop - player.getHeight());
+                    player.setOnFloor(true);
+
+                    if (movablePlatform.getSpeed() != 0) {
+                        player.getPosition().setY(player.getPosition().getY() + movablePlatform.getSpeed());
+                    }
+                    return;
+            } else {
+                player.setOnFloor(false);
             }
+
+            if (playerTop <= platformBottom &&
+                playerBottom > platformBottom &&
+                player.getSpeedY() < 0) {
+                    player.stopJump(platformBottom);
+                }
+
+            if (playerRight > platformLeft && playerLeft < platformLeft &&
+                player.getSpeedX() > 0 && 
+                playerBottom > platformTop + 1 && playerTop < platformBottom - 1) {
+                    player.setPositionX(platformLeft - player.getWidth());
+                    player.stopHorizontalMovement();
+                }
+
+            if (player.getPosition().getX() < platformRight && playerRight > platformRight &&
+                player.getSpeedX() < 0 &&
+                playerBottom > platformTop + 1 && playerTop < platformBottom - 1) {
+                    player.setPositionX(platformRight);
+                    player.stopHorizontalMovement();
+                }
         };
     }
 
