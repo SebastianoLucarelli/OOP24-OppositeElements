@@ -18,6 +18,7 @@ import it.unibo.sampleapp.model.object.api.Gem;
 import it.unibo.sampleapp.model.object.api.Hazard;
 import it.unibo.sampleapp.model.object.api.Lever;
 import it.unibo.sampleapp.model.object.api.MovableIPlatform;
+import it.unibo.sampleapp.model.object.api.Platform;
 import it.unibo.sampleapp.model.object.api.Player;
 
 /**
@@ -78,6 +79,13 @@ public class GameImpl implements Game {
         }
 
         collisionQueue.manageCollisions(this);
+
+        for (GameObject obj : gameObjects) {
+            if (obj instanceof MovableIPlatform mp) {
+                mp.move();
+            }
+        }
+
         checkLevelWin();
     }
 
@@ -103,12 +111,11 @@ public class GameImpl implements Game {
                     collisionQueue.addCollision(collisionFactory.leverDisplacementCollision(p, l));
                 } else if (obj instanceof MovableIPlatform mp) {
                     collisionQueue.addCollision(collisionFactory.movablePlatformCollision(p, mp));
+                }else if (obj instanceof Platform pl) {
+                    collisionQueue.addCollision(collisionFactory.platformCollisions(p, pl));
                 }
             } else if (obj instanceof Button b && b.isPressed()) {
-                b.setPressed(false);
-                if (b.getLinkedPlatform() != null) {
-                    b.getLinkedPlatform().deactive();
-                }
+                collisionQueue.addCollision(collisionFactory.buttonReleasedCollision(b));
             }
         }
     }

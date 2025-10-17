@@ -74,12 +74,9 @@ public class MovablePlatformImpl extends AbstractGameObject implements MovableIP
      */
     @Override
     public void move() {
-        final Position currentPosition = super.getPosition();
-        if (this.isActive) {
-            update(currentPosition, targetPosition);
-        } else {
-            update(currentPosition, initialPosition);
-        }
+        final Position current = getPosition();
+        final Position destination = isActive ? targetPosition :  initialPosition;
+        update(current, destination);
     }
 
     /**

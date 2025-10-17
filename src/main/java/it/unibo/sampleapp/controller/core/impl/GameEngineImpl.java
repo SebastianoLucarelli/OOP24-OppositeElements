@@ -4,6 +4,7 @@ import it.unibo.sampleapp.controller.core.api.GameEngine;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import it.unibo.sampleapp.controller.api.HomeController;
 import it.unibo.sampleapp.controller.api.LevelProcessController;
@@ -106,9 +107,14 @@ public class GameEngineImpl implements GameEngine {
         levelView.requestFocusInWindow();
 
         final GameControllerImpl gameController = new GameControllerImpl(game, levelView, playerController);
-
         showPanel(levelView);
-        new Thread(gameController).start();
+
+        SwingUtilities.invokeLater(() -> {
+            levelView.setFocusable(true);
+            levelView.requestFocusInWindow();
+        });
+
+        gameController.start();
     }
 
     /**

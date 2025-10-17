@@ -11,6 +11,7 @@ public class ButtonImpl extends AbstractGameObject implements Button {
 
     private boolean pressed;
     private final MovableIPlatform linkedPlatform;
+    private int pressCount;
 
     /**
      * constructor of the ButtonImpl.
@@ -23,6 +24,7 @@ public class ButtonImpl extends AbstractGameObject implements Button {
     public ButtonImpl(final Position position, final int width, final int height, final MovableIPlatform linkPlatform) {
         super(position, width, height);
         this.pressed = false;
+        this.pressCount = 0;
         this.linkedPlatform = linkPlatform;
     }
 
@@ -50,4 +52,25 @@ public class ButtonImpl extends AbstractGameObject implements Button {
         return this.linkedPlatform;
     }
 
+    /**
+     * Called when a player steps on the button.
+     */
+    @Override
+    public void press() {
+        pressCount++;
+        pressed = true;
+    }
+
+    /**
+     * Called when a player leaves the button.
+     */
+    @Override
+    public void release() {
+        if (pressCount > 0) {
+            pressCount--;
+        }
+        if (pressCount == 0) {
+            pressed = false;
+        }
+    }
 }
