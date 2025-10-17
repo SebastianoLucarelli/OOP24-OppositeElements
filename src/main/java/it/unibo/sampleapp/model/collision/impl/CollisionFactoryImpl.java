@@ -40,9 +40,7 @@ public class CollisionFactoryImpl implements CollisionFactory {
         return game -> {
             if (!hazard.safeForPlayer(player)) {
                 game.gameOver();
-                System.out.println("Collisione con " + hazard.getType() + " per " + player.getType());
             }
-            System.out.println("Collisione con " + hazard.getType() + " per " + player.getType());
         };
     }
 
@@ -113,21 +111,40 @@ public class CollisionFactoryImpl implements CollisionFactory {
             final double platformTop = platform.getPosition().getY();
             final double playerTop = player.getPosition().getY();
             final double platformBottom = platform.getPosition().getY() + platform.getHeight();
+            final double playerLeft = player.getPosition().getX();
+            final double playerRight = player.getPosition().getX() + player.getWidth();
+            final double platformLeft = platform.getPosition().getX();
+            final double platformRight = platform.getPosition().getX() + platform.getWidth();
 
             if (playerBottom >= platformTop &&
                 player.getPosition().getY() < platformTop &&
                 player.getSpeedY() >= 0 &&
-                playerBottom - platformTop < player.getHeight()) {
+                playerBottom - platformTop < player.getHeight() * 0.5) {
                     player.landOn(platformTop - player.getHeight());
                     player.setOnFloor(true);
-                } else {
+                    return;
+            } else {
                     player.setOnFloor(false);
                 }
-            
+
             if (playerTop <= platformBottom &&
                 playerBottom > platformBottom &&
                 player.getSpeedY() < 0) {
                     player.stopJump(platformBottom);
+                }
+
+            if (playerRight > platformLeft && playerLeft < platformLeft &&
+                player.getSpeedX() > 0 && 
+                playerBottom > platformTop + 1 && playerTop < platformBottom - 1) {
+                    player.setPositionX(platformLeft - player.getWidth());
+                    player.stopHorizontalMovement();
+                }
+
+            if (player.getPosition().getX() < platformRight && playerRight > platformRight &&
+                player.getSpeedX() < 0 &&
+                playerBottom > platformTop + 1 && playerTop < platformBottom - 1) {
+                    player.setPositionX(platformRight);
+                    player.stopHorizontalMovement();
                 }
         };
     }
