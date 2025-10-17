@@ -159,7 +159,7 @@ public class GameEngineImpl implements GameEngine {
         mainFrame.revalidate();
         mainFrame.repaint();
     }
-   
+
     /**
      * Initializes and displays the game instructions. 
      */

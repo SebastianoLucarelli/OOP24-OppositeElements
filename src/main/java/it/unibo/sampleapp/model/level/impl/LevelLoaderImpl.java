@@ -41,6 +41,7 @@ public class LevelLoaderImpl implements LevelLoader {
     private static final int BUTTON_HEIGHT = 10;
     private static final int HAZARD_HEIGHT = TILE_SIZE / 2;
     private static final int HAZARD_WIDTH = (int) (TILE_SIZE * 1.5);
+
     /**
      * Loads only the base grid from a level file (e.g., platforms).
      *
@@ -109,7 +110,7 @@ public class LevelLoaderImpl implements LevelLoader {
                         final int x = Integer.parseInt(tokens[1]) * TILE_SIZE;
                         final int y = Integer.parseInt(tokens[2]) * TILE_SIZE;
                         final int playerSize = (int) (TILE_SIZE * 1.1);
-                        players.add(new Fireboy(x, y, playerSize , playerSize));
+                        players.add(new Fireboy(x, y, playerSize, playerSize));
                     }
                     case "W" -> {
                         final int x = Integer.parseInt(tokens[1]) * TILE_SIZE;
@@ -176,7 +177,7 @@ public class LevelLoaderImpl implements LevelLoader {
                     case "G", "D" -> {
                         final int x = Integer.parseInt(tokens[1]) * TILE_SIZE;
                         final int y = Integer.parseInt(tokens[2]) * TILE_SIZE;
-                        final int gemSize = (int)(TILE_SIZE * 0.7);
+                        final int gemSize = (int) (TILE_SIZE * 0.7);
                         objects.add(new GemImpl(new PositionImpl(x, y), gemSize, gemSize, 
                         //type.equals("G") ? Gem.GemType.FIRE : Gem.GemType.WATER));
                         "G".equals(type) ? Gem.GemType.FIRE : Gem.GemType.WATER));
