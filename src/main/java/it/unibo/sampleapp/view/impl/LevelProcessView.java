@@ -38,7 +38,8 @@ public class LevelProcessView extends JPanel {
     private static final int HEIGHT_BUTTON = 130;
     private static final int TOP_TITLE = 20;
     private static final int TOP_CENTERPANEL = 50;
-    private static final int MENU_WIDTH_HEIGHT = 70;
+    private static final int MENU_WIDTH = 130;
+    private static final int MENU_HEIGHT = 70;
     private static final int BOTTOM = 30;
     private static final String LOCKED_PATH = "/img/LevelBlocked.png";
     private static final String UNLOCKED_PATH = "/img/LevelUnblocked.png";
@@ -84,11 +85,11 @@ public class LevelProcessView extends JPanel {
         centerPanel.setBorder(BorderFactory.createEmptyBorder(TOP_CENTERPANEL, 0, 0, 0));
         add(centerPanel, BorderLayout.CENTER);
 
-        final BufferedImage homeImg = loadImage("/img/Home.png");
-        final Image scaledHomeImg = homeImg.getScaledInstance(MENU_WIDTH_HEIGHT, MENU_WIDTH_HEIGHT, Image.SCALE_SMOOTH);
+        final BufferedImage homeImg = loadImage("/img/HomeButton.png");
+        final Image scaledHomeImg = homeImg.getScaledInstance(MENU_WIDTH, MENU_HEIGHT, Image.SCALE_SMOOTH);
 
         final JButton backMenuButton = new JButton(new ImageIcon(scaledHomeImg));
-        backMenuButton.setPreferredSize(new Dimension(MENU_WIDTH_HEIGHT, MENU_WIDTH_HEIGHT));
+        backMenuButton.setPreferredSize(new Dimension(MENU_WIDTH, MENU_HEIGHT));
         backMenuButton.setBorderPainted(false);
         backMenuButton.setContentAreaFilled(false);
         backMenuButton.setFocusPainted(false);
