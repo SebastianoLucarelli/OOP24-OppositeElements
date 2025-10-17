@@ -138,11 +138,18 @@ public class GameImpl implements Game {
         final double objW = obj.getWidth();
         final double objH = obj.getHeight();
 
-        final double hazardPaddingY = (obj instanceof Hazard) ? 5.0 : 0.0;
-        final double hazardPaddingX = (obj instanceof Hazard) ? 3.0 : 0.0;
+        double paddingY = 0.0;
+        double paddingX = 0.0;
 
-        return posX < objX + objW - hazardPaddingX && posX + posW > objX + hazardPaddingX &&
-            posY < objY + objH +  hazardPaddingY && posY + posH > objY - hazardPaddingY;
+        if (obj instanceof Hazard || obj instanceof Button) {
+            paddingY = 5.0;
+        }
+        if (obj instanceof Hazard || obj instanceof Button) {
+            paddingX = obj.getWidth() * 0.27;
+        }
+
+        return posX < objX + objW - paddingX && posX + posW > objX + paddingX &&
+            posY < objY + objH + paddingY && posY + posH > objY - paddingY;
     }
 
     /**
