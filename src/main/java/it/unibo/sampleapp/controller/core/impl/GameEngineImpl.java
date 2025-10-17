@@ -22,6 +22,7 @@ import it.unibo.sampleapp.model.level.impl.LevelLoaderImpl;
 import it.unibo.sampleapp.model.object.impl.Fireboy;
 import it.unibo.sampleapp.model.object.impl.Watergirl;
 import it.unibo.sampleapp.view.impl.HomePanel;
+import it.unibo.sampleapp.view.impl.InstructionsDialog;
 import it.unibo.sampleapp.view.impl.LevelProcessView;
 import it.unibo.sampleapp.view.impl.LevelScreen;
 import it.unibo.sampleapp.view.impl.LevelView;
@@ -63,6 +64,7 @@ public class GameEngineImpl implements GameEngine {
             case HOME -> showHomePanel();
             case LEVEL_SELECTION -> showLevelSelection();
             case PLAYING -> startCurrentLevel();
+            case INSTRUCTION -> showInstructionsPopup();
             default -> throw new IllegalArgumentException("Unexpected value: " + currentState);
         }
     }
@@ -156,5 +158,13 @@ public class GameEngineImpl implements GameEngine {
         mainFrame.getContentPane().add(panel);
         mainFrame.revalidate();
         mainFrame.repaint();
+    }
+   
+    /**
+     * Initializes and displays the game instructions. 
+     */
+    private void showInstructionsPopup() {
+        final InstructionsDialog dialog = new InstructionsDialog(mainFrame);
+        dialog.showPopup(() -> changeState(GameState.HOME));
     }
 }
