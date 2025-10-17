@@ -88,7 +88,7 @@ public class LevelView extends JPanel {
         gemWaterImg = new ImageIcon(getClass().getClassLoader().getResource("img/WaterGem.png")).getImage();
         fanImg = new ImageIcon(getClass().getClassLoader().getResource("img/Fan.png")).getImage();
         leverImg = new ImageIcon(getClass().getClassLoader().getResource("img/LeverOff.png")).getImage();
-        pauseImg = new ImageIcon(getClass().getClassLoader().getResource("img/Home.png")).getImage();
+        pauseImg = new ImageIcon(getClass().getClassLoader().getResource("img/PauseButton.png")).getImage();
     }
 
     /**

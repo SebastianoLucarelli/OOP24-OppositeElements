@@ -40,7 +40,7 @@ public class LevelLoaderImpl implements LevelLoader {
     private static final int PLATFORM_HEIGHT_INDEX = 5;
     private static final int BUTTON_HEIGHT = 10;
     private static final int HAZARD_HEIGHT = TILE_SIZE / 2;
-    private static final int HAZARD_WIDTH = TILE_SIZE * 2;
+    private static final int HAZARD_WIDTH = (int) (TILE_SIZE * 1.5);
 
     /**
      * Loads only the base grid from a level file (e.g., platforms).
@@ -109,19 +109,21 @@ public class LevelLoaderImpl implements LevelLoader {
                     case "F" -> {
                         final int x = Integer.parseInt(tokens[1]) * TILE_SIZE;
                         final int y = Integer.parseInt(tokens[2]) * TILE_SIZE;
-                        players.add(new Fireboy(x, y, TILE_SIZE, TILE_SIZE));
+                        final int playerSize = (int) (TILE_SIZE * 1.1);
+                        players.add(new Fireboy(x, y, playerSize , playerSize));
                     }
                     case "W" -> {
                         final int x = Integer.parseInt(tokens[1]) * TILE_SIZE;
                         final int y = Integer.parseInt(tokens[2]) * TILE_SIZE;
-                        players.add(new Watergirl(x, y, TILE_SIZE, TILE_SIZE));
+                        final int playerSize = (int) (TILE_SIZE * 1.1);
+                        players.add(new Watergirl(x, y, playerSize, playerSize));
                     }
                     case "M", "O" -> {
                         final String id = tokens[1];
                         final int x = Integer.parseInt(tokens[2]) * TILE_SIZE;
                         final int y = Integer.parseInt(tokens[3]) * TILE_SIZE;
                         final int w = Integer.parseInt(tokens[PLATFORM_WIDTH_INDEX]) * TILE_SIZE;
-                        final int h = Integer.parseInt(tokens[PLATFORM_HEIGHT_INDEX]) * TILE_SIZE;
+                        final int h = (int) (Integer.parseInt(tokens[PLATFORM_HEIGHT_INDEX]) * TILE_SIZE * 0.7);
                         final MovablePlatformImpl mp = new MovablePlatformImpl(new PositionImpl(x, y), w, h, 4, 
                             "M".equals(type), DIRECTION);
                         objectById.put(id, mp);
@@ -152,12 +154,14 @@ public class LevelLoaderImpl implements LevelLoader {
                     case "E" -> {
                         final int x = Integer.parseInt(tokens[1]) * TILE_SIZE;
                         final int y = Integer.parseInt(tokens[2]) * TILE_SIZE;
-                        objects.add(new DoorImpl(new PositionImpl(x, y), TILE_SIZE, TILE_SIZE * 2, DoorType.FIRE));
+                        final int doorWidth = (int) (TILE_SIZE * 1.5);
+                        objects.add(new DoorImpl(new PositionImpl(x, y), doorWidth, TILE_SIZE * 2, DoorType.FIRE));
                     }
                     case "Z" -> {
                         final int x = Integer.parseInt(tokens[1]) * TILE_SIZE;
                         final int y = Integer.parseInt(tokens[2]) * TILE_SIZE;
-                        objects.add(new DoorImpl(new PositionImpl(x, y), TILE_SIZE, TILE_SIZE * 2, DoorType.WATER));
+                        final int doorWidth = (int) (TILE_SIZE * 1.5);
+                        objects.add(new DoorImpl(new PositionImpl(x, y), doorWidth, TILE_SIZE * 2, DoorType.WATER));
                     }
                     case "A", "X", "Y" -> {
                         final int x = Integer.parseInt(tokens[1]) * TILE_SIZE;
@@ -173,7 +177,8 @@ public class LevelLoaderImpl implements LevelLoader {
                     case "G", "D" -> {
                         final int x = Integer.parseInt(tokens[1]) * TILE_SIZE;
                         final int y = Integer.parseInt(tokens[2]) * TILE_SIZE;
-                        objects.add(new GemImpl(new PositionImpl(x, y), TILE_SIZE, TILE_SIZE, 
+                        final int gemSize = (int)(TILE_SIZE * 0.7);
+                        objects.add(new GemImpl(new PositionImpl(x, y), gemSize, gemSize, 
                         //type.equals("G") ? Gem.GemType.FIRE : Gem.GemType.WATER));
                         "G".equals(type) ? Gem.GemType.FIRE : Gem.GemType.WATER));
                     }
