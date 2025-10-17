@@ -9,6 +9,9 @@ import it.unibo.sampleapp.utils.impl.PositionImpl;
  */
 public class MovablePlatformImpl extends AbstractGameObject implements MovableIPlatform {
 
+    private final int VERTICAL_MOVEMENT = 2;
+    private final int TILE_SIZE = 36;
+
     private final Position initialPosition;
     private final Position targetPosition;
     private final int stepSize;
@@ -31,7 +34,8 @@ public class MovablePlatformImpl extends AbstractGameObject implements MovableIP
         if (horizontal) {
             this.targetPosition = new PositionImpl(position.getX() + (direction * width), position.getY());
         } else {
-            this.targetPosition = new PositionImpl(position.getX(), position.getY() + (direction * height));
+            this.targetPosition = new PositionImpl(position.getX(), position.getY() + (direction * VERTICAL_MOVEMENT 
+            * TILE_SIZE));
         }
         this.stepSize = stepSize;
         this.isActive = false;
