@@ -84,4 +84,16 @@ public interface Player {
      */
     void setOnFloor(boolean onFloor);
 
+    /**
+     * @return the vertical speed
+     */
+    double getSpeedY();
+
+    /**
+     * Stops the jump when the player hits the platform.
+     *
+     * @param newY the position where the player should stand
+     */
+    void stopJump(double newY);
+
 }

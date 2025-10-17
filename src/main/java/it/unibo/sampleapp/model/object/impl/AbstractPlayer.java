@@ -16,7 +16,7 @@ import it.unibo.sampleapp.utils.impl.PositionImpl;
 public abstract class AbstractPlayer implements Player {
 
     private static final double SPEED_MOVE = 200.0;
-    private static final double SPEED_JUMP = -400.0;
+    private static final double SPEED_JUMP = -300.0;
     private static final double GRAVITY = 800.0;
     private static final int SCREEN_WIDTH = 800;
     private static final int SCREEN_HEIGHT = 540;
@@ -26,7 +26,7 @@ public abstract class AbstractPlayer implements Player {
     private static final String DIRECTION_RIGHT = "right";
     private static final String DIRECTION_FRONT = "front";
 
-    private final Position position;
+    private Position position;
     private double speedX;
     private double speedY;
     private final int width;
@@ -160,6 +160,14 @@ public abstract class AbstractPlayer implements Player {
     }
 
     /**
+     * @return the vertical speed
+     */
+    @Override
+    public double getSpeedY() {
+        return this.speedY;
+    }
+
+    /**
      * Stops vertical movement.
      *
      * @param newY the position where the player should stand
@@ -179,6 +187,15 @@ public abstract class AbstractPlayer implements Player {
     @Override
     public void setOnFloor(final boolean onFloor) {
         this.onFloor = onFloor;
+    }
+
+    /**
+     * Stops the jump when the player hits the platform.
+     */
+    @Override
+    public void stopJump(final double newY) {
+        this.position = new PositionImpl(this.position.getX(), newY);
+        this.speedY = 0;
     }
 
     /**
@@ -233,7 +250,7 @@ public abstract class AbstractPlayer implements Player {
      * @param deltaTime time since last update
      */
     private void animate(final double deltaTime) {
-        if (!direction.equals(direction)) {
+        if (Math.abs(speedX) > 0) {
             animationTimer += deltaTime;
             if (animationTimer >= FRAME_TIME) {
                 frameNum = (frameNum == 1) ? 2 : 1;

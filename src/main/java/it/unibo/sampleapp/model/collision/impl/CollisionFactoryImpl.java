@@ -101,8 +101,28 @@ public class CollisionFactoryImpl implements CollisionFactory {
      */
     @Override
     public Collisions platformCollisions(final Player player, final Platform platform) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'platformCollisions'");
+        return game -> {
+            final double playerBottom = player.getPosition().getY() + player.getHeight();
+            final double platformTop = platform.getPosition().getY();
+            final double playerTop = player.getPosition().getY();
+            final double platformBottom = platform.getPosition().getY() + platform.getHeight();
+
+            if (playerBottom >= platformTop &&
+                player.getPosition().getY() < platformTop &&
+                player.getSpeedY() >= 0 &&
+                playerBottom - platformTop < player.getHeight()) {
+                    player.landOn(platformTop - player.getHeight());
+                    player.setOnFloor(true);
+                } else {
+                    player.setOnFloor(false);
+                }
+            
+            if (playerTop <= platformBottom &&
+                playerBottom > platformBottom &&
+                player.getSpeedY() < 0) {
+                    player.stopJump(platformBottom);
+                }
+        };
     }
 
     /**
