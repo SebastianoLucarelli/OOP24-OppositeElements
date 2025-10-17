@@ -91,6 +91,7 @@ public class GameControllerImpl implements GameController, Runnable {
             if (game.getCurrentGameState() == GameState.PLAYING) {
                 playerController.inputProcess();
                 game.update(deltaTime);
+                levelView.updateObjects(game.getPlayers(), game.getGameObjects());
                 levelView.repaint();
             }
 

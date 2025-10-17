@@ -21,4 +21,14 @@ public interface Button extends GameObject {
      * @return the linked platform
      */
     MovableIPlatform getLinkedPlatform();
+
+    /**
+     * Called when a player presses a button.
+     */
+    void press();
+
+    /**
+     * Called when a player releases a button.
+     */
+    void release();
 }

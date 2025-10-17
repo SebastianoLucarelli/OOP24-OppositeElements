@@ -100,4 +100,12 @@ public interface CollisionFactory {
      * @return the result of collision
      */
     Collisions boundaryCollisions(Player player, BoundaryType boundary);
+
+    /**
+     * Handles the collision beetwen a player and a button when the button is released.
+     *
+     * @param button the pressed button
+     * @return the result of collisions
+     */
+    Collisions buttonReleasedCollision(Button button);
 }

@@ -63,8 +63,8 @@ public class LevelView extends JPanel {
      * @param objects contains the list of game objects
      */
     public LevelView(final List<Player> players, final List<GameObject> objects) {
-        this.players = List.copyOf(players);
-        this.objects = List.copyOf(objects);
+        this.players = players;
+        this.objects = objects;
         initView();
         SwingUtilities.invokeLater(this::addPauseButton);
     }
@@ -243,4 +243,14 @@ public class LevelView extends JPanel {
         add(pauseButton);
     }
 
+    /**
+     * Update objects and players during the levels
+     *
+     * @param players players of level
+     * @param objects objects of level
+     */
+    public void updateObjects(final List<Player> players, final List<GameObject> objects) {
+        this.players = players;
+        this.objects = objects;
+    }
 }

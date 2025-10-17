@@ -40,7 +40,9 @@ public class CollisionFactoryImpl implements CollisionFactory {
         return game -> {
             if (!hazard.safeForPlayer(player)) {
                 game.gameOver();
+                System.out.println("Collisione con " + hazard.getType() + " per " + player.getType());
             }
+            System.out.println("Collisione con " + hazard.getType() + " per " + player.getType());
         };
     }
 
@@ -50,7 +52,11 @@ public class CollisionFactoryImpl implements CollisionFactory {
     @Override
     public Collisions doorUnlockedCollision(final Player player, final Door door) {
         return game -> {
-            player.setAtDoor(true);
+            if (door.getType().name().equals(player.getType().name())) {
+                player.setAtDoor(true);
+            } else {
+                player.setAtDoor(false);
+            }
             game.checkLevelWin();
         };
     }
@@ -63,7 +69,7 @@ public class CollisionFactoryImpl implements CollisionFactory {
         return game -> {
             final MovableIPlatform platform = button.getLinkedPlatform();
             if (platform != null) {
-                button.setPressed(true);
+                button.press();
                 platform.active();
             }
         };
@@ -92,8 +98,9 @@ public class CollisionFactoryImpl implements CollisionFactory {
      */
     @Override
     public Collisions playerOnFan(final Player player, final Fan fan) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'playerOnFan'");
+        return game -> {
+
+        };
     }
 
     /**
@@ -130,8 +137,14 @@ public class CollisionFactoryImpl implements CollisionFactory {
      */
     @Override
     public Collisions movablePlatformCollision(final Player player, final MovableIPlatform movablePlatform) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'movablePlatformCollision'");
+        return game -> {
+            final double playerBottom = player.getPosition().getY() + player.getHeight();
+            final double platformTop = movablePlatform.getPosition().getY();
+            if(player.getPosition().getY() < platformTop && playerBottom > platformTop && player.getSpeedX() >= Double.MAX_VALUE) {
+                player.landOn(platformTop - player.getHeight());
+                player.setOnFloor(true);
+            }
+        };
     }
 
     /**
@@ -139,7 +152,22 @@ public class CollisionFactoryImpl implements CollisionFactory {
      */
     @Override
     public Collisions boundaryCollisions(final Player player, final BoundaryType boundary) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'movablePlatformCollision'");
+        return game -> {
+
+        };
+    }
+
+    /**
+     * Hnadles the button collisions when the button is released.
+     */
+    @Override
+    public Collisions buttonReleasedCollision(Button button) {
+        return game -> {
+            button.release();
+            final MovableIPlatform mPlatform = button.getLinkedPlatform();
+            if (mPlatform != null && !button.isPressed()) {
+                mPlatform.deactive();
+            }
+        };
     }
 }
