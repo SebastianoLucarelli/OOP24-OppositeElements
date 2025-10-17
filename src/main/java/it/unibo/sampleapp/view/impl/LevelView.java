@@ -46,6 +46,10 @@ public class LevelView extends JPanel {
     private transient Image fanImg;
     private transient Image pauseImg;
     private transient Image leverImg;
+    private transient Image fireBoyRight;
+    private transient Image fireBoyLeft;
+    private transient Image waterGirlRight;
+    private transient Image waterGirlLeft;
     private transient List<Player> players;
     private transient List<GameObject> objects;
 
@@ -89,6 +93,11 @@ public class LevelView extends JPanel {
         fanImg = new ImageIcon(getClass().getClassLoader().getResource("img/Fan.png")).getImage();
         leverImg = new ImageIcon(getClass().getClassLoader().getResource("img/LeverOff.png")).getImage();
         pauseImg = new ImageIcon(getClass().getClassLoader().getResource("img/PauseButton.png")).getImage();
+        fireBoyRight = new ImageIcon(getClass().getClassLoader().getResource("img/FireBoyR.gif")).getImage();
+        fireBoyLeft = new ImageIcon(getClass().getClassLoader().getResource("img/FireBoyL.gif")).getImage();
+        waterGirlRight = new ImageIcon(getClass().getClassLoader().getResource("img/WaterGirlR.gif")).getImage();
+        waterGirlLeft = new ImageIcon(getClass().getClassLoader().getResource("img/WaterGirlL.gif")).getImage();
+
     }
 
     /**
@@ -216,8 +225,26 @@ public class LevelView extends JPanel {
             }
         }
         g.setColor(PLAYER_COLOR);
+
         for (final Player p : players) {
-            final Image img = "FIRE".equals(p.getType().toString()) ? fireBoyImg : waterGirlImg;
+            final boolean isFire = "FIRE".equals(p.getType().toString());
+            final String direction = p.getDirection();
+            Image img = null;
+
+            if(isFire) {
+                switch (direction) {
+                    case "left" -> img = fireBoyLeft;
+                    case "right" -> img = fireBoyRight;
+                    default -> img = fireBoyImg;
+                }
+            } else {
+                switch (direction) {
+                    case "left" -> img = waterGirlLeft;
+                    case "right" -> img = waterGirlRight;
+                    default -> img = waterGirlImg;
+                }
+            }
+
             g.drawImage(
                 img,
                 (int) Math.round(p.getPosition().getX()),
