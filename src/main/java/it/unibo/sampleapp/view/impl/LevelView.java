@@ -271,13 +271,13 @@ public class LevelView extends JPanel {
     }
 
     /**
-     * Update objects and players during the levels
+     * Update objects and players during the levels.
      *
-     * @param players players of level
-     * @param objects objects of level
+     * @param newPlayers players of level
+     * @param newObjects objects of level
      */
-    public void updateObjects(final List<Player> players, final List<GameObject> objects) {
-        this.players = players;
-        this.objects = objects;
+    public void updateObjects(final List<Player> newPlayers, final List<GameObject> newObjects) {
+        this.players = newPlayers;
+        this.objects = newObjects;
     }
 }

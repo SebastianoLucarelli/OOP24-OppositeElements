@@ -39,10 +39,8 @@ public class CollisionFactoryImpl implements CollisionFactory {
     public Collisions hitHazard(final Player player, final Hazard hazard) {
         return game -> {
             if (!hazard.safeForPlayer(player)) {
-                System.out.println("player" + player + "tocca" + hazard.getType());
                 game.gameOver();
             }
-            System.out.println("player" + player + "tocca" + hazard.getType());
         };
     }
 
@@ -118,10 +116,10 @@ public class CollisionFactoryImpl implements CollisionFactory {
             final double platformLeft = platform.getPosition().getX();
             final double platformRight = platform.getPosition().getX() + platform.getWidth();
 
-            if (playerBottom >= platformTop &&
-                player.getPosition().getY() < platformTop &&
-                player.getSpeedY() >= 0 &&
-                playerBottom - platformTop < player.getHeight() * 0.5) {
+            if (playerBottom >= platformTop
+                && player.getPosition().getY() < platformTop
+                && player.getSpeedY() >= 0
+                && playerBottom - platformTop < player.getHeight() * 0.5) {
                     player.landOn(platformTop - player.getHeight());
                     player.setOnFloor(true);
                     return;
@@ -129,22 +127,22 @@ public class CollisionFactoryImpl implements CollisionFactory {
                     player.setOnFloor(false);
                 }
 
-            if (playerTop <= platformBottom &&
-                playerBottom > platformBottom &&
-                player.getSpeedY() < 0) {
+            if (playerTop <= platformBottom
+                && playerBottom > platformBottom
+                && player.getSpeedY() < 0) {
                     player.stopJump(platformBottom);
                 }
 
-            if (playerRight > platformLeft && playerLeft < platformLeft &&
-                player.getSpeedX() > 0 && 
-                playerBottom > platformTop + 1 && playerTop < platformBottom - 1) {
+            if (playerRight > platformLeft && playerLeft < platformLeft
+                && player.getSpeedX() > 0 
+                && playerBottom > platformTop + 1 && playerTop < platformBottom - 1) {
                     player.setPositionX(platformLeft - player.getWidth());
                     player.stopHorizontalMovement();
                 }
 
-            if (player.getPosition().getX() < platformRight && playerRight > platformRight &&
-                player.getSpeedX() < 0 &&
-                playerBottom > platformTop + 1 && playerTop < platformBottom - 1) {
+            if (player.getPosition().getX() < platformRight && playerRight > platformRight
+                && player.getSpeedX() < 0
+                && playerBottom > platformTop + 1 && playerTop < platformBottom - 1) {
                     player.setPositionX(platformRight);
                     player.stopHorizontalMovement();
                 }
@@ -166,10 +164,10 @@ public class CollisionFactoryImpl implements CollisionFactory {
             final double platformLeft = movablePlatform.getPosition().getX();
             final double platformRight = movablePlatform.getPosition().getX() + movablePlatform.getWidth();
 
-            if (playerBottom >= platformTop &&
-                playerTop < platformTop &&
-                player.getSpeedY() >= 0 &&
-                playerBottom - platformTop < player.getHeight() * 0.5) {
+            if (playerBottom >= platformTop
+                && playerTop < platformTop
+                && player.getSpeedY() >= 0
+                && playerBottom - platformTop < player.getHeight() * 0.5) {
                     player.landOn(platformTop - player.getHeight());
                     player.setOnFloor(true);
 
@@ -181,22 +179,22 @@ public class CollisionFactoryImpl implements CollisionFactory {
                 player.setOnFloor(false);
             }
 
-            if (playerTop <= platformBottom &&
-                playerBottom > platformBottom &&
-                player.getSpeedY() < 0) {
+            if (playerTop <= platformBottom
+                && playerBottom > platformBottom
+                && player.getSpeedY() < 0) {
                     player.stopJump(platformBottom);
                 }
 
-            if (playerRight > platformLeft && playerLeft < platformLeft &&
-                player.getSpeedX() > 0 && 
-                playerBottom > platformTop + 1 && playerTop < platformBottom - 1) {
+            if (playerRight > platformLeft && playerLeft < platformLeft
+                && player.getSpeedX() > 0
+                && playerBottom > platformTop + 1 && playerTop < platformBottom - 1) {
                     player.setPositionX(platformLeft - player.getWidth());
                     player.stopHorizontalMovement();
                 }
 
-            if (player.getPosition().getX() < platformRight && playerRight > platformRight &&
-                player.getSpeedX() < 0 &&
-                playerBottom > platformTop + 1 && playerTop < platformBottom - 1) {
+            if (player.getPosition().getX() < platformRight && playerRight > platformRight
+                && player.getSpeedX() < 0
+                && playerBottom > platformTop + 1 && playerTop < platformBottom - 1) {
                     player.setPositionX(platformRight);
                     player.stopHorizontalMovement();
                 }
@@ -217,7 +215,7 @@ public class CollisionFactoryImpl implements CollisionFactory {
      * Hnadles the button collisions when the button is released.
      */
     @Override
-    public Collisions buttonReleasedCollision(Button button) {
+    public Collisions buttonReleasedCollision(final Button button) {
         return game -> {
             button.release();
             final MovableIPlatform mPlatform = button.getLinkedPlatform();

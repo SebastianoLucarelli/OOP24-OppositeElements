@@ -1,5 +1,6 @@
 package it.unibo.sampleapp.controller.impl;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.sampleapp.controller.api.GameController;
 import it.unibo.sampleapp.model.game.GameState;
 import it.unibo.sampleapp.model.game.api.Game;
@@ -18,7 +19,7 @@ public class GameControllerImpl implements GameController, Runnable {
     private final LevelView levelView;
 
     private Thread levelLoopThread;
-    private boolean running;
+    private volatile boolean running;
 
     private final PlayerControllerImpl playerController;
 
@@ -29,6 +30,7 @@ public class GameControllerImpl implements GameController, Runnable {
      * @param levelView the view of the level
      * @param playerController the controller of players
      */
+    @SuppressFBWarnings(value = "EI2", justification = "Controller must hold references to view and model")
     public GameControllerImpl(final Game game, final LevelView levelView, final PlayerControllerImpl playerController) {
         this.game = game;
         this.levelView = levelView;
