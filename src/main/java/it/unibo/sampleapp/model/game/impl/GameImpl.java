@@ -128,10 +128,21 @@ public class GameImpl implements Game {
      * @return true if they are colliding, false otherwise
      */
     private boolean collidingPlayerObj(final Player p, final GameObject obj) {
-        return p.getPosition().getX() < obj.getPosition().getX() + obj.getWidth()
-            && p.getPosition().getX() + p.getWidth() > obj.getPosition().getX()
-            && p.getPosition().getY() < obj.getPosition().getY() + obj.getHeight()
-            && p.getPosition().getY() + p.getHeight() > obj.getPosition().getY();
+        final double posX = p.getPosition().getX();
+        final double posY = p.getPosition().getY();
+        final double posW = p.getWidth();
+        final double posH = p.getHeight();
+
+        final double objX = obj.getPosition().getX();
+        final double objY = obj.getPosition().getY();
+        final double objW = obj.getWidth();
+        final double objH = obj.getHeight();
+
+        final double hazardPaddingY = (obj instanceof Hazard) ? 5.0 : 0.0;
+        final double hazardPaddingX = (obj instanceof Hazard) ? 3.0 : 0.0;
+
+        return posX < objX + objW - hazardPaddingX && posX + posW > objX + hazardPaddingX &&
+            posY < objY + objH +  hazardPaddingY && posY + posH > objY - hazardPaddingY;
     }
 
     /**
