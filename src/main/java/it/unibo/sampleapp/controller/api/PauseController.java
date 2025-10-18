@@ -8,14 +8,12 @@ public interface PauseController {
     /**
      * Callback triggered when the user wants to return to the Level Selection Screen.
      */
-    void backtoLevelSelection();
+    void backHome();
 
     /**
      * A function used to restart the current level.
-     *
-     * @param levelIndex the index of the current level
      */
-    void restartTheLevel(int levelIndex);
+    void restartTheLevel();
 
     /**
      * A function that admit to continue the current level.

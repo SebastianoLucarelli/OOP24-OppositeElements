@@ -53,6 +53,8 @@ public class LevelView extends JPanel {
     private transient List<Player> players;
     private transient List<GameObject> objects;
 
+    private transient Runnable pauserRunnable;
+
     /**
      * Default constructor.
      */
@@ -231,7 +233,7 @@ public class LevelView extends JPanel {
             final String direction = p.getDirection();
             Image img = null;
 
-            if(isFire) {
+            if (isFire) {
                 switch (direction) {
                     case "left" -> img = fireBoyLeft;
                     case "right" -> img = fireBoyRight;
@@ -256,6 +258,18 @@ public class LevelView extends JPanel {
         }
     }
 
+    /**
+     * Sets the pause action to be executed when the pause button is clicked.
+     *
+     * @param pauseRunnable the Runnable to execute
+     */
+    public void pause(final Runnable pauseRunnable) {
+        this.pauserRunnable = pauseRunnable;
+    }
+
+    /**
+     * Adds a pause button to the view, which triggers the pause action when clicked.
+     */
     private void addPauseButton() {
         setLayout(null);
         final Image scaled = pauseImg.getScaledInstance(PAUSE_DIMENSION, PAUSE_DIMENSION, Image.SCALE_SMOOTH);
@@ -265,7 +279,9 @@ public class LevelView extends JPanel {
         pauseButton.setFocusPainted(false);
         pauseButton.setBounds(0, 0, PAUSE_DIMENSION, PAUSE_DIMENSION); 
         pauseButton.addActionListener(e -> {
-            //we'll go to implement that tomorrow
+            if (pauserRunnable != null) {
+                pauserRunnable.run();
+            }
         });
         add(pauseButton);
     }

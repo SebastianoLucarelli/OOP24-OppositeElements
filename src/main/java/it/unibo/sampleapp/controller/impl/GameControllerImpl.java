@@ -79,6 +79,14 @@ public class GameControllerImpl implements GameController, Runnable {
     }
 
     /**
+     * Returns the levelView screen of the current level.
+     */
+    @Override
+    public LevelView getLevelView() {
+        return levelView;
+    }
+
+    /**
      * Main level loop, it updates game and view.
      */
     @Override
