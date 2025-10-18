@@ -1,5 +1,7 @@
 package it.unibo.sampleapp.controller.api;
 
+import it.unibo.sampleapp.view.impl.LevelView;
+
 /**
  * Defines basic game control operations..
  */
@@ -24,4 +26,9 @@ public interface GameController {
      * Resumes the paused level.
      */
     void resumeLevelGame();
+
+    /**
+     * @return the LevelView screen of the current level
+     */
+    LevelView getLevelView();
 }

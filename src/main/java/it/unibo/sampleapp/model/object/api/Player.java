@@ -96,4 +96,30 @@ public interface Player {
      */
     void stopJump(double newY);
 
+    /**
+     * Sets a new position.
+     *
+     * @param newPos the new position
+     */
+    void setPosition(Position newPos);
+
+    /**
+     * Sets a new x position.
+     *
+     * @param x the position where the player should stand
+     */
+    void setPositionX(double x);
+
+    /**
+     * Sets a new y position.
+     *
+     * @param y the position where the player should stand
+     */
+    void setPositionY(double y);
+
+    /**
+     * Stop the horizontal movement of the player.
+     */
+    void stopHorizontalMovement();
+
 }

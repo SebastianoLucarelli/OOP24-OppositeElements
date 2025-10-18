@@ -27,6 +27,7 @@ import it.unibo.sampleapp.model.object.api.Player;
 public class GameImpl implements Game {
 
     private static final int TIME_LIMIT_PER_LEVEL = 60;
+    private static final double PADDING_X = 0.32;
 
     private final List<GameObject> gameObjects;
     private final List<Player> players;
@@ -80,7 +81,7 @@ public class GameImpl implements Game {
 
         collisionQueue.manageCollisions(this);
 
-        for (GameObject obj : gameObjects) {
+        for (final GameObject obj : gameObjects) {
             if (obj instanceof MovableIPlatform mp) {
                 mp.move();
             }
@@ -111,7 +112,7 @@ public class GameImpl implements Game {
                     collisionQueue.addCollision(collisionFactory.leverDisplacementCollision(p, l));
                 } else if (obj instanceof MovableIPlatform mp) {
                     collisionQueue.addCollision(collisionFactory.movablePlatformCollision(p, mp));
-                }else if (obj instanceof Platform pl) {
+                } else if (obj instanceof Platform pl) {
                     collisionQueue.addCollision(collisionFactory.platformCollisions(p, pl));
                 }
             } else if (obj instanceof Button b && b.isPressed()) {
@@ -128,10 +129,28 @@ public class GameImpl implements Game {
      * @return true if they are colliding, false otherwise
      */
     private boolean collidingPlayerObj(final Player p, final GameObject obj) {
-        return p.getPosition().getX() < obj.getPosition().getX() + obj.getWidth()
-            && p.getPosition().getX() + p.getWidth() > obj.getPosition().getX()
-            && p.getPosition().getY() < obj.getPosition().getY() + obj.getHeight()
-            && p.getPosition().getY() + p.getHeight() > obj.getPosition().getY();
+        final double posX = p.getPosition().getX();
+        final double posY = p.getPosition().getY();
+        final double posW = p.getWidth();
+        final double posH = p.getHeight();
+
+        final double objX = obj.getPosition().getX();
+        final double objY = obj.getPosition().getY();
+        final double objW = obj.getWidth();
+        final double objH = obj.getHeight();
+
+        double paddingY = 0.0;
+        double paddingX = 0.0;
+
+        if (obj instanceof Hazard || obj instanceof Button) {
+            paddingY = 3.0;
+        }
+        if (obj instanceof Hazard || obj instanceof Button) {
+            paddingX = obj.getWidth() * PADDING_X;
+        }
+
+        return posX < objX + objW - paddingX && posX + posW > objX + paddingX
+            && posY < objY + objH + paddingY && posY + posH > objY - paddingY;
     }
 
     /**

@@ -25,4 +25,9 @@ public interface GameEngine {
      * @param levelNumber level that must be loaded
      */
     void startLevel(int levelNumber);
+
+    /**
+     * @return the current level number
+     */
+    int getCurrentLevelNumber();
 }

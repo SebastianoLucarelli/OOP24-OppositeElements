@@ -56,10 +56,6 @@ public abstract class AbstractPlayer implements Player {
 
     /**
      * Processes input commands from controller.
-     *
-     * @param left  true if moving left
-     * @param right true if moving right
-     * @param jump  true if jumping
      */
     @Override
     public void input(final boolean left, final boolean right, final boolean jump) {
@@ -82,8 +78,6 @@ public abstract class AbstractPlayer implements Player {
 
     /**
      * Updates player logic every frame.
-     *
-     * @param deltaTime time since last update
      */
     @Override
     public void updatePlayer(final double deltaTime) {
@@ -127,8 +121,6 @@ public abstract class AbstractPlayer implements Player {
 
     /**
      * Sets whether the player is currently at the door.
-     *
-     * @param atDoor true if the player is in contact with the door
      */
     @Override
     public void setAtDoor(final boolean atDoor) {
@@ -169,8 +161,6 @@ public abstract class AbstractPlayer implements Player {
 
     /**
      * Stops vertical movement.
-     *
-     * @param newY the position where the player should stand
      */
     @Override
     public void landOn(final double newY) {
@@ -181,8 +171,6 @@ public abstract class AbstractPlayer implements Player {
 
     /**
      * Sets whether the player is currently on the floor.
-     *
-     * @param onFloor true if the player is touching the ground, false otherwise
      */
     @Override
     public void setOnFloor(final boolean onFloor) {
@@ -199,6 +187,38 @@ public abstract class AbstractPlayer implements Player {
     }
 
     /**
+     * Sets a new position.
+     */
+    @Override
+    public void setPosition(final Position newPos) {
+        this.position = newPos;
+    }
+
+    /**
+     * Sets a new x position.
+     */
+    @Override
+    public void setPositionX(final double x) {
+        this.position.setX(x);
+    }
+
+    /**
+     * Sets a new y position.
+     */
+    @Override
+    public void setPositionY(final double y) {
+        this.position.setY(y);
+    }
+
+    /**
+     * Stop the horizontal movement of the player.
+     */
+    @Override
+    public void stopHorizontalMovement() {
+        this.speedX = 0;
+    }
+
+    /**
      * @return true if the player is on the floor
      */
     public boolean isOnFloor() {
@@ -207,8 +227,6 @@ public abstract class AbstractPlayer implements Player {
 
     /**
      * Apply gravity to vertical speed.
-     *
-     * @param deltaTime time since last update
      */
     protected void gravityApply(final double deltaTime) {
         this.speedY += GRAVITY * deltaTime;
@@ -216,8 +234,6 @@ public abstract class AbstractPlayer implements Player {
 
     /**
      * Move the player horizontally.
-     *
-     * @param deltaTime time since last update
      */
     protected void horizontalMove(final double deltaTime) {
         double newX = this.position.getX() + this.speedX * deltaTime;
@@ -231,8 +247,6 @@ public abstract class AbstractPlayer implements Player {
 
     /**
      * Move the player vertically.
-     *
-     * @param deltaTime time since last update
      */
     protected void verticalMove(final double deltaTime) {
         double newY = position.getY() + this.speedY * deltaTime;
@@ -246,8 +260,6 @@ public abstract class AbstractPlayer implements Player {
 
     /**
      * Handles animation frame changes based on direction and time.
-     *
-     * @param deltaTime time since last update
      */
     private void animate(final double deltaTime) {
         if (Math.abs(speedX) > 0) {

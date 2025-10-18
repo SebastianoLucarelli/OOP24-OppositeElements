@@ -1,115 +1,148 @@
 package it.unibo.sampleapp.view.impl;
 
 import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Graphics;
-import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 
 /**
  * Class for the Pause Screen.
+ * It extends JDialog to create a window that overlays the main game level window when paused.
  */
-public class PauseView extends JPanel {
+public class PauseView extends JDialog {
 
     private static final long serialVersionUID = 1L;
 
-    private static final int TOP_TITLE = 40;
-    private static final int CENTER_WIDTH = 800;
-    private static final int CENTER_HEIGHT = 300;
-    private static final int BUTTON_WIDTH = 150;
-    private static final int BUTTON_HEIGHT = 80;
+    private static final int DIALOG_WIDTH = 550;
+    private static final int DIALOG_HEIGHT = 350;
+    private static final int TITLE_WIDTH = 200;
+    private static final int TITLE_HEIGHT = 75;
+    private static final int TITLE_Y = 35;
+    private static final int BUTTON_Y = 100;
+    private static final int BUTTON_GAP = 70;
+
+    private static final int BUTTON_WIDTH = 130;
+    private static final int BUTTON_HEIGHT = 50;
 
     private final transient BufferedImage background;
+    private final transient BufferedImage pauseTitleImage;
+    private final transient BufferedImage continueImage;
+    private final transient BufferedImage restartImage;
+    private final transient BufferedImage homeImage;
 
     private transient Runnable backHome;
     private transient Runnable resumeLevel;
     private transient Runnable restartLevel;
 
     /**
-     * Builder for the Pause screen.
+     * Builder for the Pause Screen.
+     *
+     * @param parentFrame the parent JFrame to attach the dialog to
      */
-    public PauseView() {
-        super(new BorderLayout());
-        this.background = loadImage("/img/Menu.png");
+    public PauseView(final JFrame parentFrame) {
+        super(parentFrame, "Pause", true);
 
-        SwingUtilities.invokeLater(this::initPauseView);
+        this.background = loadImage("/img/Menu.png");
+        this.pauseTitleImage = loadImage("/img/Pause.png");
+        this.continueImage = loadImage("/img/ContinueButton.png");
+        this.restartImage = loadImage("/img/RestartButton.png");
+        this.homeImage = loadImage("/img/HomeButton.png");
     }
 
     /**
-     * Initializes the graphical components of the view.
+     * Initializes the Puase Screen.
      */
-    private void initPauseView() {
-        final BufferedImage pauseImg = loadImage("/img/Pause.png");
-        if (pauseImg != null) {
-            final int scaledWidth = 200;
-            final int scaledHeight = (int) ((double) pauseImg.getHeight() / pauseImg.getWidth() * scaledWidth);
-            final Image scaledPauseImg = pauseImg.getScaledInstance(scaledWidth, scaledHeight, Image.SCALE_SMOOTH);
-            final JLabel title = new JLabel(new ImageIcon(scaledPauseImg));
-            final JPanel top = new JPanel(new FlowLayout(FlowLayout.CENTER));
-            top.setBorder(BorderFactory.createEmptyBorder(TOP_TITLE, 0, 0, 0));
-            top.setOpaque(false);
-            top.add(title);
-            add(top, BorderLayout.NORTH);
+    public void initializePauseView() {
+        setUndecorated(true);
+        setResizable(false);
+        setLayout(new BorderLayout());
+        setBackground(new Color(0, 0, 0, 0));
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+        final JPanel imagPanel = new JPanel() {
+            @Override
+            protected void paintComponent(final Graphics g) {
+                super.paintComponent(g);
+                if (background != null) {
+                    g.drawImage(background, 0, 0, getWidth(), getHeight(), this);
+                }
+            }
+        };
+        imagPanel.setLayout(null);
+        imagPanel.setOpaque(false);
+        imagPanel.setPreferredSize(new Dimension(DIALOG_WIDTH, DIALOG_HEIGHT));
+
+        if (pauseTitleImage != null) {
+            final JLabel titleLabel = new JLabel(new ImageIcon(
+            pauseTitleImage.getScaledInstance(TITLE_WIDTH, TITLE_HEIGHT, Image.SCALE_SMOOTH)));
+            final int titleX = (DIALOG_WIDTH - TITLE_WIDTH) / 2;
+            titleLabel.setBounds(titleX, TITLE_Y, TITLE_WIDTH, TITLE_HEIGHT);
+            imagPanel.add(titleLabel);
         }
 
-        final JPanel center = new JPanel(new GridLayout(2, 1, 0, 30));
-        center.setOpaque(false);
-        center.setPreferredSize(new Dimension(CENTER_WIDTH, CENTER_HEIGHT));
+        final JButton continueButton = createButton(continueImage, "Continue", BUTTON_Y, e -> {
+            dispose();
+            runIfNotNull(resumeLevel);
+        });
 
-        final JPanel firstRow = new JPanel(new FlowLayout(FlowLayout.CENTER, 60, 0));
-        firstRow.setOpaque(false);
-        firstRow.add(createButton("/img/HomeButton.png", () -> runIfNotNull(backHome)));
-        firstRow.add(createButton("/img/RestartButton.png", () -> runIfNotNull(restartLevel)));
+        final JButton restartButton = createButton(restartImage, "Restart", BUTTON_Y + BUTTON_GAP, e -> {
+            dispose();
+            runIfNotNull(restartLevel);
+        });
 
-        final JPanel secondRow = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
-        secondRow.setOpaque(false);
-        secondRow.add(createButton("/img/ContinueButton.png", () -> runIfNotNull(resumeLevel)));
+        final JButton homeButton = createButton(homeImage, "Home", BUTTON_Y + BUTTON_GAP * 2, e -> {
+            dispose();
+            runIfNotNull(backHome);
+        });
 
-        center.add(firstRow);
-        center.add(secondRow);
-        add(center, BorderLayout.CENTER);
+        imagPanel.add(continueButton);
+        imagPanel.add(restartButton);
+        imagPanel.add(homeButton);
+
+        add(imagPanel, BorderLayout.CENTER);
+        pack();
+        setLocationRelativeTo(getParent());
     }
 
     /**
-     * Creates the button fot the pause screen.
+     * Creates a JButton with an image or fallback text and assings an action listener.
      *
-     * @param imgPath the path of the image resource
-     * @param r a Runnable to execute when the button is pressed
-     * @return the right button
+     * @param img the image to use fot the button
+     * @param fallbackString the string to show if image is null
+     * @param y the vertical position of the button
+     * @param actionListener the action to perfomr when the button is clicked
+     * @return the JButton
      */
-    private JButton createButton(final String imgPath, final Runnable r) {
-        final BufferedImage img = loadImage(imgPath);
-        final JButton button = new JButton();
-        button.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
+    private JButton createButton(final BufferedImage img, final String fallbackString, 
+    final int y, final ActionListener actionListener) {
+        final JButton btn = new JButton();
+        btn.setBorderPainted(false);
+        btn.setContentAreaFilled(false);
+        btn.setFocusPainted(false);
 
         if (img != null) {
-            final Image scaled = img.getScaledInstance(BUTTON_WIDTH, BUTTON_HEIGHT, Image.SCALE_SMOOTH);
-            button.setIcon(new ImageIcon(scaled));
+            btn.setIcon(new ImageIcon(img.getScaledInstance(BUTTON_WIDTH, BUTTON_HEIGHT, Image.SCALE_SMOOTH)));
         } else {
-            button.setText(imgPath);
-            button.setBackground(Color.gray);
-            button.setOpaque(false);
+            btn.setText(fallbackString);
         }
 
-        button.setBorderPainted(false);
-        button.setContentAreaFilled(false);
-        button.setFocusPainted(false);
-        button.setOpaque(false);
-        button.addActionListener(e -> runIfNotNull(r));
-        return button;
+        final int x = (DIALOG_WIDTH - BUTTON_WIDTH) / 2;
+        btn.setBounds(x, y, BUTTON_WIDTH, BUTTON_HEIGHT);
+        btn.addActionListener(actionListener);
+        return btn;
     }
 
     /**
@@ -142,40 +175,16 @@ public class PauseView extends JPanel {
     }
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected void paintComponent(final Graphics g) {
-        super.paintComponent(g);
-        if (background != null) {
-            g.drawImage(background, 0, 0, getWidth(), getHeight(), this);
-        }
-    }
-
-    /**
-     * Sets the callback to be triggered when the Home button is clicked.
+     * Shows the pause window and sets the actions for each button of the screen.
      *
-     * @param back a runnable to execute when returning home
+     * @param resumeLevelRun the action to continue the level
+     * @param restartLevelRun the action to restart the level
+     * @param backHomeRun the action to return back home
      */
-    public void backToHome(final Runnable back) {
-        this.backHome = back;
-    }
-
-    /**
-     * Sets the callback to be triggered when the restart button is clicked.
-     *
-     * @param restart a runnable to execute when we want to restart a specific level
-     */
-    public void restartLevel(final Runnable restart) {
-        this.restartLevel = restart;
-    }
-
-    /**
-     * Sets the callback to be triggered when the Continue button is clicked.
-     *
-     * @param resume a runnable to esecute when we want to continue the level
-     */
-    public void resumeLevel(final Runnable resume) {
-        this.resumeLevel = resume;
+    public void showPauseView(final Runnable resumeLevelRun, final Runnable restartLevelRun, final Runnable backHomeRun) {
+        this.resumeLevel = resumeLevelRun;
+        this.restartLevel = restartLevelRun;
+        this.backHome = backHomeRun;
+        setVisible(true);
     }
 }

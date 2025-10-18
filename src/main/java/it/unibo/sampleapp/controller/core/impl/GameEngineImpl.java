@@ -8,9 +8,11 @@ import javax.swing.SwingUtilities;
 
 import it.unibo.sampleapp.controller.api.HomeController;
 import it.unibo.sampleapp.controller.api.LevelProcessController;
+import it.unibo.sampleapp.controller.api.PauseController;
 import it.unibo.sampleapp.controller.impl.GameControllerImpl;
 import it.unibo.sampleapp.controller.impl.HomeControllerImpl;
 import it.unibo.sampleapp.controller.impl.LevelProcessControllerImpl;
+import it.unibo.sampleapp.controller.impl.PauseControllerImpl;
 import it.unibo.sampleapp.controller.impl.PlayerControllerImpl;
 import it.unibo.sampleapp.model.api.LevelProcess;
 import it.unibo.sampleapp.model.game.GameState;
@@ -22,9 +24,11 @@ import it.unibo.sampleapp.model.level.impl.LevelLoaderImpl;
 import it.unibo.sampleapp.model.object.impl.Fireboy;
 import it.unibo.sampleapp.model.object.impl.Watergirl;
 import it.unibo.sampleapp.view.impl.HomePanel;
+import it.unibo.sampleapp.view.impl.InstructionsDialog;
 import it.unibo.sampleapp.view.impl.LevelProcessView;
 import it.unibo.sampleapp.view.impl.LevelScreen;
 import it.unibo.sampleapp.view.impl.LevelView;
+import it.unibo.sampleapp.view.impl.PauseView;
 
 /**
  * The gameEngine implementation.
@@ -39,6 +43,9 @@ public class GameEngineImpl implements GameEngine {
     private final JFrame mainFrame;
 
     private int currentLevelNumber;
+
+    private GameControllerImpl gameController;
+    private Game game;
 
     /**
      * Builder for the GameEngine.
@@ -63,6 +70,7 @@ public class GameEngineImpl implements GameEngine {
             case HOME -> showHomePanel();
             case LEVEL_SELECTION -> showLevelSelection();
             case PLAYING -> startCurrentLevel();
+            case INSTRUCTION -> showInstructionsPopup();
             default -> throw new IllegalArgumentException("Unexpected value: " + currentState);
         }
     }
@@ -74,6 +82,14 @@ public class GameEngineImpl implements GameEngine {
     public void changeState(final GameState state) {
         this.currentState = state;
         gameLoop();
+    }
+
+    /**
+     * Returns the current level number.
+     */
+    @Override
+    public int getCurrentLevelNumber() {
+        return this.currentLevelNumber;
     }
 
     /**
@@ -93,7 +109,7 @@ public class GameEngineImpl implements GameEngine {
         final LevelLoader levelLoader = new LevelLoaderImpl();
         final LevelScreen levelScreen = new LevelScreen(currentLevelNumber, levelLoader);
 
-        final Game game = new GameImpl(levelScreen.getLevel());
+        game = new GameImpl(levelScreen.getLevel());
         final LevelView levelView = levelScreen.getLevelView();
 
         final Fireboy fireboy = (Fireboy) game.getPlayers().stream()
@@ -106,13 +122,15 @@ public class GameEngineImpl implements GameEngine {
         levelView.setFocusable(true);
         levelView.requestFocusInWindow();
 
-        final GameControllerImpl gameController = new GameControllerImpl(game, levelView, playerController);
+        gameController = new GameControllerImpl(game, levelView, playerController);
         showPanel(levelView);
 
         SwingUtilities.invokeLater(() -> {
             levelView.setFocusable(true);
             levelView.requestFocusInWindow();
         });
+
+        levelView.pause(this::pauseGame);
 
         gameController.start();
     }
@@ -156,5 +174,37 @@ public class GameEngineImpl implements GameEngine {
         mainFrame.getContentPane().add(panel);
         mainFrame.revalidate();
         mainFrame.repaint();
+    }
+
+    /**
+     * Initializes and displays the game instructions. 
+     */
+    private void showInstructionsPopup() {
+        final InstructionsDialog dialog = new InstructionsDialog(mainFrame);
+        dialog.showPopup(() -> changeState(GameState.HOME));
+    }
+
+    /**
+     * Pauses the game and shows the pause window.
+     */
+    private void pauseGame() {
+        if (game == null) {
+            return;
+        }
+
+        game.pauseLevel();
+        currentState = GameState.PAUSE;
+
+        final PauseController pauseController = new PauseControllerImpl(game, gameController, this);
+
+        SwingUtilities.invokeLater(() -> {
+            final PauseView pauseView = new PauseView(mainFrame);
+            pauseView.initializePauseView();
+            pauseView.showPauseView(
+                pauseController::resumeTheLevel,
+                pauseController::restartTheLevel,
+                pauseController::backHome
+            );
+        });
     }
 }

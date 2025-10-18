@@ -46,8 +46,14 @@ public class LevelView extends JPanel {
     private transient Image fanImg;
     private transient Image pauseImg;
     private transient Image leverImg;
+    private transient Image fireBoyRight;
+    private transient Image fireBoyLeft;
+    private transient Image waterGirlRight;
+    private transient Image waterGirlLeft;
     private transient List<Player> players;
     private transient List<GameObject> objects;
+
+    private transient Runnable pauserRunnable;
 
     /**
      * Default constructor.
@@ -88,7 +94,12 @@ public class LevelView extends JPanel {
         gemWaterImg = new ImageIcon(getClass().getClassLoader().getResource("img/WaterGem.png")).getImage();
         fanImg = new ImageIcon(getClass().getClassLoader().getResource("img/Fan.png")).getImage();
         leverImg = new ImageIcon(getClass().getClassLoader().getResource("img/LeverOff.png")).getImage();
-        pauseImg = new ImageIcon(getClass().getClassLoader().getResource("img/Home.png")).getImage();
+        pauseImg = new ImageIcon(getClass().getClassLoader().getResource("img/PauseButton.png")).getImage();
+        fireBoyRight = new ImageIcon(getClass().getClassLoader().getResource("img/FireBoyR.gif")).getImage();
+        fireBoyLeft = new ImageIcon(getClass().getClassLoader().getResource("img/FireBoyL.gif")).getImage();
+        waterGirlRight = new ImageIcon(getClass().getClassLoader().getResource("img/WaterGirlR.gif")).getImage();
+        waterGirlLeft = new ImageIcon(getClass().getClassLoader().getResource("img/WaterGirlL.gif")).getImage();
+
     }
 
     /**
@@ -216,8 +227,26 @@ public class LevelView extends JPanel {
             }
         }
         g.setColor(PLAYER_COLOR);
+
         for (final Player p : players) {
-            final Image img = "FIRE".equals(p.getType().toString()) ? fireBoyImg : waterGirlImg;
+            final boolean isFire = "FIRE".equals(p.getType().toString());
+            final String direction = p.getDirection();
+            Image img = null;
+
+            if (isFire) {
+                switch (direction) {
+                    case "left" -> img = fireBoyLeft;
+                    case "right" -> img = fireBoyRight;
+                    default -> img = fireBoyImg;
+                }
+            } else {
+                switch (direction) {
+                    case "left" -> img = waterGirlLeft;
+                    case "right" -> img = waterGirlRight;
+                    default -> img = waterGirlImg;
+                }
+            }
+
             g.drawImage(
                 img,
                 (int) Math.round(p.getPosition().getX()),
@@ -229,6 +258,18 @@ public class LevelView extends JPanel {
         }
     }
 
+    /**
+     * Sets the pause action to be executed when the pause button is clicked.
+     *
+     * @param pauseRunnable the Runnable to execute
+     */
+    public void pause(final Runnable pauseRunnable) {
+        this.pauserRunnable = pauseRunnable;
+    }
+
+    /**
+     * Adds a pause button to the view, which triggers the pause action when clicked.
+     */
     private void addPauseButton() {
         setLayout(null);
         final Image scaled = pauseImg.getScaledInstance(PAUSE_DIMENSION, PAUSE_DIMENSION, Image.SCALE_SMOOTH);
@@ -238,19 +279,21 @@ public class LevelView extends JPanel {
         pauseButton.setFocusPainted(false);
         pauseButton.setBounds(0, 0, PAUSE_DIMENSION, PAUSE_DIMENSION); 
         pauseButton.addActionListener(e -> {
-            //we'll go to implement that tomorrow
+            if (pauserRunnable != null) {
+                pauserRunnable.run();
+            }
         });
         add(pauseButton);
     }
 
     /**
-     * Update objects and players during the levels
+     * Update objects and players during the levels.
      *
-     * @param players players of level
-     * @param objects objects of level
+     * @param newPlayers players of level
+     * @param newObjects objects of level
      */
-    public void updateObjects(final List<Player> players, final List<GameObject> objects) {
-        this.players = players;
-        this.objects = objects;
+    public void updateObjects(final List<Player> newPlayers, final List<GameObject> newObjects) {
+        this.players = newPlayers;
+        this.objects = newObjects;
     }
 }
