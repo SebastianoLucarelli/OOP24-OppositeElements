@@ -9,8 +9,8 @@ import it.unibo.sampleapp.utils.impl.PositionImpl;
  */
 public class MovablePlatformImpl extends AbstractGameObject implements MovableIPlatform {
 
-    private final int VERTICAL_MOVEMENT = 2;
-    private final int TILE_SIZE = 36;
+    private static final int VERTICAL_MOVEMENT = 2;
+    private static final int TILE_SIZE = 36;
 
     private final Position initialPosition;
     private final Position targetPosition;
@@ -79,7 +79,7 @@ public class MovablePlatformImpl extends AbstractGameObject implements MovableIP
     @Override
     public void move() {
         final Position current = getPosition();
-        final Position destination = isActive ? targetPosition :  initialPosition;
+        final Position destination = isActive ? targetPosition : initialPosition;
         update(current, destination);
     }
 
