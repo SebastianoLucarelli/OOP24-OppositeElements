@@ -187,6 +187,14 @@ public class GameImpl implements Game {
     }
 
     /**
+     * Remove a player from the level if it hits a specific hazard.
+     */
+    @Override
+    public void removePlayer(final Player player) {
+        this.players.remove(player);
+    }
+
+    /**
      * Pauses the level, also stopping the timer.
      */
     @Override

@@ -46,6 +46,13 @@ public interface Game {
     void removeObject(GameObject object);
 
     /**
+     * Remove a player from the level if it hits a specific hazard.
+     *
+     * @param player the player to remove
+     */
+    void removePlayer(Player player);
+
+    /**
      * Pauses the level you are playing.
      */
     void pauseLevel();

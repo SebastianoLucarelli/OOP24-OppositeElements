@@ -39,6 +39,7 @@ public class CollisionFactoryImpl implements CollisionFactory {
     public Collisions hitHazard(final Player player, final Hazard hazard) {
         return game -> {
             if (!hazard.safeForPlayer(player)) {
+                game.removePlayer(player);
                 game.gameOver();
             }
         };
