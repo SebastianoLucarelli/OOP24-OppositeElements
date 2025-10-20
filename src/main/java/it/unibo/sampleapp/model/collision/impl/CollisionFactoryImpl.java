@@ -238,7 +238,6 @@ public class CollisionFactoryImpl implements CollisionFactory {
                     player.setPositionY(game.getHeight() - player.getHeight());
                     player.setOnFloor(true);
                 }
-                default -> {  }
             }
         };
     }

@@ -2,6 +2,7 @@ package it.unibo.sampleapp.controller.impl;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.sampleapp.controller.api.GameController;
+import it.unibo.sampleapp.controller.core.api.GameEngine;
 import it.unibo.sampleapp.model.game.GameState;
 import it.unibo.sampleapp.model.game.api.Game;
 import it.unibo.sampleapp.view.impl.LevelView;
@@ -17,8 +18,8 @@ public class GameControllerImpl implements GameController, Runnable {
 
     private final Game game;
     private final LevelView levelView;
+    private final GameEngine gameEngine;
 
-    private Thread levelLoopThread;
     private volatile boolean running;
 
     private final PlayerControllerImpl playerController;
@@ -29,12 +30,15 @@ public class GameControllerImpl implements GameController, Runnable {
      * @param game the game
      * @param levelView the view of the level
      * @param playerController the controller of players
+     * @param gameEngine the game Engine
      */
     @SuppressFBWarnings(value = "EI2", justification = "Controller must hold references to view and model")
-    public GameControllerImpl(final Game game, final LevelView levelView, final PlayerControllerImpl playerController) {
+    public GameControllerImpl(final Game game, final LevelView levelView, final PlayerControllerImpl playerController,
+    final GameEngine gameEngine) {
         this.game = game;
         this.levelView = levelView;
         this.playerController = playerController;
+        this.gameEngine = gameEngine;
     }
 
     /**
@@ -46,7 +50,7 @@ public class GameControllerImpl implements GameController, Runnable {
             return;
         }
         running = true;
-        levelLoopThread = new Thread(this);
+        final Thread levelLoopThread = new Thread(this);
         levelLoopThread.start();
     }
 
@@ -79,11 +83,11 @@ public class GameControllerImpl implements GameController, Runnable {
     }
 
     /**
-     * Returns the levelView screen of the current level.
+     * Sets focus on the current level View.
      */
     @Override
-    public LevelView getLevelView() {
-        return levelView;
+    public void refocusLevelView() {
+        levelView.requestFocusInWindow();
     }
 
     /**
@@ -105,7 +109,12 @@ public class GameControllerImpl implements GameController, Runnable {
                 levelView.repaint();
             }
 
-            if (game.getCurrentGameState() == GameState.LEVEL_COMPLETED || game.getCurrentGameState() == GameState.GAME_OVER) {
+            if (game.getCurrentGameState() == GameState.LEVEL_COMPLETED) {
+                running = false;
+                gameEngine.changeState(GameState.LEVEL_COMPLETED);
+            }
+
+            if (game.getCurrentGameState() == GameState.GAME_OVER) {
                 running = false;
             }
 

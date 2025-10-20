@@ -8,11 +8,9 @@ import javax.swing.SwingUtilities;
 
 import it.unibo.sampleapp.controller.api.HomeController;
 import it.unibo.sampleapp.controller.api.LevelProcessController;
-import it.unibo.sampleapp.controller.api.PauseController;
 import it.unibo.sampleapp.controller.impl.GameControllerImpl;
 import it.unibo.sampleapp.controller.impl.HomeControllerImpl;
 import it.unibo.sampleapp.controller.impl.LevelProcessControllerImpl;
-import it.unibo.sampleapp.controller.impl.PauseControllerImpl;
 import it.unibo.sampleapp.controller.impl.PlayerControllerImpl;
 import it.unibo.sampleapp.model.api.LevelProcess;
 import it.unibo.sampleapp.model.game.GameState;
@@ -122,7 +120,7 @@ public class GameEngineImpl implements GameEngine {
         levelView.setFocusable(true);
         levelView.requestFocusInWindow();
 
-        gameController = new GameControllerImpl(game, levelView, playerController);
+        gameController = new GameControllerImpl(game, levelView, playerController, this);
         showPanel(levelView);
 
         SwingUtilities.invokeLater(() -> {
@@ -195,15 +193,26 @@ public class GameEngineImpl implements GameEngine {
         game.pauseLevel();
         currentState = GameState.PAUSE;
 
-        final PauseController pauseController = new PauseControllerImpl(game, gameController, this);
-
         SwingUtilities.invokeLater(() -> {
             final PauseView pauseView = new PauseView(mainFrame);
             pauseView.initializePauseView();
             pauseView.showPauseView(
-                pauseController::resumeTheLevel,
-                pauseController::restartTheLevel,
-                pauseController::backHome
+                () -> {
+                    game.resumeLevel();
+                    pauseView.dispose();
+                    currentState = GameState.PLAYING;
+                    gameController.refocusLevelView();
+                },
+                () -> {
+                    pauseView.dispose();
+                    gameController.stop();
+                    startLevel(currentLevelNumber);
+                },
+                () -> {
+                    pauseView.dispose();
+                    gameController.stop();
+                    changeState(GameState.HOME);
+                }
             );
         });
     }
