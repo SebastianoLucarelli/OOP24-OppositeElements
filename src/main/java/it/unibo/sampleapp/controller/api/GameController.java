@@ -1,7 +1,5 @@
 package it.unibo.sampleapp.controller.api;
 
-import it.unibo.sampleapp.view.impl.LevelView;
-
 /**
  * Defines basic game control operations..
  */
@@ -28,7 +26,7 @@ public interface GameController {
     void resumeLevelGame();
 
     /**
-     * @return the LevelView screen of the current level
+     * Sets focus on the current level View.
      */
-    LevelView getLevelView();
+    void refocusLevelView();
 }
