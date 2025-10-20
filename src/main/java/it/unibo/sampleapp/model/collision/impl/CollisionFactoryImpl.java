@@ -112,7 +112,26 @@ public class CollisionFactoryImpl implements CollisionFactory {
     @Override
     public Collisions playerOnFan(final Player player, final Fan fan) {
         return game -> {
+            final double playerBottom = player.getPosition().getY() + player.getHeight();
+            final double playerLeft = player.getPosition().getX();
+            final double playerRight = playerLeft + player.getWidth();
+            final double fanTop = fan.getPosition().getY();
+            final double fanLeft = fan.getPosition().getX();
+            final double fanRight = fanLeft + fan.getWidth();
 
+            final boolean turnOnFan = playerBottom >= fanTop
+                    && playerBottom <= fanTop + fan.getHeight() * 3
+                    && playerRight > fanLeft
+                    && playerLeft < fanRight;
+
+            if (turnOnFan) {
+                final double fan_power = -500.0;
+                player.setOnFloor(false);
+
+                if (player.getSpeedY() > fan_power) {
+                    player.setSpeedY(fan_power);
+                }
+            }
         };
     }
 

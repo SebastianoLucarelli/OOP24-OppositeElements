@@ -114,7 +114,7 @@ public class GameControllerImpl implements GameController, Runnable {
 
             if (game.getCurrentGameState() == GameState.LEVEL_COMPLETED) {
                 running = false;
-                levelProcess.finishedLevel(gameEngine.getCurrentLevelNumber());
+                levelProcess.finishedLevel(gameEngine.getCurrentLevelNumber() - 1);
                 gameEngine.changeState(GameState.LEVEL_COMPLETED);
             }
 
