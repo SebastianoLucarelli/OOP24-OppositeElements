@@ -47,6 +47,8 @@ public class GameImpl implements Game {
     private final Timer timer = new TimerImpl();
     private final long timeLimitPerLevel;
 
+    private boolean allPlayerAlive = true;
+
     /**
      * Builds a new GameImpl instance from a given level.
      *
@@ -220,6 +222,8 @@ public class GameImpl implements Game {
      */
     @Override
     public void removePlayer(final Player player) {
+        player.setDead(true);
+        this.allPlayerAlive = false;
         this.players.remove(player);
     }
 
@@ -250,10 +254,12 @@ public class GameImpl implements Game {
      */
     @Override
     public void checkLevelWin() {
-        final boolean allAtDoor = players.stream().allMatch(Player::isAtDoor);
-        if (allAtDoor) {
-            timer.stop();
-            this.currenState = GameState.LEVEL_COMPLETED;
+        if (allPlayerAlive) {
+            final boolean allAtDoor = players.stream().allMatch(Player::isAtDoor);
+            if (allAtDoor) {
+                timer.stop();
+                this.currenState = GameState.LEVEL_COMPLETED;
+            }
         }
     }
 
