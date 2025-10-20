@@ -33,6 +33,7 @@ public abstract class AbstractPlayer implements Player {
     private boolean onFloor;
     private boolean atDoor;
     private String direction = "front";
+    private boolean dead;
 
     /**
      * Constructor for AbstractPlayer.
@@ -49,6 +50,7 @@ public abstract class AbstractPlayer implements Player {
         this.speedX = 0.0;
         this.speedY = 0.0;
         this.onFloor = false;
+        this.dead = false;
     }
 
     /**
@@ -212,6 +214,22 @@ public abstract class AbstractPlayer implements Player {
     @Override
     public void stopHorizontalMovement() {
         this.speedX = 0;
+    }
+
+    /**
+     * True if the player is dead, false otherwise.
+     */
+    @Override
+    public boolean isDead() {
+        return dead;
+    }
+
+    /**
+     * Sets if the player is dead.
+     */
+    @Override
+    public void setDead(final boolean dead) {
+        this.dead = dead;
     }
 
     /**

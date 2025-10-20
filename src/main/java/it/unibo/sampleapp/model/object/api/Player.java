@@ -124,4 +124,15 @@ public interface Player {
      */
     void stopHorizontalMovement();
 
+    /**
+     * @return true if the player is dead, false otherwise
+     */
+    boolean isDead();
+
+    /**
+     * Sets if the player is dead.
+     *
+     * @param dead true if the player is dead, false otherwise
+     */
+    void setDead(boolean dead);
 }
