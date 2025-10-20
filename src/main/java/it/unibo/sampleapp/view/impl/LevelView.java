@@ -309,20 +309,4 @@ public class LevelView extends JPanel {
         this.players = new ArrayList<>(newPlayers);
         this.objects = new ArrayList<>(newObjects);
     }
-
-    /**
-     * Returns true if the focus is successfully adquired.
-     */
-    @Override
-    public boolean requestFocusInWindow() {
-        return super.requestFocusInWindow();
-    }
-
-    /**
-     * Returns true if the view should be focusable, false otherwise.
-     */
-    @Override
-    public void setFocusable(boolean focusable) {
-        super.setFocusable(focusable);
-    }
 }
