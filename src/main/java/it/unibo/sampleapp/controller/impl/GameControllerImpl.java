@@ -3,6 +3,7 @@ package it.unibo.sampleapp.controller.impl;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.sampleapp.controller.api.GameController;
 import it.unibo.sampleapp.controller.core.api.GameEngine;
+import it.unibo.sampleapp.model.api.LevelProcess;
 import it.unibo.sampleapp.model.game.GameState;
 import it.unibo.sampleapp.model.game.api.Game;
 import it.unibo.sampleapp.view.impl.LevelView;
@@ -19,6 +20,7 @@ public class GameControllerImpl implements GameController, Runnable {
     private final Game game;
     private final LevelView levelView;
     private final GameEngine gameEngine;
+    private final LevelProcess levelProcess;
 
     private volatile boolean running;
 
@@ -34,11 +36,12 @@ public class GameControllerImpl implements GameController, Runnable {
      */
     @SuppressFBWarnings(value = "EI2", justification = "Controller must hold references to view and model")
     public GameControllerImpl(final Game game, final LevelView levelView, final PlayerControllerImpl playerController,
-    final GameEngine gameEngine) {
+    final GameEngine gameEngine, final LevelProcess levelProcess) {
         this.game = game;
         this.levelView = levelView;
         this.playerController = playerController;
         this.gameEngine = gameEngine;
+        this.levelProcess = levelProcess;
     }
 
     /**
@@ -111,11 +114,13 @@ public class GameControllerImpl implements GameController, Runnable {
 
             if (game.getCurrentGameState() == GameState.LEVEL_COMPLETED) {
                 running = false;
+                levelProcess.finishedLevel(gameEngine.getCurrentLevelNumber());
                 gameEngine.changeState(GameState.LEVEL_COMPLETED);
             }
 
             if (game.getCurrentGameState() == GameState.GAME_OVER) {
                 running = false;
+                gameEngine.changeState(GameState.GAME_OVER);
             }
 
             try {

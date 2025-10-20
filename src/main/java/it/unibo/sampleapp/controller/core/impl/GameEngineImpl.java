@@ -120,7 +120,7 @@ public class GameEngineImpl implements GameEngine {
         levelView.setFocusable(true);
         levelView.requestFocusInWindow();
 
-        gameController = new GameControllerImpl(game, levelView, playerController, this);
+        gameController = new GameControllerImpl(game, levelView, playerController, this, levelProcess);
         showPanel(levelView);
 
         SwingUtilities.invokeLater(() -> {
