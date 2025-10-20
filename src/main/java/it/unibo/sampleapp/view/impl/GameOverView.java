@@ -27,7 +27,7 @@ public class GameOverView extends JDialog {
 
     private static final int DIALOG_WIDTH = 550;
     private static final int DIALOG_HEIGHT = 350;
-    private static final int TITLE_WIDTH = 250;
+    private static final int TITLE_WIDTH = 260;
     private static final int TITLE_HEIGHT = 80;
     private static final int TITLE_Y = 35;
     private static final int BUTTON_Y = 100;
@@ -51,9 +51,9 @@ public class GameOverView extends JDialog {
     public GameOverView(final JFrame parentFrame) {
         super(parentFrame, "Game Over", true);
         this.background = loadImage("/img/Menu.png");
-        this.gameOverTitleImage = loadImage("/img/Home.png");
-        this.restartImage = loadImage("img/RestartButton.png");
-        this.homeImage = loadImage("/img/HomeButton.png");
+        this.gameOverTitleImage = loadImage("/img/gameover.png");
+        this.restartImage = loadImage("/img/RestartButton.png");
+        this.homeImage = loadImage("/img/backButton.png");
     }
 
     /**
