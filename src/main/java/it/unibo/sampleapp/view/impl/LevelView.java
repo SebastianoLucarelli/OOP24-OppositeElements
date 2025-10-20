@@ -100,7 +100,6 @@ public class LevelView extends JPanel {
         fireBoyLeft = new ImageIcon(getClass().getClassLoader().getResource("img/FireBoyL.gif")).getImage();
         waterGirlRight = new ImageIcon(getClass().getClassLoader().getResource("img/WaterGirlR.gif")).getImage();
         waterGirlLeft = new ImageIcon(getClass().getClassLoader().getResource("img/WaterGirlL.gif")).getImage();
-
     }
 
     /**
