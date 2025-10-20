@@ -21,6 +21,7 @@ import it.unibo.sampleapp.model.level.api.LevelLoader;
 import it.unibo.sampleapp.model.level.impl.LevelLoaderImpl;
 import it.unibo.sampleapp.model.object.impl.Fireboy;
 import it.unibo.sampleapp.model.object.impl.Watergirl;
+import it.unibo.sampleapp.view.impl.GameOverView;
 import it.unibo.sampleapp.view.impl.HomePanel;
 import it.unibo.sampleapp.view.impl.InstructionsDialog;
 import it.unibo.sampleapp.view.impl.LevelCompleteDialog;
@@ -71,6 +72,7 @@ public class GameEngineImpl implements GameEngine {
             case PLAYING -> startCurrentLevel();
             case INSTRUCTION -> showInstructionsPopup();
             case LEVEL_COMPLETED -> showLevelCompletedDialog();
+            case GAME_OVER -> showGameOverView();
             default -> throw new IllegalArgumentException("Unexpected value: " + currentState);
         }
     }
@@ -231,5 +233,25 @@ public class GameEngineImpl implements GameEngine {
             final LevelCompleteDialog dialog = LevelCompleteDialog.create(mainFrame, game);
             dialog.showDialog(() -> changeState(GameState.LEVEL_SELECTION));
         });
+    }
+
+    /**
+     * It shows game Over screen.
+     */
+    private void showGameOverView() {
+        final GameOverView gameOverView = new GameOverView(mainFrame);
+        gameOverView.initializeGameOverView();
+        gameOverView.showGameOverView(
+            () -> {
+                gameOverView.dispose();
+                gameController.stop();
+                changeState(GameState.LEVEL_SELECTION);
+            },
+            () -> {
+                gameOverView.dispose();
+                gameController.stop();
+                startLevel(currentLevelNumber);
+            }
+        );
     }
 }
