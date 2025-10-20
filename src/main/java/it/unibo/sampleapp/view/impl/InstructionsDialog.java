@@ -39,7 +39,7 @@ public class InstructionsDialog extends JDialog {
     private static final int BUTTON_HEIGHT = 50;
     private static final int BUTTON_Y = 260;
 
-    private final transient BufferedImage backImage;        
+    private final transient BufferedImage backImage;
     private final transient BufferedImage continueButton;
     private final transient BufferedImage instructionsTitle; 
 
@@ -54,16 +54,35 @@ public class InstructionsDialog extends JDialog {
         this.backImage = loadImage("/img/Menu.png");
         this.continueButton = loadImage("/img/ContinueButton.png");
         this.instructionsTitle = loadImage("/img/InstructionsTitle.png");
+    }
 
-        setUndecorated(true); 
+    /**
+     * Creates and initializes an instruction dialog tied to the frame.
+     *
+     * @param parentFrame the parent frame
+     * @return the instruction dialog created
+     */
+    public static InstructionsDialog create(final JFrame parentFrame) {
+        final InstructionsDialog dialog = new InstructionsDialog(parentFrame);
+        dialog.initDialog(parentFrame);
+        return dialog;
+    }
+
+    /**
+     * Initializes the dialog UI.
+     *
+     * @param parentFrame the parent frame
+     */
+    private void initDialog(final JFrame parentFrame) {
+        setUndecorated(true);
         setResizable(false);
         setLayout(new BorderLayout());
         setBackground(new Color(0, 0, 0, 0));
-        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
-        JPanel imagePanel = new JPanel() {
+        final JPanel imagePanel = new JPanel() {
             @Override
-            protected void paintComponent( final Graphics g) {
+            protected void paintComponent(final Graphics g) {
                 super.paintComponent(g);
                 if (backImage != null) {
                     g.drawImage(backImage, 0, 0, getWidth(), getHeight(), this);
@@ -74,14 +93,16 @@ public class InstructionsDialog extends JDialog {
         imagePanel.setOpaque(false);
         imagePanel.setPreferredSize(new Dimension(DIALOG_WIDTH, DIALOG_HEIGHT));
 
-        final JLabel htmlLabel = new JLabel("<html><div style='color:black; font-size:12px; font-weight:bold; font-family: 'Trebuchet MS', 'Verdana', sans-serif;'>"
+        final JLabel htmlLabel = new JLabel(
+                "<html><div style='color:black; font-size:12px; font-weight:bold; "
+                + "font-family: 'Trebuchet MS', 'Verdana', sans-serif;'>"
                 + "Use teamwork between the two characters to successfully<br>"
                 + "complete each level by reaching the two doors.<br>"
                 + "Activate the buttons and move the objects while collecting<br>"
                 + "gems and helping both the Fireboy and the Watergirl<br>"
                 + "escape each level.<br>"
                 + "Use the arrows controls to move Watergirl.<br>"
-                + "Use the WASD controls to move Fireboy.<br>"
+                + "Use the WAD controls to move Fireboy.<br>"
                 + "</div></html>");
         htmlLabel.setBounds(TEXT_X, TEXT_Y, TEXT_WIDTH, TEXT_HEIGHT);
         htmlLabel.setOpaque(false);
@@ -93,14 +114,16 @@ public class InstructionsDialog extends JDialog {
         continueBtn.setFocusPainted(false);
 
         if (instructionsTitle != null) {
-            final JLabel titleLabel = new JLabel(new ImageIcon(instructionsTitle.getScaledInstance(TITLE_WIDTH, TITLE_HEIGHT, java.awt.Image.SCALE_SMOOTH)));
+            final JLabel titleLabel = new JLabel(new ImageIcon(instructionsTitle.getScaledInstance(TITLE_WIDTH, TITLE_HEIGHT, 
+                                    java.awt.Image.SCALE_SMOOTH)));
             final int titleX = (DIALOG_WIDTH - TITLE_WIDTH) / 2;
             titleLabel.setBounds(titleX, TITLE_Y, TITLE_WIDTH, TITLE_HEIGHT);
-            imagePanel.add(titleLabel); 
+            imagePanel.add(titleLabel);
         }
-        
+
         if (continueButton != null) {
-            continueBtn.setIcon(new ImageIcon(continueButton.getScaledInstance(BUTTON_WIDTH, BUTTON_HEIGHT, java.awt.Image.SCALE_SMOOTH)));
+            continueBtn.setIcon(new ImageIcon(continueButton.getScaledInstance(BUTTON_WIDTH, BUTTON_HEIGHT, 
+                                    java.awt.Image.SCALE_SMOOTH)));
         } else {
             continueBtn.setText("Continue");
         }
@@ -114,6 +137,7 @@ public class InstructionsDialog extends JDialog {
 
         pack();
         setLocationRelativeTo(parentFrame);
+
     }
 
     /**
@@ -123,14 +147,15 @@ public class InstructionsDialog extends JDialog {
      * @return loaded image
      */
     private BufferedImage loadImage(final String path) {
-        try (InputStream is = InstructionsDialog.class.getResourceAsStream(path)) {
-            if (is != null) {
-                return ImageIO.read(is);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        final InputStream is = InstructionsDialog.class.getResourceAsStream(path);
+        if (is == null) {
+                return null;
         }
-        return null;
+        try {
+            return ImageIO.read(is);
+        } catch (final IOException e) {
+            return null;
+        }
     }
 
     /**
@@ -141,7 +166,7 @@ public class InstructionsDialog extends JDialog {
     public void showPopup(final Runnable onClose) {
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
-            public void windowClosed(java.awt.event.WindowEvent e) {
+            public void windowClosed(final java.awt.event.WindowEvent e) {
                 if (onClose != null) {
                     onClose.run();
                 }

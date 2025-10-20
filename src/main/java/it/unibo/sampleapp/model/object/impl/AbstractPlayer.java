@@ -20,7 +20,6 @@ public abstract class AbstractPlayer implements Player {
     private static final double GRAVITY = 800.0;
     private static final int SCREEN_WIDTH = 800;
     private static final int SCREEN_HEIGHT = 540;
-    private static final double FRAME_TIME = 0.15;
 
     private static final String DIRECTION_LEFT = "left";
     private static final String DIRECTION_RIGHT = "right";
@@ -34,8 +33,6 @@ public abstract class AbstractPlayer implements Player {
     private boolean onFloor;
     private boolean atDoor;
     private String direction = "front";
-    private int frameNum = 1;
-    private double animationTimer;
 
     /**
      * Constructor for AbstractPlayer.
@@ -84,7 +81,6 @@ public abstract class AbstractPlayer implements Player {
         gravityApply(deltaTime);
         horizontalMove(deltaTime);
         verticalMove(deltaTime);
-        animate(deltaTime);
     }
 
     /**
@@ -136,14 +132,6 @@ public abstract class AbstractPlayer implements Player {
     }
 
     /**
-     * @return the current aniamtion frame number
-     */
-    @Override
-    public int getFrameNum() {
-        return this.frameNum;
-    }
-
-    /**
      * @return the horizontal speed
      */
     @Override
@@ -191,7 +179,7 @@ public abstract class AbstractPlayer implements Player {
      */
     @Override
     public void setPosition(final Position newPos) {
-        this.position = newPos;
+        this.position = new PositionImpl(newPos.getX(), newPos.getY());
     }
 
     /**
@@ -227,6 +215,8 @@ public abstract class AbstractPlayer implements Player {
 
     /**
      * Apply gravity to vertical speed.
+     *
+     * @param deltaTime time since last update
      */
     protected void gravityApply(final double deltaTime) {
         this.speedY += GRAVITY * deltaTime;
@@ -234,6 +224,8 @@ public abstract class AbstractPlayer implements Player {
 
     /**
      * Move the player horizontally.
+     *
+     * @param deltaTime time since last update
      */
     protected void horizontalMove(final double deltaTime) {
         double newX = this.position.getX() + this.speedX * deltaTime;
@@ -247,6 +239,8 @@ public abstract class AbstractPlayer implements Player {
 
     /**
      * Move the player vertically.
+     *
+     * @param deltaTime time since last update
      */
     protected void verticalMove(final double deltaTime) {
         double newY = position.getY() + this.speedY * deltaTime;
@@ -256,21 +250,5 @@ public abstract class AbstractPlayer implements Player {
             this.onFloor = true;
         }
         this.position.setY(newY);
-    }
-
-    /**
-     * Handles animation frame changes based on direction and time.
-     */
-    private void animate(final double deltaTime) {
-        if (Math.abs(speedX) > 0) {
-            animationTimer += deltaTime;
-            if (animationTimer >= FRAME_TIME) {
-                frameNum = (frameNum == 1) ? 2 : 1;
-                animationTimer = 0;
-            }
-        } else {
-            frameNum = 1;
-            animationTimer = 0;
-        }
     }
 }

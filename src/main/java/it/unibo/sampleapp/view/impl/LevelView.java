@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -69,8 +70,8 @@ public class LevelView extends JPanel {
      * @param objects contains the list of game objects
      */
     public LevelView(final List<Player> players, final List<GameObject> objects) {
-        this.players = players;
-        this.objects = objects;
+        this.players = new ArrayList<>(players);
+        this.objects = new ArrayList<>(objects);
         initView();
         SwingUtilities.invokeLater(this::addPauseButton);
     }
@@ -235,15 +236,27 @@ public class LevelView extends JPanel {
 
             if (isFire) {
                 switch (direction) {
-                    case "left" -> img = fireBoyLeft;
-                    case "right" -> img = fireBoyRight;
-                    default -> img = fireBoyImg;
+                    case "left":
+                        img = fireBoyLeft;
+                        break;
+                    case "right":
+                        img = fireBoyRight;
+                        break;
+                    default:
+                        img = fireBoyImg;
+                        break;
                 }
             } else {
                 switch (direction) {
-                    case "left" -> img = waterGirlLeft;
-                    case "right" -> img = waterGirlRight;
-                    default -> img = waterGirlImg;
+                    case "left":
+                        img = waterGirlLeft;
+                        break;
+                    case "right":
+                        img = waterGirlRight;
+                        break;
+                    default:
+                        img = waterGirlImg;
+                        break;
                 }
             }
 
@@ -293,7 +306,7 @@ public class LevelView extends JPanel {
      * @param newObjects objects of level
      */
     public void updateObjects(final List<Player> newPlayers, final List<GameObject> newObjects) {
-        this.players = newPlayers;
-        this.objects = newObjects;
+        this.players = new ArrayList<>(newPlayers);
+        this.objects = new ArrayList<>(newObjects);
     }
 }

@@ -180,7 +180,7 @@ public class GameEngineImpl implements GameEngine {
      * Initializes and displays the game instructions. 
      */
     private void showInstructionsPopup() {
-        final InstructionsDialog dialog = new InstructionsDialog(mainFrame);
+        final InstructionsDialog dialog = InstructionsDialog.create(mainFrame);
         dialog.showPopup(() -> changeState(GameState.HOME));
     }
 

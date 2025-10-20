@@ -61,11 +61,6 @@ public interface Player {
     String getDirection();
 
     /**
-     * @return the current aniamtion frame number
-     */
-    int getFrameNum();
-
-    /**
      * @return the horizontal speed
      */
     double getSpeedX();

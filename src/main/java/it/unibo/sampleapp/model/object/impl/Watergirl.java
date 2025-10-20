@@ -1,6 +1,5 @@
 package it.unibo.sampleapp.model.object.impl;
 
-import it.unibo.sampleapp.model.object.api.Hazard.HazardType;
 import it.unibo.sampleapp.model.object.api.PlayerType;
 
 /**
@@ -19,19 +18,6 @@ public class Watergirl extends AbstractPlayer {
      */
     public Watergirl(final int startX, final int startY, final int width, final int height) {
         super(startX, startY, width, height);
-    }
-
-    /**
-     * Determines whether Watergirl dies when in contact with a certain type of hazard.
-     *
-     * @param type of hazard
-     * @return true if Watergirl dies, false otherwise
-     */
-    public boolean diesIn(final HazardType type) {
-        return switch (type) {
-            case FIRE, ACID -> true;
-            case WATER -> false;
-        };
     }
 
     @Override
