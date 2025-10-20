@@ -14,6 +14,7 @@ import it.unibo.sampleapp.model.impl.TimerImpl;
 import it.unibo.sampleapp.model.level.api.Level;
 import it.unibo.sampleapp.model.object.api.Button;
 import it.unibo.sampleapp.model.object.api.Door;
+import it.unibo.sampleapp.model.object.api.Fan;
 import it.unibo.sampleapp.model.object.api.GameObject;
 import it.unibo.sampleapp.model.object.api.Gem;
 import it.unibo.sampleapp.model.object.api.Hazard;
@@ -119,6 +120,8 @@ public class GameImpl implements Game {
                     collisionQueue.addCollision(collisionFactory.movablePlatformCollision(p, mp));
                 } else if (obj instanceof Platform pl) {
                     collisionQueue.addCollision(collisionFactory.platformCollisions(p, pl));
+                } else if (obj instanceof Fan f) {
+                    collisionQueue.addCollision(collisionFactory.playerOnFan(p, f));
                 }
             } else if (obj instanceof Button b && b.isPressed()) {
                 collisionQueue.addCollision(collisionFactory.buttonReleasedCollision(b));
@@ -149,10 +152,10 @@ public class GameImpl implements Game {
         double paddingY = 0.0;
         double paddingX = 0.0;
 
-        if (obj instanceof Hazard || obj instanceof Button) {
+        if (obj instanceof Hazard || obj instanceof Button || obj instanceof Fan) {
             paddingY = 3.0;
         }
-        if (obj instanceof Hazard || obj instanceof Button) {
+        if (obj instanceof Hazard || obj instanceof Button || obj instanceof Fan) {
             paddingX = obj.getWidth() * PADDING_X;
         }
 
