@@ -3,6 +3,7 @@ package it.unibo.sampleapp.model.game.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.unibo.sampleapp.model.collision.api.BoundaryType;
 import it.unibo.sampleapp.model.collision.api.CollisionFactory;
 import it.unibo.sampleapp.model.collision.impl.CollisionFactoryImpl;
 import it.unibo.sampleapp.model.collision.impl.CollisionQueue;
@@ -31,6 +32,8 @@ public class GameImpl implements Game {
 
     private final List<GameObject> gameObjects;
     private final List<Player> players;
+    private final double width;
+    private final double height;
 
     private final CollisionFactory collisionFactory = new CollisionFactoryImpl();
     private final CollisionQueue collisionQueue = new CollisionQueue();
@@ -51,6 +54,8 @@ public class GameImpl implements Game {
     public GameImpl(final Level level) {
         this.gameObjects = new ArrayList<>(level.getGameObjects());
         this.players = new ArrayList<>(level.getPlayers());
+        this.width = level.getWidth();
+        this.height = level.getHeight();
 
         int countGem = 0;
         for (final GameObject o : this.gameObjects) {
@@ -119,6 +124,8 @@ public class GameImpl implements Game {
                 collisionQueue.addCollision(collisionFactory.buttonReleasedCollision(b));
             }
         }
+
+        checkBoundaryCollisions(p);
     }
 
     /**
@@ -151,6 +158,25 @@ public class GameImpl implements Game {
 
         return posX < objX + objW - paddingX && posX + posW > objX + paddingX
             && posY < objY + objH + paddingY && posY + posH > objY - paddingY;
+    }
+
+    /**
+     * Checks collisions between the player and the boundaries.
+     *
+     * @param p the player
+     */
+    private void checkBoundaryCollisions(final Player p) {
+        if (p.getPosition().getX() < 0) {
+            collisionQueue.addCollision(collisionFactory.boundaryCollisions(p, BoundaryType.LEFT));
+        } else if (p.getPosition().getX() + p.getWidth() > width) {
+            collisionQueue.addCollision(collisionFactory.boundaryCollisions(p, BoundaryType.RIGHT));
+        }
+
+        if (p.getPosition().getY() < 0) {
+            collisionQueue.addCollision(collisionFactory.boundaryCollisions(p, BoundaryType.TOP));
+        } else if (p.getPosition().getY() + p.getHeight() > height) {
+            collisionQueue.addCollision(collisionFactory.boundaryCollisions(p, BoundaryType.BOTTOM));
+        }
     }
 
     /**
@@ -258,5 +284,21 @@ public class GameImpl implements Game {
     @Override
     public GameState getCurrentGameState() {
         return this.currenState;
+    }
+
+    /**
+     * Returns the height of the level.
+     */
+    @Override
+    public double getHeight() {
+        return this.height;
+    }
+
+    /**
+     * Returns the widht of the level.
+     */
+    @Override
+    public double getWidth() {
+        return this.width;
     }
 }

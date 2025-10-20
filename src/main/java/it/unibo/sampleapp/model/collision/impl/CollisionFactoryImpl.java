@@ -75,6 +75,20 @@ public class CollisionFactoryImpl implements CollisionFactory {
     }
 
     /**
+     * Handles the button collisions when the button is released.
+     */
+    @Override
+    public Collisions buttonReleasedCollision(final Button button) {
+        return game -> {
+            button.release();
+            final MovableIPlatform mPlatform = button.getLinkedPlatform();
+            if (mPlatform != null && !button.isPressed()) {
+                mPlatform.deactive();
+            }
+        };
+    }
+
+    /**
      * Toggles lever and activate or deactivate the linked movable platform.
      */
     @Override
@@ -208,20 +222,23 @@ public class CollisionFactoryImpl implements CollisionFactory {
     @Override
     public Collisions boundaryCollisions(final Player player, final BoundaryType boundary) {
         return game -> {
-
-        };
-    }
-
-    /**
-     * Hnadles the button collisions when the button is released.
-     */
-    @Override
-    public Collisions buttonReleasedCollision(final Button button) {
-        return game -> {
-            button.release();
-            final MovableIPlatform mPlatform = button.getLinkedPlatform();
-            if (mPlatform != null && !button.isPressed()) {
-                mPlatform.deactive();
+            switch (boundary) {
+                case LEFT -> {
+                    player.setPositionX(0);
+                    player.stopHorizontalMovement();
+                }
+                case RIGHT -> {
+                    player.setPositionX(game.getWidth() - player.getWidth());
+                    player.stopHorizontalMovement();
+                }
+                case TOP -> {
+                    player.stopJump(0);
+                }
+                case BOTTOM -> {
+                    player.setPositionY(game.getHeight() - player.getHeight());
+                    player.setOnFloor(true);
+                }
+                default -> {  }
             }
         };
     }

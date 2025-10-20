@@ -86,4 +86,14 @@ public interface Game {
      * @return the current GameState
      */
     GameState getCurrentGameState();
+
+    /**
+     * @return the height of the current level
+     */
+    double getHeight();
+
+    /**
+     * @return the width of the current level
+     */
+    double getWidth();
 }
