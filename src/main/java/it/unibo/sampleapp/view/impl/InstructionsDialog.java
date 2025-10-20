@@ -46,7 +46,7 @@ public class InstructionsDialog extends JDialog {
     /**
      * Constructor of the instruction dialog.
      *
-     * @param parentFrame the parent frame above which the JDialog appears.
+     * @param parentFrame the parent frame above which the JDialog appears
      */
     public InstructionsDialog(final JFrame parentFrame) {
         super(parentFrame, "Istruzioni", true);

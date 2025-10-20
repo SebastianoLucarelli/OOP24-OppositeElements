@@ -23,6 +23,7 @@ import it.unibo.sampleapp.model.object.impl.Fireboy;
 import it.unibo.sampleapp.model.object.impl.Watergirl;
 import it.unibo.sampleapp.view.impl.HomePanel;
 import it.unibo.sampleapp.view.impl.InstructionsDialog;
+import it.unibo.sampleapp.view.impl.LevelCompleteDialog;
 import it.unibo.sampleapp.view.impl.LevelProcessView;
 import it.unibo.sampleapp.view.impl.LevelScreen;
 import it.unibo.sampleapp.view.impl.LevelView;
@@ -69,6 +70,7 @@ public class GameEngineImpl implements GameEngine {
             case LEVEL_SELECTION -> showLevelSelection();
             case PLAYING -> startCurrentLevel();
             case INSTRUCTION -> showInstructionsPopup();
+            case LEVEL_COMPLETED -> showLevelCompletedDialog();
             default -> throw new IllegalArgumentException("Unexpected value: " + currentState);
         }
     }
@@ -214,6 +216,20 @@ public class GameEngineImpl implements GameEngine {
                     changeState(GameState.HOME);
                 }
             );
+        });
+    }
+
+    /**
+     * It shows level completed screen.
+     */
+    private void showLevelCompletedDialog() {
+        if (game == null) {
+            return;
+        }
+
+        SwingUtilities.invokeLater(() -> {
+            final LevelCompleteDialog dialog = new LevelCompleteDialog(mainFrame, game);
+            dialog.showDialog(() -> changeState(GameState.LEVEL_SELECTION));;
         });
     }
 }
