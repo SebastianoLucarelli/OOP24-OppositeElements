@@ -148,6 +148,14 @@ public abstract class AbstractPlayer implements Player {
     }
 
     /**
+     * Set the new vertical speed.
+     */
+    @Override
+    public void setSpeedY(final double speedY) {
+        this.speedY = speedY;
+    }
+
+    /**
      * Stops vertical movement.
      */
     @Override

@@ -85,6 +85,13 @@ public interface Player {
     double getSpeedY();
 
     /**
+     * Set the new vertical speed.
+     *
+     * @param speedY the new vertical speed
+     */
+    void setSpeedY(double speedY);
+
+    /**
      * Stops the jump when the player hits the platform.
      *
      * @param newY the position where the player should stand
