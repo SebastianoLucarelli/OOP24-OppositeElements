@@ -228,8 +228,8 @@ public class GameEngineImpl implements GameEngine {
         }
 
         SwingUtilities.invokeLater(() -> {
-            final LevelCompleteDialog dialog = new LevelCompleteDialog(mainFrame, game);
-            dialog.showDialog(() -> changeState(GameState.LEVEL_SELECTION));;
+            final LevelCompleteDialog dialog = LevelCompleteDialog.create(mainFrame, game);
+            dialog.showDialog(() -> changeState(GameState.LEVEL_SELECTION));
         });
     }
 }

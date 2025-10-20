@@ -149,7 +149,7 @@ public class InstructionsDialog extends JDialog {
     private BufferedImage loadImage(final String path) {
         final InputStream is = InstructionsDialog.class.getResourceAsStream(path);
         if (is == null) {
-                return null;
+            return null;
         }
         try {
             return ImageIO.read(is);
