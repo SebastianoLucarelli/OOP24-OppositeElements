@@ -22,12 +22,10 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.function.Consumer;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Class for the level selection screen.
  */
-@SuppressFBWarnings("SE_BAD_FIELD")
 public class LevelProcessView extends JPanel {
 
     private static final long serialVersionUID = 1L;
@@ -45,14 +43,14 @@ public class LevelProcessView extends JPanel {
     private static final String UNLOCKED_PATH = "/img/LevelUnblocked.png";
     private static final String COMPLETE_PATH = "/img/LevelCompleted.png";
 
-    private final LevelProcess levelProcess;
+    private final transient LevelProcess levelProcess;
     private final int totLev;
     private JButton[] levelButtons;
 
-    private Consumer<Integer> selectionOfLevel;
-    private Runnable backToMenu;
+    private transient Consumer<Integer> selectionOfLevel;
+    private transient Runnable backToMenu;
 
-    private final BufferedImage background;
+    private final transient BufferedImage background;
 
     /**
      * Builder that displays the current progression of game levels.
