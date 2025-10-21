@@ -89,17 +89,26 @@ public class CollisionFactoryImpl implements CollisionFactory {
     }
 
     /**
-     * Toggles lever and activate or deactivate the linked movable platform.
+     * Method that activates the lever and the movable platform connected to it.
      */
     @Override
     public Collisions leverDisplacementCollision(final Player player, final Lever lever) {
         return game -> {
-            lever.toggle();
             final MovableIPlatform platform = lever.getLinkedPlatform();
-            if (platform != null) {
-                if (lever.isActive()) {
+            final double playerCenterX = player.getPosition().getX() + player.getWidth() / 2;
+            final double leverCenterX = lever.getPosition().getX() + lever.getWidth() / 2;
+            final boolean fromLeft = playerCenterX > leverCenterX;
+
+            if (!lever.isActive() && fromLeft) {
+                lever.setActive(true);
+                lever.setActivedFromLeft(true);
+                if (platform != null) {
                     platform.active();
-                } else {
+                }
+            } else if (lever.isActive() && !fromLeft && lever.getActivedFromLeft()) {
+                lever.setActive(false);
+                lever.setActivedFromLeft(false);
+                if (platform != null) {
                     platform.deactive();
                 }
             }
@@ -125,11 +134,20 @@ public class CollisionFactoryImpl implements CollisionFactory {
                     && playerLeft < fanRight;
 
             if (turnOnFan) {
+
+                if (!fan.isActive()) {
+                    fan.active();
+                }
+
                 final double fanPower = -500.0;
                 player.setOnFloor(false);
 
                 if (player.getSpeedY() > fanPower) {
                     player.setSpeedY(fanPower);
+                }
+            } else {
+                if (fan.isActive()) {
+                    fan.deactive();
                 }
             }
         };
