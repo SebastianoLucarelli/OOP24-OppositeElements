@@ -125,11 +125,11 @@ public class CollisionFactoryImpl implements CollisionFactory {
                     && playerLeft < fanRight;
 
             if (turnOnFan) {
-                final double fan_power = -500.0;
+                final double fanPower = -500.0;
                 player.setOnFloor(false);
 
-                if (player.getSpeedY() > fan_power) {
-                    player.setSpeedY(fan_power);
+                if (player.getSpeedY() > fanPower) {
+                    player.setSpeedY(fanPower);
                 }
             }
         };

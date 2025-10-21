@@ -33,6 +33,7 @@ public class GameControllerImpl implements GameController, Runnable {
      * @param levelView the view of the level
      * @param playerController the controller of players
      * @param gameEngine the game Engine
+     * @param levelProcess the level process
      */
     @SuppressFBWarnings(value = "EI2", justification = "Controller must hold references to view and model")
     public GameControllerImpl(final Game game, final LevelView levelView, final PlayerControllerImpl playerController,
