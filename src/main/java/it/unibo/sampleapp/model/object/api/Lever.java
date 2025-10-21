@@ -12,12 +12,24 @@ public interface Lever extends GameObject {
     boolean isActive();
 
     /**
-     * toogle the state of the levere, if it's on it turns off anche viceversa.
+     * activate or deactivate the lever.
+     *
+     * @param active true to activate, false to deactivate
      */
-    void toggle();
+    void setActive (boolean active);
 
     /**
      * @return the linked platform
      */
     MovableIPlatform getLinkedPlatform();
+
+    /**
+     * @return true if the lever is activated from left side, false otherwise
+     */
+    boolean getActivedFromLeft();
+
+    /**
+     * @param fromLeft true if the lever is activated from left side
+     */
+    void setActivedFromLeft(boolean fromLeft);
 }
