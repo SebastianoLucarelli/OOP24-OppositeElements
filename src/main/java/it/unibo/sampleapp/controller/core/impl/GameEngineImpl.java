@@ -58,6 +58,7 @@ public class GameEngineImpl implements GameEngine {
         this.mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.mainFrame.setSize(WIDTH, HEIGHT);
         this.mainFrame.setLocationRelativeTo(null);
+        this.mainFrame.setResizable(false);
         this.mainFrame.setVisible(true);
     }
 
