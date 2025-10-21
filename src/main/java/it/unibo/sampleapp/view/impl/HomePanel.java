@@ -3,17 +3,20 @@ package it.unibo.sampleapp.view.impl;
 import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
+
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Class for the game's home screen.
  */
-@SuppressFBWarnings("SE_BAD_FIELD")
 public class HomePanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
@@ -35,16 +38,16 @@ public class HomePanel extends JPanel {
     private static final int EXIT_WIDTH = 200;
     private static final int EXIT_HEIGHT = 80;
 
-    private final ImageIcon backgroundImage;
-    private final ImageIcon titleImage;
-    private final ImageIcon waterGirl;
-    private final ImageIcon fireBoy;
+    private final transient BufferedImage backgroundImage;
+    private final transient BufferedImage titleImage;
+    private final transient BufferedImage waterGirl;
+    private final transient BufferedImage fireBoy;
 
     private JPanel bottomPanel;
 
-    private Runnable onStart;
-    private Runnable onInstructions;
-    private Runnable onExit;
+    private transient Runnable onStart;
+    private transient Runnable onInstructions;
+    private transient Runnable onExit;
 
     /**
      * Home Screen builder.
@@ -111,14 +114,14 @@ public class HomePanel extends JPanel {
     @Override
     protected void paintComponent(final Graphics g) {
         super.paintComponent(g);
-        g.drawImage(backgroundImage.getImage(), 0, 0, getWidth(), getHeight(), this);
+        g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
 
         final int titleX = (getWidth() - TITLE_WIDTH) / 2;
-        g.drawImage(titleImage.getImage(), titleX, TITLE_Y, TITLE_WIDTH, TITLE_HEIGHT, this);
+        g.drawImage(titleImage, titleX, TITLE_Y, TITLE_WIDTH, TITLE_HEIGHT, this);
 
         final int playerY = getHeight() - CHARACTER_HEIGHT - BOTTOM;
-        g.drawImage(fireBoy.getImage(), FIRE_X, playerY, CHARACTER_WIDTH, CHARACTER_HEIGHT, this);
-        g.drawImage(waterGirl.getImage(), getWidth() - CHARACTER_WIDTH 
+        g.drawImage(fireBoy, FIRE_X, playerY, CHARACTER_WIDTH, CHARACTER_HEIGHT, this);
+        g.drawImage(waterGirl, getWidth() - CHARACTER_WIDTH 
                     - WATER_X, playerY, CHARACTER_WIDTH, CHARACTER_HEIGHT, this);
     }
 
@@ -128,12 +131,16 @@ public class HomePanel extends JPanel {
      * @param path image path
      * @return loaded image
      */
-    private ImageIcon loadImage(final String path) {
-        final var resource = HomePanel.class.getResource(path);
-        if (resource == null) {
-            throw new IllegalArgumentException("Resource not found: " + path);
+    private BufferedImage loadImage(final String path) {
+        final InputStream is = HomePanel.class.getResourceAsStream(path);
+        if (is == null) {
+            return null;
         }
-        return new ImageIcon(resource);
+        try {
+            return ImageIO.read(is);
+        } catch (final IOException e) {
+            return null;
+        }
     }
 
     /**
