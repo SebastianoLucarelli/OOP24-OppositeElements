@@ -18,6 +18,7 @@ import it.unibo.sampleapp.model.object.api.Fan;
 import it.unibo.sampleapp.model.object.api.GameObject;
 import it.unibo.sampleapp.model.object.api.Gem;
 import it.unibo.sampleapp.model.object.api.Hazard;
+import it.unibo.sampleapp.model.object.api.Lever;
 import it.unibo.sampleapp.model.object.api.Player;
 
 /**
@@ -45,8 +46,10 @@ public class LevelView extends JPanel {
     private transient Image gemFireImg;
     private transient Image gemWaterImg;
     private transient Image fanImg;
+    private transient Image fanImg1;
     private transient Image pauseImg;
     private transient Image leverImg;
+    private transient Image leverOnImg;
     private transient Image fireBoyRight;
     private transient Image fireBoyLeft;
     private transient Image waterGirlRight;
@@ -54,6 +57,8 @@ public class LevelView extends JPanel {
     private transient List<Player> players;
     private transient List<GameObject> objects;
 
+    private transient int fanFrame = 0;
+    private transient int fanTick = 0;
     private transient Runnable pauserRunnable;
 
     /**
@@ -94,7 +99,9 @@ public class LevelView extends JPanel {
         gemFireImg = new ImageIcon(getClass().getClassLoader().getResource("img/FireGem.png")).getImage();
         gemWaterImg = new ImageIcon(getClass().getClassLoader().getResource("img/WaterGem.png")).getImage();
         fanImg = new ImageIcon(getClass().getClassLoader().getResource("img/Fan.png")).getImage();
+        fanImg1 = new ImageIcon(getClass().getClassLoader().getResource("img/fan2.gif")).getImage();
         leverImg = new ImageIcon(getClass().getClassLoader().getResource("img/LeverOff.png")).getImage();
+        leverOnImg = new ImageIcon(getClass().getClassLoader().getResource("img/LeverOn.png")).getImage();
         pauseImg = new ImageIcon(getClass().getClassLoader().getResource("img/PauseButton.png")).getImage();
         fireBoyRight = new ImageIcon(getClass().getClassLoader().getResource("img/FireBoyR.gif")).getImage();
         fireBoyLeft = new ImageIcon(getClass().getClassLoader().getResource("img/FireBoyL.gif")).getImage();
@@ -152,14 +159,18 @@ public class LevelView extends JPanel {
                     obj.getHeight(),
                     this
                 );
-                case "LeverImpl" -> g.drawImage(
-                    leverImg,
-                    (int) Math.round(obj.getPosition().getX()),
-                    (int) Math.round(obj.getPosition().getY()),
-                    obj.getWidth(),
-                    obj.getHeight(),
-                    this
-                );
+                case "LeverImpl" -> {
+                    final Lever lever = (Lever) obj;
+                    final Image img = lever.isActive() ? leverOnImg : leverImg;
+                    g.drawImage(
+                        img,
+                        (int) Math.round(lever.getPosition().getX()),
+                        (int) Math.round(lever.getPosition().getY()),
+                        lever.getWidth(),
+                        lever.getHeight(),
+                        this
+                    );
+                }
                 case "DoorImpl" -> {
                     final Door door = (Door) obj;
                     final Image img = switch (door.getType()) {
@@ -208,7 +219,7 @@ public class LevelView extends JPanel {
                 }
                 case "FanImpl" -> {
                     final Fan fan = (Fan) obj;
-                    final Image img = fanImg;
+                    final Image img = fan.isActive() ? fanImg1 : fanImg;
                     g.drawImage(
                         img, 
                         (int) Math.round(fan.getPosition().getX()),
