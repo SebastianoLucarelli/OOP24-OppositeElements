@@ -3,17 +3,16 @@ package it.unibo.sampleapp.controller.impl;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import it.unibo.sampleapp.model.object.impl.Fireboy;
-import it.unibo.sampleapp.model.object.impl.Watergirl;
+import it.unibo.sampleapp.model.object.api.Player;
 import it.unibo.sampleapp.controller.api.PlayerController;
 
 /**
  * Controller implementation that handles Fireboy and Watergirl inputs.
  */
-public class PlayerControllerImpl implements PlayerController, KeyListener {
+public final class PlayerControllerImpl implements PlayerController, KeyListener {
 
-    private final Fireboy fireboy;
-    private final Watergirl watergirl;
+    private final Player fireboy;
+    private final Player watergirl;
 
     private boolean fireLeft;
     private boolean fireRight;
@@ -28,11 +27,21 @@ public class PlayerControllerImpl implements PlayerController, KeyListener {
      * @param fireboy the reference to Fireboy
      * @param watergirl the reference to Watergirl
      */
-    public PlayerControllerImpl(final Fireboy fireboy, final Watergirl watergirl) {
+    private PlayerControllerImpl(final Player fireboy, final Player watergirl) {
         this.fireboy = fireboy;
         this.watergirl = watergirl;
     }
 
+    /**
+     * Creates a PlayerControllerImpl for the given players.
+     *
+     * @param fireboy the reference to Fireboy
+     * @param watergirl the reference to Watergirl
+     * @return a new PlayerControllerImpl instance
+     */
+    public static PlayerControllerImpl create(final Player fireboy, final Player watergirl) {
+        return new PlayerControllerImpl(fireboy, watergirl);
+    }
 
     /**
      * Processes input and updates player status.

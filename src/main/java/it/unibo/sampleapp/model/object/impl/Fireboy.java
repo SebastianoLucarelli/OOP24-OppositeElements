@@ -15,7 +15,7 @@ public class Fireboy extends AbstractPlayer {
      * @param width player width
      * @param height player height
      */
-    public Fireboy(final int startX, final int startY, final int width, final int height) {
+    public Fireboy(final double startX, final double startY, final int width, final int height) {
         super(startX, startY, width, height);
     }
 

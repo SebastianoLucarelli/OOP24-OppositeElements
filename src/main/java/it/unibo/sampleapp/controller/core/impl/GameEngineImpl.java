@@ -120,7 +120,7 @@ public class GameEngineImpl implements GameEngine {
         final Watergirl watergirl = (Watergirl) game.getPlayers().stream()
             .filter(p -> p instanceof Watergirl).findFirst().orElseThrow();
 
-        final PlayerControllerImpl playerController = new PlayerControllerImpl(fireboy, watergirl);
+        final PlayerControllerImpl playerController = PlayerControllerImpl.create(fireboy, watergirl);
         levelView.addKeyListener(playerController);
         levelView.setFocusable(true);
         levelView.requestFocusInWindow();
