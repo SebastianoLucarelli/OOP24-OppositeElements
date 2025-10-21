@@ -57,8 +57,6 @@ public class LevelView extends JPanel {
     private transient List<Player> players;
     private transient List<GameObject> objects;
 
-    private transient int fanFrame = 0;
-    private transient int fanTick = 0;
     private transient Runnable pauserRunnable;
 
     /**
