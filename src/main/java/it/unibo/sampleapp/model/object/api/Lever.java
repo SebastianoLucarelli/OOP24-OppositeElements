@@ -16,7 +16,7 @@ public interface Lever extends GameObject {
      *
      * @param active true to activate, false to deactivate
      */
-    void setActive (boolean active);
+    void setActive(boolean active);
 
     /**
      * @return the linked platform
@@ -26,10 +26,10 @@ public interface Lever extends GameObject {
     /**
      * @return true if the lever is activated from left side, false otherwise
      */
-    boolean getActivedFromLeft();
+    boolean isActivedFromLeft();
 
     /**
-     * @param fromLeft true if the lever is activated from left side
+     * @param left true if the lever is activated from left side
      */
-    void setActivedFromLeft(boolean fromLeft);
+    void setActivedFromLeft(boolean left);
 }

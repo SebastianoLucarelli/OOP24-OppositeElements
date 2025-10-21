@@ -105,7 +105,7 @@ public class CollisionFactoryImpl implements CollisionFactory {
                 if (platform != null) {
                     platform.active();
                 }
-            } else if (lever.isActive() && !fromLeft && lever.getActivedFromLeft()) {
+            } else if (lever.isActive() && !fromLeft && lever.isActivedFromLeft()) {
                 lever.setActive(false);
                 lever.setActivedFromLeft(false);
                 if (platform != null) {

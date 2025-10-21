@@ -49,7 +49,7 @@ public class LeverImpl extends AbstractGameObject implements Lever {
      * {@inheritDoc}
      */
     @Override
-    public boolean getActivedFromLeft() {
+    public boolean isActivedFromLeft() {
        return this.fromLeft;
     }
 
@@ -57,15 +57,15 @@ public class LeverImpl extends AbstractGameObject implements Lever {
      * {@inheritDoc}
      */
     @Override
-    public void setActivedFromLeft(boolean fromLeft) {
-        this.fromLeft = fromLeft;
+    public void setActivedFromLeft(final boolean left) {
+        this.fromLeft = left;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void setActive(boolean active) {
+    public void setActive(final boolean active) {
         this.active = active;
     }
 
