@@ -10,6 +10,7 @@ import it.unibo.sampleapp.utils.api.Position;
 public class LeverImpl extends AbstractGameObject implements Lever {
 
     private boolean active;
+    private boolean fromLeft;
     private final MovableIPlatform linkedPlatform;
 
     /**
@@ -23,6 +24,7 @@ public class LeverImpl extends AbstractGameObject implements Lever {
     public LeverImpl(final Position position, final int width, final int height, final MovableIPlatform platform) {
         super(position, width, height);
         active = false;
+        fromLeft = false;
         linkedPlatform = platform;
     }
 
@@ -34,13 +36,6 @@ public class LeverImpl extends AbstractGameObject implements Lever {
        return this.active;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void toggle() {
-        this.active = !this.active;
-    }
 
     /**
      * {@inheritDoc}
@@ -48,6 +43,30 @@ public class LeverImpl extends AbstractGameObject implements Lever {
     @Override
     public MovableIPlatform getLinkedPlatform() {
         return this.linkedPlatform;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean getActivedFromLeft() {
+       return this.fromLeft;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setActivedFromLeft(boolean fromLeft) {
+        this.fromLeft = fromLeft;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
 }
