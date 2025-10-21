@@ -95,8 +95,8 @@ public class CollisionFactoryImpl implements CollisionFactory {
     public Collisions leverDisplacementCollision(final Player player, final Lever lever) {
         return game -> {
             final MovableIPlatform platform = lever.getLinkedPlatform();
-            final double playerCenterX = player.getPosition().getX() + player.getWidth() / 2;
-            final double leverCenterX = lever.getPosition().getX() + lever.getWidth() / 2;
+            final double playerCenterX = player.getPosition().getX() + player.getWidth() / 2.0;
+            final double leverCenterX = lever.getPosition().getX() + lever.getWidth() / 2.0;
             final boolean fromLeft = playerCenterX > leverCenterX;
 
             if (!lever.isActive() && fromLeft) {
