@@ -54,6 +54,7 @@ public class LevelView extends JPanel {
     private transient Image fireBoyLeft;
     private transient Image waterGirlRight;
     private transient Image waterGirlLeft;
+    private transient Image openDoorImg;
     private transient List<Player> players;
     private transient List<GameObject> objects;
 
@@ -105,6 +106,7 @@ public class LevelView extends JPanel {
         fireBoyLeft = new ImageIcon(getClass().getClassLoader().getResource("img/FireBoyL.gif")).getImage();
         waterGirlRight = new ImageIcon(getClass().getClassLoader().getResource("img/WaterGirlR.gif")).getImage();
         waterGirlLeft = new ImageIcon(getClass().getClassLoader().getResource("img/WaterGirlL.gif")).getImage();
+        openDoorImg = new ImageIcon(getClass().getClassLoader().getResource("img/OpenDoor.png")).getImage();
     }
 
     /**
@@ -171,9 +173,22 @@ public class LevelView extends JPanel {
                 }
                 case "DoorImpl" -> {
                     final Door door = (Door) obj;
+                    boolean doorOpen = false;
+
+                    for (final Player p : players) {
+                        if (!p.isAtDoor()) {
+                            continue;
+                        }
+
+                        if (p.getType().name().equals(door.getType().name())) {
+                            doorOpen = true;
+                            break;
+                        }
+                    }
+
                     final Image img = switch (door.getType()) {
-                        case FIRE -> fireDoorImg;
-                        case WATER -> waterDoorImg;
+                        case FIRE -> doorOpen ? openDoorImg : fireDoorImg;
+                        case WATER -> doorOpen ? openDoorImg : waterDoorImg;
                     };
                     g.drawImage(
                         img,
