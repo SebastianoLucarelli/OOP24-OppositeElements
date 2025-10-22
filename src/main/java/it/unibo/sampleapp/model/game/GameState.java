@@ -37,5 +37,10 @@ public enum GameState {
     /**
      * State that represents the game over of the game.
      */
-    GAME_OVER
+    GAME_OVER,
+
+    /**
+     * State the represents victory in the game.
+     */
+    WIN
 }
