@@ -29,6 +29,7 @@ import it.unibo.sampleapp.view.impl.LevelProcessView;
 import it.unibo.sampleapp.view.impl.LevelScreen;
 import it.unibo.sampleapp.view.impl.LevelView;
 import it.unibo.sampleapp.view.impl.PauseView;
+import it.unibo.sampleapp.view.impl.WinDialog;
 
 /**
  * The gameEngine implementation.
@@ -74,6 +75,7 @@ public class GameEngineImpl implements GameEngine {
             case INSTRUCTION -> showInstructionsPopup();
             case LEVEL_COMPLETED -> showLevelCompletedDialog();
             case GAME_OVER -> showGameOverView();
+            case WIN -> showWinDialog();
             default -> throw new IllegalArgumentException("Unexpected value: " + currentState);
         }
     }
@@ -232,7 +234,13 @@ public class GameEngineImpl implements GameEngine {
 
         SwingUtilities.invokeLater(() -> {
             final LevelCompleteDialog dialog = LevelCompleteDialog.create(mainFrame, game);
-            dialog.showDialog(() -> changeState(GameState.LEVEL_SELECTION));
+            dialog.showDialog(() -> {
+                if (currentLevelNumber == levelProcess.getTotalLevels()) {
+                changeState(GameState.WIN);
+            } else {
+                changeState(GameState.LEVEL_SELECTION);
+            }
+            });
         });
     }
 
@@ -252,6 +260,22 @@ public class GameEngineImpl implements GameEngine {
                 gameOverView.dispose();
                 gameController.stop();
                 startLevel(currentLevelNumber);
+            }
+        );
+    }
+
+    /**
+     * 
+     */
+    private void showWinDialog() {
+        final WinDialog winDialog = WinDialog.create(mainFrame);
+        winDialog.showDialog(
+            () -> {
+                changeState(GameState.LEVEL_SELECTION);
+            },
+            () -> {
+                winDialog.dispose();
+                mainFrame.dispose();
             }
         );
     }

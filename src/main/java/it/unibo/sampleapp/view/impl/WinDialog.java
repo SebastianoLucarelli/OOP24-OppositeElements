@@ -148,8 +148,9 @@ public class WinDialog extends JDialog {
      * Shows the dialog.
      *
      * @param onBack action when "Back" is pressed
+     * @param exit action when "Exit" is pressed
      */
-    public void showDialog(final Runnable onBack) {
+    public void showDialog(final Runnable onBack, final Runnable exit) {
         final JPanel panel = (JPanel) getContentPane().getComponent(0);
         final JButton backBtn = (JButton) panel.getComponent(0);
         final JButton exitBtn = (JButton) panel.getComponent(1);
@@ -159,15 +160,13 @@ public class WinDialog extends JDialog {
             if (onBack != null) {
                 onBack.run();
             }
-            }
-        );
+        });
 
         exitBtn.addActionListener(e -> {
             dispose();
-            if (onBack != null) {
-                onBack.run();
+            if (exit != null) {
+                exit.run();
             }
-            
         });
         setVisible(true);
     }
