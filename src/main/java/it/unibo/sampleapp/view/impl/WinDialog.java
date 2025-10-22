@@ -164,10 +164,10 @@ public class WinDialog extends JDialog {
 
         exitBtn.addActionListener(e -> {
             dispose();
-            if (getParent() instanceof JFrame frame) {
-                frame.dispose();
+            if (onBack != null) {
+                onBack.run();
             }
-            System.exit(0);
+            
         });
         setVisible(true);
     }
