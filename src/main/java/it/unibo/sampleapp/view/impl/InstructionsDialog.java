@@ -159,7 +159,7 @@ public class InstructionsDialog extends JDialog {
     }
 
     /**
-     * Show the popup.
+     * Show the dialog.
      *
      * @param onClose Action to execute when the dialog closes.
      */

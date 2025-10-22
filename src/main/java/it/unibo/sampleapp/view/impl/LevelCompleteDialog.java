@@ -183,7 +183,7 @@ public class LevelCompleteDialog extends JDialog {
             return null;
         }
     }
-
+ 
     /**
      * Show the popup.
      *
