@@ -32,6 +32,10 @@ class ObjectsTest {
     private static final int HEIGHT = TILE_SIZE;
     private static final int STEP_SIZE = 4;
 
+    /**
+     * testing of the movable platform. test the active and the deactive.
+     * testing if it move after the active and if it don't move after the deactive.
+     */
     @Test
     void testMovablePlatform() {
         final MovableIPlatform platform = new MovablePlatformImpl(START, WIDTH, HEIGHT, STEP_SIZE, true, 1); 
@@ -50,6 +54,10 @@ class ObjectsTest {
         assertTrue(newPosittion.getX() < moved.getX(), "Platform should have moved back to left");
     }
 
+    /**
+     * testing the button. 
+     * verifies that it remains pressed with multiple presses and releases correctly when one or the both are releases.
+     */
     @Test
     void testButton() {
         final MovableIPlatform platform = new MovablePlatformImpl(START, WIDTH, HEIGHT, STEP_SIZE, true, 1);
@@ -72,6 +80,9 @@ class ObjectsTest {
         assertFalse(button.isPressed(), "Released after second release");
     }
 
+    /**
+     * testing the fan. testing the active and the deactive.
+     */
     @Test
     void testFan() {
         final FanImpl fan = new FanImpl(START, WIDTH, HEIGHT);
@@ -84,6 +95,10 @@ class ObjectsTest {
         assertFalse(fan.isActive());
     }
 
+    /**
+     * testing lever. test the active and the deactive and testing the activeFromLeft. 
+     * also verifies the link to the platform.
+     */
     @Test
     void testLever() {
         final MovableIPlatform platform = new MovablePlatformImpl(START, WIDTH, HEIGHT, STEP_SIZE, true, 1);
@@ -103,6 +118,9 @@ class ObjectsTest {
         assertFalse(lever.isActivedFromLeft());
     }
 
+    /**
+     * testing for hazard. testing all the type of the hazard and testing the compatibility with the both players.
+     */
     @Test
     void testHazard() {
         final Hazard hazardAcid = new HazardImpl(START, WIDTH, HEIGHT, HazardImpl.HazardType.ACID);
