@@ -61,7 +61,7 @@ public class LevelProcessView extends JPanel {
         super(new BorderLayout());
         this.levelProcess = levelProcess;
         this.totLev = levelProcess.getTotalLevels();
-        this.background = loadImage("/img/backgroundLevel.png");
+        this.background = loadImage("/img/BackgroundLevel.png");
 
         SwingUtilities.invokeLater(this::initLevelProcessView);
     }
