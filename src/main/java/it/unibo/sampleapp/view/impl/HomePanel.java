@@ -55,7 +55,7 @@ public class HomePanel extends JPanel {
     public HomePanel() {
         super(new BorderLayout());
         backgroundImage = loadImage("/img/PlayBackground.png");
-        titleImage = loadImage("/img/title.png");
+        titleImage = loadImage("/img/Title.png");
         waterGirl = loadImage("/img/WaterGirl.png");
         fireBoy = loadImage("/img/FireBoy.png");
     }
