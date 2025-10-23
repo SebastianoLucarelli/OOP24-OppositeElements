@@ -23,6 +23,9 @@ class LevelLoaderTest {
     private static final String OBJECT_LEVEL = "level2Objects.txt";
     private static final LevelLoaderImpl LOADED_LEVEL = new LevelLoaderImpl();
 
+    /**
+     * testing the load of the level base. test with the level 2.
+     */
     @Test
     void testLoadBase() {
         final Level level = LOADED_LEVEL.loadLevel(BASE_LEVEL);
@@ -35,6 +38,10 @@ class LevelLoaderTest {
         assertTrue(level.getWidth() > 0 && level.getHeight() > 0);
     }
 
+    /**
+     * testing the load of the level objects. test with the level 2 objects.
+     * test if all the objects are loaded correctly.
+     */
     @Test
     void testLoadObjects() {
         final Level level = LOADED_LEVEL.loadLevelWithObjects(BASE_LEVEL, OBJECT_LEVEL);
