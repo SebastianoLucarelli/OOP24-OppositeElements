@@ -158,6 +158,14 @@ public abstract class AbstractPlayer implements Player {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setSpeedX(final double speedX) {
+        this.speedX = speedX;
+    }
+
+    /**
      * Stops vertical movement.
      */
     @Override
@@ -233,8 +241,9 @@ public abstract class AbstractPlayer implements Player {
     }
 
     /**
-     * @return true if the player is on the floor
+     * {@inheritDoc}
      */
+    @Override
     public boolean isOnFloor() {
         return this.onFloor;
     }

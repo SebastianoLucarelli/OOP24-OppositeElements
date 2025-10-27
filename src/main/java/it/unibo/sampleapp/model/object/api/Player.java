@@ -92,6 +92,14 @@ public interface Player {
     void setSpeedY(double speedY);
 
     /**
+     * Set the new horizontal speed.
+     *
+     * @param speedX the new horizontal speed
+     */
+
+    void setSpeedX(double speedX);
+
+    /**
      * Stops the jump when the player hits the platform.
      *
      * @param newY the position where the player should stand
@@ -135,4 +143,9 @@ public interface Player {
      * @param dead true if the player is dead, false otherwise
      */
     void setDead(boolean dead);
+
+    /**
+     * @return true if the player is on the floor
+     */
+    boolean isOnFloor();
 }
