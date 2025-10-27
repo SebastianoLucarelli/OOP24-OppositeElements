@@ -272,6 +272,14 @@ public class GameImpl implements Game {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isGameOver() {
+        return this.currenState == GameState.GAME_OVER;
+    }
+
+    /**
      * Return a copy of the current game objects.
      */
     @Override
