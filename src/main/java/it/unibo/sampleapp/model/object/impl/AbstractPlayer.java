@@ -54,7 +54,7 @@ public abstract class AbstractPlayer implements Player {
     }
 
     /**
-     * Processes input commands from controller.
+     * {@inheritDoc}
      */
     @Override
     public void input(final boolean left, final boolean right, final boolean jump) {
@@ -76,7 +76,7 @@ public abstract class AbstractPlayer implements Player {
     }
 
     /**
-     * Updates player logic every frame.
+     * {@inheritDoc}
      */
     @Override
     public void updatePlayer(final double deltaTime) {
@@ -110,7 +110,7 @@ public abstract class AbstractPlayer implements Player {
     }
 
     /**
-     * @return true if the player is currently at the door
+     * {@inheritDoc}
      */
     @Override
     public boolean isAtDoor() {
@@ -118,7 +118,7 @@ public abstract class AbstractPlayer implements Player {
     }
 
     /**
-     * Sets whether the player is currently at the door.
+     * {@inheritDoc}
      */
     @Override
     public void setAtDoor(final boolean atDoor) {
@@ -126,7 +126,7 @@ public abstract class AbstractPlayer implements Player {
     }
 
     /**
-     * @return the current direction
+     * {@inheritDoc}
      */
     @Override
     public String getDirection() {
@@ -134,7 +134,7 @@ public abstract class AbstractPlayer implements Player {
     }
 
     /**
-     * @return the horizontal speed
+     * {@inheritDoc}
      */
     @Override
     public double getSpeedX() {
@@ -142,7 +142,7 @@ public abstract class AbstractPlayer implements Player {
     }
 
     /**
-     * @return the vertical speed
+     * {@inheritDoc}
      */
     @Override
     public double getSpeedY() {
@@ -150,7 +150,7 @@ public abstract class AbstractPlayer implements Player {
     }
 
     /**
-     * Set the new vertical speed.
+     * {@inheritDoc}
      */
     @Override
     public void setSpeedY(final double speedY) {
@@ -166,7 +166,7 @@ public abstract class AbstractPlayer implements Player {
     }
 
     /**
-     * Stops vertical movement.
+     * {@inheritDoc}
      */
     @Override
     public void landOn(final double newY) {
@@ -176,7 +176,7 @@ public abstract class AbstractPlayer implements Player {
     }
 
     /**
-     * Sets whether the player is currently on the floor.
+     * {@inheritDoc}
      */
     @Override
     public void setOnFloor(final boolean onFloor) {
@@ -184,7 +184,7 @@ public abstract class AbstractPlayer implements Player {
     }
 
     /**
-     * Stops the jump when the player hits the platform.
+     * {@inheritDoc}
      */
     @Override
     public void stopJump(final double newY) {
@@ -193,7 +193,7 @@ public abstract class AbstractPlayer implements Player {
     }
 
     /**
-     * Sets a new position.
+     * {@inheritDoc}
      */
     @Override
     public void setPosition(final Position newPos) {
@@ -201,7 +201,7 @@ public abstract class AbstractPlayer implements Player {
     }
 
     /**
-     * Sets a new x position.
+     * {@inheritDoc}
      */
     @Override
     public void setPositionX(final double x) {
@@ -209,7 +209,7 @@ public abstract class AbstractPlayer implements Player {
     }
 
     /**
-     * Sets a new y position.
+     * {@inheritDoc}
      */
     @Override
     public void setPositionY(final double y) {
@@ -217,7 +217,7 @@ public abstract class AbstractPlayer implements Player {
     }
 
     /**
-     * Stop the horizontal movement of the player.
+     * {@inheritDoc}
      */
     @Override
     public void stopHorizontalMovement() {
@@ -225,7 +225,7 @@ public abstract class AbstractPlayer implements Player {
     }
 
     /**
-     * True if the player is dead, false otherwise.
+     * {@inheritDoc}
      */
     @Override
     public boolean isDead() {
@@ -233,7 +233,7 @@ public abstract class AbstractPlayer implements Player {
     }
 
     /**
-     * Sets if the player is dead.
+     * {@inheritDoc}
      */
     @Override
     public void setDead(final boolean dead) {

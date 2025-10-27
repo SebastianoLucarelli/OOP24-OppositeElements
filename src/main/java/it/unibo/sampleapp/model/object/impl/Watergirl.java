@@ -20,6 +20,9 @@ public class Watergirl extends AbstractPlayer {
         super(startX, startY, width, height);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final PlayerType getType() {
        return PlayerType.WATER;
