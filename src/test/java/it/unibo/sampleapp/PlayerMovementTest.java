@@ -1,4 +1,4 @@
-package it.unibo.sampleapp.model;
+package it.unibo.sampleapp;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -19,8 +19,11 @@ class PlayerMovementTest {
     private static final double FIREBOY_START_Y = 100;
     private static final double WATERGIRL_START_X = 200;
     private static final double WATERGIRL_START_Y = 100;
+    private static final double TOLERANCE = 0.1;
     private static final int PLAYER_WIDTH = 50;
     private static final int PLAYER_HEIGHT = 50;
+    private static final int SCREEN_HEIGHT = 540;
+    private static final int SPEED = 200;
 
     private Fireboy fireboy;
     private Watergirl watergirl;
@@ -35,10 +38,6 @@ class PlayerMovementTest {
         watergirl = new Watergirl(WATERGIRL_START_X, WATERGIRL_START_Y, PLAYER_WIDTH, PLAYER_HEIGHT);
     }
 
-    /**
-     * Test that Fireboy moves correctly to the right.
-     * The direction must be "right" and the X position must increase.
-     */
     @Test
     void fireboyMoveRightTest() {
         fireboy.input(false, true, false);
@@ -47,10 +46,6 @@ class PlayerMovementTest {
         assertTrue(fireboy.getPosition().getX() > FIREBOY_START_X);
     }
 
-    /**
-     * Test that Fireboy moves correctly to the left.
-     * The direction must be "left" and the X position must decrease.
-     */
     @Test
     void fireboyMoveLeftTest() {
         fireboy.input(true, false, false);
@@ -59,10 +54,6 @@ class PlayerMovementTest {
         assertTrue(fireboy.getPosition().getX() < FIREBOY_START_X);
     }
 
-    /**
-     * Test that Fireboy can jump qhen on the floor.
-     * After the jump, the direction must be "front" and vertical speed negative.
-     */
     @Test
     void fireboyJumpTest() {
         fireboy.setOnFloor(true);
@@ -72,10 +63,6 @@ class PlayerMovementTest {
         assertTrue(fireboy.getSpeedY() < 0);
     }
 
-    /**
-     * Test that Watergirl moves correctly to the right.
-     * The direction must be "right" and the X position must increase.
-     */
     @Test
     void watergirlMoveRightrTest() {
         watergirl.input(false, true, false);
@@ -84,10 +71,6 @@ class PlayerMovementTest {
         assertTrue(watergirl.getPosition().getX() > WATERGIRL_START_X);
     }
 
-    /**
-     * Test that Watergirl moves correctly to the left.
-     * The direction must be "left" and the X position must decrease.
-     */
     @Test
     void watergirlMoveLeftTest() {
         watergirl.input(true, false, false);
@@ -96,10 +79,6 @@ class PlayerMovementTest {
         assertTrue(watergirl.getPosition().getX() < WATERGIRL_START_X);
     }
 
-    /**
-     * Test that Watergirl can jump when on the floor.
-     * After the jump, the direction must be "front" and vertical speed negative.
-     */
     @Test
     void watergirlJumpTest() {
         watergirl.setOnFloor(true);
@@ -107,5 +86,37 @@ class PlayerMovementTest {
         watergirl.updatePlayer(DELTA);
         assertEquals("front", watergirl.getDirection());
         assertTrue(watergirl.getSpeedY() < 0);
+    }
+
+    @Test
+    void cannotJumpInAirTest() {
+        fireboy.setOnFloor(false);
+        watergirl.setOnFloor(false);
+        final double startSpeedYg = watergirl.getSpeedY();
+        final double startSpeedYf = fireboy.getSpeedY();
+        fireboy.input(false, false, true);
+        watergirl.input(false, false, true);
+        fireboy.updatePlayer(DELTA);
+        watergirl.updatePlayer(DELTA);
+        assertTrue(fireboy.getSpeedY() > startSpeedYf);
+        assertTrue(watergirl.getSpeedY() > startSpeedYg);
+    }
+
+    @Test
+    void stopAtFloorTest() {
+        final double heightY = SCREEN_HEIGHT - PLAYER_HEIGHT;
+        watergirl.setPositionY(heightY - 10);
+        fireboy.setPositionY(heightY - 10);
+        fireboy.setSpeedY(SPEED);
+        watergirl.setSpeedY(SPEED);
+        fireboy.updatePlayer(DELTA);
+        watergirl.updatePlayer(DELTA);
+
+        assertTrue(fireboy.isOnFloor());
+        assertEquals(heightY, fireboy.getPosition().getY(), TOLERANCE);
+        assertEquals(0, fireboy.getSpeedY(), TOLERANCE);
+        assertTrue(watergirl.isOnFloor());
+        assertEquals(heightY, watergirl.getPosition().getY(), TOLERANCE);
+        assertEquals(0, watergirl.getSpeedY(), TOLERANCE);
     }
 }

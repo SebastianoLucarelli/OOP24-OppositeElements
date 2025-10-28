@@ -1,4 +1,4 @@
-package it.unibo.sampleapp.model;
+package it.unibo.sampleapp;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
