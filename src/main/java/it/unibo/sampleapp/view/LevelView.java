@@ -26,7 +26,6 @@ import it.unibo.sampleapp.model.object.api.Player;
  */
 public class LevelView extends JPanel {
 
-    //private static final Color BACKGROUND_COLOR = Color.BLACK;
     private static final Color PLAYER_COLOR = Color.RED;
     private static final Color OBJECT_COLOR = Color.GRAY;
     private static final int PAUSE_DIMENSION = 50;
