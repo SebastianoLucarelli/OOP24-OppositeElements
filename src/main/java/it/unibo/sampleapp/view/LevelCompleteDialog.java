@@ -1,4 +1,4 @@
-package it.unibo.sampleapp.view.impl;
+package it.unibo.sampleapp.view;
 
 import it.unibo.sampleapp.model.game.api.Game;
 import java.awt.BorderLayout;

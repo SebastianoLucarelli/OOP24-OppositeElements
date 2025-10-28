@@ -9,9 +9,9 @@ import it.unibo.sampleapp.model.collision.impl.CollisionFactoryImpl;
 import it.unibo.sampleapp.model.collision.impl.CollisionQueue;
 import it.unibo.sampleapp.model.game.GameState;
 import it.unibo.sampleapp.model.game.api.Game;
-import it.unibo.sampleapp.model.api.Timer;
-import it.unibo.sampleapp.model.impl.TimerImpl;
 import it.unibo.sampleapp.model.level.api.Level;
+import it.unibo.sampleapp.model.level.api.Timer;
+import it.unibo.sampleapp.model.level.impl.TimerImpl;
 import it.unibo.sampleapp.model.object.api.Button;
 import it.unibo.sampleapp.model.object.api.Door;
 import it.unibo.sampleapp.model.object.api.Fan;
@@ -269,6 +269,14 @@ public class GameImpl implements Game {
     @Override
     public void gameOver() {
         this.currenState = GameState.GAME_OVER;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isGameOver() {
+        return this.currenState == GameState.GAME_OVER;
     }
 
     /**

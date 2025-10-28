@@ -2,9 +2,9 @@ package it.unibo.sampleapp.controller.impl;
 
 import it.unibo.sampleapp.controller.api.LevelProcessController;
 import it.unibo.sampleapp.controller.core.api.GameEngine;
-import it.unibo.sampleapp.model.api.LevelProcess;
-import it.unibo.sampleapp.model.api.LevelProcess.LevelState;
 import it.unibo.sampleapp.model.game.GameState;
+import it.unibo.sampleapp.model.level.api.LevelProcess;
+import it.unibo.sampleapp.model.level.api.LevelProcess.LevelState;
 
 /**
  * Controller for the level selection screen.
@@ -26,9 +26,7 @@ public class LevelProcessControllerImpl implements LevelProcessController {
     }
 
     /**
-     * Callback triggered when a level is selected. 
-     *
-     * @param index the index of the selected level
+     * {@inheritDoc}
      */
     @Override
     public void levelSelected(final int index) {
@@ -39,7 +37,7 @@ public class LevelProcessControllerImpl implements LevelProcessController {
     }
 
     /**
-     * Callback triggered when the user wants to return to the main Menu.
+     * {@inheritDoc}
      */
     @Override
     public void backToMenu() {

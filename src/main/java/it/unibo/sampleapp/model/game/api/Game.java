@@ -73,6 +73,11 @@ public interface Game {
     void gameOver();
 
     /**
+     * @return true if is game over, false otherwise
+     */
+    boolean isGameOver();
+
+    /**
      * @return the list of the remaining objects
      */
     List<GameObject> getGameObjects();

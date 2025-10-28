@@ -1,4 +1,4 @@
-package it.unibo.sampleapp.view.impl;
+package it.unibo.sampleapp.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

@@ -44,7 +44,7 @@ public final class PlayerControllerImpl implements PlayerController, KeyListener
     }
 
     /**
-     * Processes input and updates player status.
+     * {@inheritDoc}
      */
     @Override
     public void inputProcess() {
@@ -55,9 +55,7 @@ public final class PlayerControllerImpl implements PlayerController, KeyListener
     }
 
     /**
-     * Handles key presses.
-     *
-     * @param e KeyEvent event
+     * {@inheritDoc}
      */
     @Override
     public void keyPressed(final KeyEvent e) {
@@ -87,9 +85,7 @@ public final class PlayerControllerImpl implements PlayerController, KeyListener
     }
 
     /**
-     * Handles key release.
-     *
-     * @param e KeyEvent event
+     * {@inheritDoc}
      */
     @Override
     public void keyReleased(final KeyEvent e) {

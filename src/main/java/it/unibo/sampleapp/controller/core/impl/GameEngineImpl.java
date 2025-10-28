@@ -12,24 +12,24 @@ import it.unibo.sampleapp.controller.impl.GameControllerImpl;
 import it.unibo.sampleapp.controller.impl.HomeControllerImpl;
 import it.unibo.sampleapp.controller.impl.LevelProcessControllerImpl;
 import it.unibo.sampleapp.controller.impl.PlayerControllerImpl;
-import it.unibo.sampleapp.model.api.LevelProcess;
 import it.unibo.sampleapp.model.game.GameState;
 import it.unibo.sampleapp.model.game.api.Game;
 import it.unibo.sampleapp.model.game.impl.GameImpl;
-import it.unibo.sampleapp.model.impl.LevelProcessImpl;
 import it.unibo.sampleapp.model.level.api.LevelLoader;
+import it.unibo.sampleapp.model.level.api.LevelProcess;
 import it.unibo.sampleapp.model.level.impl.LevelLoaderImpl;
+import it.unibo.sampleapp.model.level.impl.LevelProcessImpl;
 import it.unibo.sampleapp.model.object.impl.Fireboy;
 import it.unibo.sampleapp.model.object.impl.Watergirl;
-import it.unibo.sampleapp.view.impl.GameOverView;
-import it.unibo.sampleapp.view.impl.HomePanel;
-import it.unibo.sampleapp.view.impl.InstructionsDialog;
-import it.unibo.sampleapp.view.impl.LevelCompleteDialog;
-import it.unibo.sampleapp.view.impl.LevelProcessView;
-import it.unibo.sampleapp.view.impl.LevelScreen;
-import it.unibo.sampleapp.view.impl.LevelView;
-import it.unibo.sampleapp.view.impl.PauseView;
-import it.unibo.sampleapp.view.impl.WinDialog;
+import it.unibo.sampleapp.view.GameOverView;
+import it.unibo.sampleapp.view.HomePanel;
+import it.unibo.sampleapp.view.InstructionsDialog;
+import it.unibo.sampleapp.view.LevelCompleteDialog;
+import it.unibo.sampleapp.view.LevelProcessView;
+import it.unibo.sampleapp.view.LevelScreen;
+import it.unibo.sampleapp.view.LevelView;
+import it.unibo.sampleapp.view.PauseView;
+import it.unibo.sampleapp.view.WinDialog;
 
 /**
  * The gameEngine implementation.

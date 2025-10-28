@@ -3,10 +3,10 @@ package it.unibo.sampleapp.controller.impl;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.sampleapp.controller.api.GameController;
 import it.unibo.sampleapp.controller.core.api.GameEngine;
-import it.unibo.sampleapp.model.api.LevelProcess;
 import it.unibo.sampleapp.model.game.GameState;
 import it.unibo.sampleapp.model.game.api.Game;
-import it.unibo.sampleapp.view.impl.LevelView;
+import it.unibo.sampleapp.model.level.api.LevelProcess;
+import it.unibo.sampleapp.view.LevelView;
 
 /**
  * Implements the game controller and manages the level loop.
@@ -46,7 +46,7 @@ public class GameControllerImpl implements GameController, Runnable {
     }
 
     /**
-     * Starts the level loop in a new thread.
+     * {@inheritDoc}
      */
     @Override
     public void start() {
@@ -59,7 +59,7 @@ public class GameControllerImpl implements GameController, Runnable {
     }
 
     /**
-     * Stops the level loop.
+     * {@inheritDoc}
      */
     @Override
     public void stop() {
@@ -67,7 +67,7 @@ public class GameControllerImpl implements GameController, Runnable {
     }
 
     /**
-     * Pauses the current level if the game State is PLAYING.
+     * {@inheritDoc}
      */
     @Override
     public void pauseLevelGame() {
@@ -77,7 +77,7 @@ public class GameControllerImpl implements GameController, Runnable {
     }
 
     /**
-     * Resumes the current level if it is in pause.
+     * {@inheritDoc}
      */
     @Override
     public void resumeLevelGame() {
@@ -87,7 +87,7 @@ public class GameControllerImpl implements GameController, Runnable {
     }
 
     /**
-     * Sets focus on the current level View.
+     * {@inheritDoc}
      */
     @Override
     public void refocusLevelView() {
