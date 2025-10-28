@@ -123,7 +123,8 @@ public class LevelView extends JPanel {
     }
 
     /**
-     * {@inheritDoc}
+     * Draws all game objects and players on the screen.
+     * Update their images based 
      */
     @Override
     protected void paintComponent(final Graphics g) {
