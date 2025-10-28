@@ -1,4 +1,4 @@
-package it.unibo.sampleapp.model.api;
+package it.unibo.sampleapp.model.level.api;
 
 /**
  * Interface that defines the state of game levels.

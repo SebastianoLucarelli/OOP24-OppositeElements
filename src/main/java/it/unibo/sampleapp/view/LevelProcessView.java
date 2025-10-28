@@ -1,7 +1,4 @@
-package it.unibo.sampleapp.view.impl;
-
-import it.unibo.sampleapp.model.api.LevelProcess;
-import it.unibo.sampleapp.model.api.LevelProcess.LevelState;
+package it.unibo.sampleapp.view;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -11,6 +8,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+
+import it.unibo.sampleapp.model.level.api.LevelProcess;
+import it.unibo.sampleapp.model.level.api.LevelProcess.LevelState;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

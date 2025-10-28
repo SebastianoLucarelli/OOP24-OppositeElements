@@ -1,6 +1,6 @@
-package it.unibo.sampleapp.model.impl;
+package it.unibo.sampleapp.model.level.impl;
 
-import it.unibo.sampleapp.model.api.LevelProcess;
+import it.unibo.sampleapp.model.level.api.LevelProcess;
 
 /**
  * Class that implements the LevelProcess.
@@ -23,7 +23,7 @@ public class LevelProcessImpl implements LevelProcess {
     }
 
     /**
-     * Returns the state of the given level. 
+     * {@inheritDoc}
      */
     @Override
     public LevelState getLevelState(final int ind) {
@@ -31,7 +31,7 @@ public class LevelProcessImpl implements LevelProcess {
     }
 
     /**
-     * Marks a level as Completed and unlock the next one.
+     * {@inheritDoc}
      */
     @Override
     public void finishedLevel(final int ind) {
@@ -42,7 +42,7 @@ public class LevelProcessImpl implements LevelProcess {
     }
 
     /**
-     * Returns total levels.
+     * {@inheritDoc}
      */
     @Override
     public int getTotalLevels() {

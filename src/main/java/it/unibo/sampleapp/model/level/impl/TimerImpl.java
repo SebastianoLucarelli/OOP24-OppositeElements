@@ -1,6 +1,6 @@
-package it.unibo.sampleapp.model.impl;
+package it.unibo.sampleapp.model.level.impl;
 
-import it.unibo.sampleapp.model.api.Timer;
+import it.unibo.sampleapp.model.level.api.Timer;
 
 /**
  * Timer implementation.
@@ -20,7 +20,7 @@ public final class TimerImpl implements Timer {
     }
 
     /**
-     * Start and re-start of the timer.
+     * {@inheritDoc}
      */
     @Override
     public void start() {
@@ -31,7 +31,7 @@ public final class TimerImpl implements Timer {
     }
 
     /**
-     * Stop and save the time that has already passed.
+     * {@inheritDoc}
      */
     @Override
     public void stop() {
@@ -43,7 +43,7 @@ public final class TimerImpl implements Timer {
     }
 
     /**
-     * Reset the timer and the state of running.
+     * {@inheritDoc}
      */
     @Override
     public void reset() {
@@ -52,7 +52,7 @@ public final class TimerImpl implements Timer {
     }
 
     /**
-     * Returns the total duration measured in milliseconds.
+     * {@inheritDoc}
      */
     @Override
     public long getTotalDurationMillis() {
@@ -64,7 +64,7 @@ public final class TimerImpl implements Timer {
     }
 
     /**
-     * Returns the total duration in seconds.
+     * {@inheritDoc}
      */
     @Override
     public long getTotalDurationSeconds() {

@@ -19,7 +19,7 @@ import it.unibo.sampleapp.model.object.api.Player;
 public class CollisionFactoryImpl implements CollisionFactory {
 
     /**
-     * Handles the gem collection if the gem is not collected yet.
+     * {@inheritDoc}
      */
     @Override
     public Collisions hitGems(final Player player, final Gem gem) {
@@ -33,7 +33,7 @@ public class CollisionFactoryImpl implements CollisionFactory {
     }
 
     /**
-     * Ends the game if the hazard is dangerous for the player.
+     * {@inheritDoc}
      */
     @Override
     public Collisions hitHazard(final Player player, final Hazard hazard) {
@@ -46,7 +46,7 @@ public class CollisionFactoryImpl implements CollisionFactory {
     }
 
     /**
-     * Sets the door true if the player is in front of it.
+     * {@inheritDoc}
      */
     @Override
     public Collisions doorUnlockedCollision(final Player player, final Door door) {
@@ -61,7 +61,7 @@ public class CollisionFactoryImpl implements CollisionFactory {
     }
 
     /**
-     * Activates the platform if the button is pressed.
+     * {@inheritDoc}
      */
     @Override
     public Collisions buttonClickedCollision(final Player player, final Button button) {
@@ -75,7 +75,7 @@ public class CollisionFactoryImpl implements CollisionFactory {
     }
 
     /**
-     * Handles the button collisions when the button is released.
+     * {@inheritDoc}
      */
     @Override
     public Collisions buttonReleasedCollision(final Button button) {
@@ -89,7 +89,7 @@ public class CollisionFactoryImpl implements CollisionFactory {
     }
 
     /**
-     * Method that activates the lever and the movable platform connected to it.
+     * {@inheritDoc}
      */
     @Override
     public Collisions leverDisplacementCollision(final Player player, final Lever lever) {
@@ -116,7 +116,7 @@ public class CollisionFactoryImpl implements CollisionFactory {
     }
 
     /**
-     * Handles the fan collision.
+     * {@inheritDoc}
      */
     @Override
     public Collisions playerOnFan(final Player player, final Fan fan) {
@@ -154,7 +154,7 @@ public class CollisionFactoryImpl implements CollisionFactory {
     }
 
     /**
-     * Handles the platform collision.
+     * {@inheritDoc}
      */
     @Override
     public Collisions platformCollisions(final Player player, final Platform platform) {
@@ -202,7 +202,7 @@ public class CollisionFactoryImpl implements CollisionFactory {
     }
 
     /**
-     * Handles the movablePlatform collision.
+     * {@inheritDoc}
      */
     @Override
     public Collisions movablePlatformCollision(final Player player, final MovableIPlatform movablePlatform) {
@@ -254,7 +254,7 @@ public class CollisionFactoryImpl implements CollisionFactory {
     }
 
     /**
-     * Handles the boundary collisions.
+     * {@inheritDoc}
      */
     @Override
     public Collisions boundaryCollisions(final Player player, final BoundaryType boundary) {
