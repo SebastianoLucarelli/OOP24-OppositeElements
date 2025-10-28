@@ -265,7 +265,7 @@ public class GameEngineImpl implements GameEngine {
     }
 
     /**
-     * 
+     * It shows the win screen.
      */
     private void showWinDialog() {
         final WinDialog winDialog = WinDialog.create(mainFrame);
